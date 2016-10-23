@@ -1,0 +1,19 @@
+{
+  "name": "polls",
+  "version": "1.0.0",
+  "description": "Polls application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verus774/polls.git"
+  },
+  "author": "Sergey Ladutko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/verus774/polls/issues"
+  },
+  "homepage": "https://github.com/verus774/polls#readme"
+}
