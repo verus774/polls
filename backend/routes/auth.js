@@ -4,7 +4,7 @@ var config = require('../config');
 
 
 function createToken(user) {
-    return jsonWebToken.sign({
+    return 'JWT ' + jsonWebToken.sign({
             _id: user._id,
             name: user.name,
             username: user.username
