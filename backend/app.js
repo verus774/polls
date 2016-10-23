@@ -2,9 +2,11 @@ var express = require('express');
 var app = express();
 var config = require('./config');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var auth = require('./routes/auth')(express);
 var apiV1 = require('./routes/api-v1')(express);
 
-
+mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, function(err) {
     if(err) {
         console.error(err);
@@ -13,7 +15,10 @@ mongoose.connect(config.dbUrl, function(err) {
     }
 });
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.use('/auth', auth);
 app.use('/api/v1', apiV1);
 
 app.listen(config.port, function(err) {

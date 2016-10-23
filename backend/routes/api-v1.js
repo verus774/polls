@@ -1,5 +1,3 @@
-var User = require('../models/User');
-
 module.exports = function (express) {
     var api = express.Router();
 
