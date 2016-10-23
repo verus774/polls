@@ -47,6 +47,33 @@ module.exports = function (express) {
 
     });
 
+    api.post('/login', function (req, res) {
+
+        if (!req.body.username || !req.body.password) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Empty username or password'
+            });
+        }
+
+        User.findOne({ username: req.body.username }, function(err, user) {
+            if (!user || !user.comparePasswords(req.body.password)) {
+                return res.status(401).json({
+                    status: 'error',
+                    message: 'Invalid username or password'
+                });
+            } else {
+                var token = createToken(user);
+
+                return res.json({
+                    status: 'success',
+                    data: { token: token }
+                });
+            }
+        });
+
+    });
+
 
     return api;
 };
