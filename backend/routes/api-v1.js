@@ -1,6 +1,4 @@
 var Poll = require('../models/Poll');
-var mongoose = require('mongoose');
-
 
 function errorResponse(res, message, code) {
     return res.status(code || 500).json({
@@ -14,14 +12,6 @@ function successResponse(res, data, code) {
         status: 'success',
         data: data || null
     });
-}
-
-function checkObjectId(req, res, next) {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return errorResponse(res, 'Invalid id parameter', 400);
-    }
-
-    next();
 }
 
 
@@ -40,18 +30,19 @@ module.exports = function (express, passport) {
             });
         })
         .post(function (req, res) {
-            if ( !(req.body.title || req.body.questions || Array.isArray(req.body.questions)) ) {
-                return errorResponse(res, 'Must provide title and questions array', 400);
-            }
-
             var newPoll = new Poll({
                 title: req.body.title,
+                description: req.body.description,
                 questions: req.body.questions,
+                active: req.body.active,
                 creator: req.user._id
             });
 
             newPoll.save(function(err, createdPoll) {
                 if (err) {
+                    if (err.name == 'ValidationError') {
+                        return errorResponse(res, 'Must provide title and not empty questions array with not empty choices array', 400);
+                    }
                     return errorResponse(res);
                 }
 
@@ -60,11 +51,13 @@ module.exports = function (express, passport) {
 
         });
 
-    api.use('/polls/:id', checkObjectId);
     api.route('/polls/:id')
         .get(function (req, res) {
             Poll.findOne({ _id: req.params.id, creator: req.user._id }, function (err, poll) {
                 if (err) {
+                    if (err.name == 'ValidationError') {
+                        return errorResponse(res, 'Invalid id parameter', 400);
+                    }
                     return errorResponse(res);
                 }
 
@@ -82,16 +75,24 @@ module.exports = function (express, passport) {
             });
         })
         .put(function (req, res) {
-            if ( !(req.body.title || req.body.questions || Array.isArray(req.body.questions)) ) {
-                return errorResponse(res, 'Must provide title and questions array', 400);
-            }
-
             Poll.findOne({ _id: req.params.id, creator: req.user._id }, function (err, poll) {
+                if (err) {
+                    if (err.name == 'ValidationError') {
+                        return errorResponse(res, 'Invalid id parameter', 400);
+                    }
+                    return errorResponse(res);
+                }
+
                 poll.title = req.body.title;
+                poll.description = req.body.description;
                 poll.questions = req.body.questions;
+                poll.active = req.body.active;
 
                 poll.save(function (err, poll) {
                     if (err) {
+                        if (err.name == 'ValidationError') {
+                            return errorResponse(res, 'Must provide title, questions, and active parameters', 400);
+                        }
                         return errorResponse(res);
                     }
                     return successResponse(res, poll);
@@ -99,7 +100,6 @@ module.exports = function (express, passport) {
             });
 
         });
-
 
     return api;
 };
