@@ -1,6 +1,4 @@
-var config = require('../config');
 var users = require('../controllers/usersController');
-
 
 module.exports = function (express) {
     var api = express.Router();

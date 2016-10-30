@@ -9,15 +9,17 @@ module.exports = function(passport) {
     opts.secretOrKey = config.secretKey;
 
     passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-        User.findOne({_id: jwt_payload._id}, function(err, user) {
-            if (err) {
-                return done(err, false);
-            }
-            if (user) {
-                done(null, user);
-            } else {
-                done(null, false);
-            }
-        });
+        User.findOne({_id: jwt_payload._id})
+            .select('name username role')
+            .exec(function (err, user) {
+                if (err) {
+                    return done(err, false);
+                }
+                if (user) {
+                    done(null, user);
+                } else {
+                    done(null, false);
+                }
+            });
     }));
 };

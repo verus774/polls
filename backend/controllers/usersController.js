@@ -10,11 +10,12 @@ function createToken(user) {
                 name: user.name,
                 username: user.username
             }, config.secretKey,
-            {expiresIn: config.tockenExpiresIn}
+            {expiresIn: config.tokenExpiresIn}
         );
 }
 
 exports.signup = function (req, res) {
+    // TODO
     if (!req.body.username || !req.body.password) {
         return helper.errorResponse(res, 'Pass username and password', 400);
     }
@@ -35,16 +36,35 @@ exports.signup = function (req, res) {
 };
 
 exports.login = function (req, res) {
+    // TODO
     if (!req.body.username || !req.body.password) {
         return helper.errorResponse(res, 'Empty username or password', 401);
     }
 
-    User.findOne({username: req.body.username}, function (err, user) {
-        if (!user || !user.comparePasswords(req.body.password)) {
-            return helper.errorResponse(res, 'Invalid username or password', 401);
-        } else {
-            var token = createToken(user);
-            return helper.successResponse(res, {token: token});
-        }
-    });
+    User.findOne({username: req.body.username})
+        .select('name username password')
+        .exec(function (err, user) {
+            if (!user || !user.comparePasswords(req.body.password)) {
+                return helper.errorResponse(res, 'Invalid username or password', 401);
+            } else {
+                var token = createToken(user);
+                return helper.successResponse(res, {token: token});
+            }
+        });
+};
+
+exports.me = function (req, res) {
+    return helper.successResponse(res, req.user || null);
+};
+
+exports.list = function (req, res) {
+    User.find({})
+        .select('name username role')
+        .exec(function (err, users) {
+            if (err) {
+                return helper.errorResponse(res);
+            }
+
+            return helper.successResponse(res, users);
+        });
 };
