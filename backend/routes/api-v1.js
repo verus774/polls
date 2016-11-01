@@ -1,5 +1,6 @@
 var polls = require('../controllers/pollsController');
 var users = require('../controllers/usersController');
+var rooms = require('../controllers/roomsController');
 var helper = require('../controllers/helperController');
 
 function requireRole(role) {
@@ -29,6 +30,9 @@ module.exports = function (express, passport) {
         .get(requireRole('admin'), users.list);
     api.route('/users/me')
         .get(users.me);
+
+    api.route('/rooms')
+        .get(rooms.list);
 
     return api;
 };
