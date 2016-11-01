@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./passport')(passport);
 
+app.use(express.static('../frontend'));
 
 app.use('/auth', auth);
 app.use('/api/v1', apiV1);
