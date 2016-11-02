@@ -10,5 +10,20 @@ angular.module('pollsApp').config(function($stateProvider, $urlRouterProvider) {
         controllerAs: 'vm'
     });
 
+    $stateProvider.state('login', {
+        url: '/login',
+        templateUrl: '../templates/login.html'
+    });
+
+    $stateProvider.state('signup', {
+        url: '/signup',
+        templateUrl: '../templates/signup.html'
+    });
+
+    $stateProvider.state('me', {
+        url: '/me',
+        templateUrl: '../templates/me.html'
+    });
+
     $urlRouterProvider.otherwise('/');
 });

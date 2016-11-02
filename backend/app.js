@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var auth = require('./routes/auth')(express);
 var apiV1 = require('./routes/api-v1')(express, passport);
+var path = require('path');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, function(err) {
@@ -24,7 +25,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./passport')(passport);
 
-app.use(express.static('../frontend'));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use('/auth', auth);
 app.use('/api/v1', apiV1);
