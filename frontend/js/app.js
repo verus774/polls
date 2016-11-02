@@ -2,6 +2,12 @@ angular.module('pollsApp', [
     'ui.router'
 ]);
 
+angular.module('pollsApp').constant('config', {
+    storageType: 'localStorage',
+    apiEndpoint: 'api/v1',
+    authEndpoint: 'auth'
+});
+
 angular.module('pollsApp').config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('main', {
         url: '/',
@@ -12,7 +18,9 @@ angular.module('pollsApp').config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('login', {
         url: '/login',
-        templateUrl: '../templates/login.html'
+        templateUrl: '../templates/login.html',
+        controller: 'loginController',
+        controllerAs: 'vm'
     });
 
     $stateProvider.state('signup', {

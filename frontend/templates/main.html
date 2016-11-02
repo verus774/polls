@@ -1,2 +1,14 @@
-<h2>Rooms</h2>
-<p ng-repeat="room in vm.rooms">{{ room.name }}</p>
+<h2 class="text-center">Rooms</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="col-sm-4">Room</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="room in vm.rooms | orderBy:'name'">
+        <td>{{ room.name }}</td>
+    </tr>
+    </tbody>
+</table>

@@ -6,7 +6,7 @@ roomsService.$inject = ['$http', '$q'];
 
 function roomsService($http, $q) {
 
-    function getAll() {
+    var getAll = function() {
         var deferred = $q.defer();
 
         $http.get('/api/v1/rooms').success(function(response) {
@@ -14,7 +14,7 @@ function roomsService($http, $q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     return {
         getAll : getAll
