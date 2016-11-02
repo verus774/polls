@@ -2,14 +2,14 @@ angular
     .module('pollsApp')
     .factory('roomsService', roomsService);
 
-roomsService.$inject = ['$http', '$q'];
+roomsService.$inject = ['$http', '$q', 'config'];
 
-function roomsService($http, $q) {
+function roomsService($http, $q, config) {
 
     var getAll = function() {
         var deferred = $q.defer();
 
-        $http.get('/api/v1/rooms').success(function(response) {
+        $http.get(config.apiEndpoint + '/rooms').success(function (response) {
             deferred.resolve(response.data);
         });
 

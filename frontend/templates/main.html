@@ -1,14 +1,20 @@
-<h2 class="text-center">Rooms</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header text-center">
+            <h3>Rooms</h3>
+        </div>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th class="col-sm-4">Room</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="room in vm.rooms | orderBy:'name'">
-        <td>{{ room.name }}</td>
-    </tr>
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Room</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="room in vm.rooms | orderBy:'name'">
+                <td>{{ room.name }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

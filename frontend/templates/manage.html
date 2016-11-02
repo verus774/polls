@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header text-center">
+            <h3>Manage</h3>
+        </div>
+
+        <h4>Total: {{ vm.polls.length }}</h4>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Questions</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="poll in vm.polls">
+                <td>{{ poll.title }}</td>
+                <td>
+                    <ol>
+                        <li ng-repeat="question in poll.questions">
+                            {{ question.text | limitTo:40 }} ...
+                        </li>
+                    </ol>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-success" ng-click="" title="Start">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-primary" ng-click="" title="Stop">
+                            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                        </button>
+                        <a class="btn btn-warning" href="" title="Edit">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                        <button class="btn btn-danger" ng-click="" title="Remove">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

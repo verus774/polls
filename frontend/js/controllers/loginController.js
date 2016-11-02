@@ -10,7 +10,7 @@ function loginController($location, authService) {
     vm.login = function () {
         authService.login(vm.username, vm.password)
             .then(function () {
-                $location.path('/');
+                $location.path('/manage');
             })
             .catch(function (message) {
                 console.log(message);

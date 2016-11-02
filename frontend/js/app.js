@@ -9,7 +9,7 @@ angular.module('pollsApp').constant('config', {
     authEndpoint: 'auth'
 });
 
-angular.module('pollsApp').config(function($stateProvider, $urlRouterProvider) {
+angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider.state('main', {
         url: '/',
         templateUrl: '../templates/main.html',
@@ -34,5 +34,14 @@ angular.module('pollsApp').config(function($stateProvider, $urlRouterProvider) {
         templateUrl: '../templates/me.html'
     });
 
+    $stateProvider.state('manage', {
+        url: '/manage',
+        templateUrl: '../templates/manage.html',
+        controller: 'manageController',
+        controllerAs: 'vm'
+    });
+
     $urlRouterProvider.otherwise('/');
+
+    $httpProvider.interceptors.push('interceptorService');
 });
