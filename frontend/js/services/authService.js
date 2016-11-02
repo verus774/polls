@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .factory('authService', authService);
 
-authService.$inject = ['$http', '$q', 'config', 'storageService'];
+authService.$inject = ['$http', '$q', 'config', 'storageService', 'jwtHelper'];
 
-function authService($http, $q, config, storageService) {
+function authService($http, $q, config, storageService, jwtHelper) {
     var login = function (username, password) {
         var deferred = $q.defer();
         var user = {
@@ -32,12 +32,18 @@ function authService($http, $q, config, storageService) {
         return deferred.promise;
     };
 
-    var logout = function() {
+    var logout = function () {
         storageService.remove('access_token');
+    };
+
+    var isLoggedIn = function () {
+        var token = storageService.get('access_token');
+        return !!(token && !jwtHelper.isTokenExpired(token));
     };
 
     return {
         login: login,
-        logout: logout
+        logout: logout,
+        isLoggedIn: isLoggedIn
     }
 }

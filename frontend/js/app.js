@@ -1,5 +1,6 @@
 angular.module('pollsApp', [
-    'ui.router'
+    'ui.router',
+    'angular-jwt'
 ]);
 
 angular.module('pollsApp').constant('config', {
