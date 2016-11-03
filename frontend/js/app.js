@@ -5,8 +5,8 @@ angular.module('pollsApp', [
 
 angular.module('pollsApp').constant('config', {
     storageType: 'localStorage',
-    apiEndpoint: 'api/v1',
-    authEndpoint: 'auth'
+    apiEndpoint: 'https://polls2.herokuapp.com/api/v1',
+    authEndpoint: 'https://polls2.herokuapp.com/auth'
 });
 
 angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
