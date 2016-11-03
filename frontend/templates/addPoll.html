@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="page-header text-center">
+        <h3>Add poll</h3>
+    </div>
+
+    <div class="col-md-6">
+        <form role="form" ng-submit="vm.savePoll()">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" class="form-control" ng-model="vm.poll.title">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="description">Description (optional)</label>
+                <input type="text" id="description" class="form-control" ng-model="vm.poll.description">
+            </div>
+            <br>
+
+            <div ng-repeat="question in vm.poll.questions track by $index">
+
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <textarea id="question" class="form-control" rows="5" ng-model="question.text"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Choices</label>
+                    <div class="form-group input-group" ng-repeat="choice in question.choices track by $index">
+                        <input type="text" class="form-control" ng-model="question.choices[$index]">
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" type="button" title="Удалить"
+                                    ng-click="vm.removeChoice($parent.$index, $index)">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+
+                <button type="button" class="btn btn-success" ng-click="vm.addChoice($index)">Add choice</button>
+                <br><br>
+                <button type="button" class="btn btn-success" ng-click="vm.addQuestion()" ng-show="$last">Add question
+                </button>
+                <br><br>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <pre>{{ vm.poll | json }}</pre>
+    </div>
+</div>

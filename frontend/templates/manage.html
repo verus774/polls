@@ -4,6 +4,7 @@
             <h3>Manage</h3>
         </div>
 
+        <a ui-sref="addPoll" class="btn btn-success">Add poll</a>
         <h4>Total: {{ vm.polls.length }}</h4>
 
         <table class="table">
@@ -15,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="poll in vm.polls">
+            <tr ng-repeat="poll in vm.polls" ng-class="{'list-group-item-success': poll.active}">
                 <td>{{ poll.title }}</td>
                 <td>
                     <ol>
@@ -26,16 +27,16 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-success" ng-click="" title="Start">
+                        <button class="btn btn-success" ng-click="" title="Start" disabled>
                             <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                         </button>
-                        <button class="btn btn-primary" ng-click="" title="Stop">
+                        <button class="btn btn-primary" ng-click="" title="Stop" disabled>
                             <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
                         </button>
-                        <a class="btn btn-warning" href="" title="Edit">
+                        <a class="btn btn-warning" href="" title="Edit" disabled>
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>
-                        <button class="btn btn-danger" ng-click="" title="Remove">
+                        <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)" title="Remove">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
                     </div>

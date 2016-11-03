@@ -2,18 +2,15 @@ angular
     .module('pollsApp')
     .controller('loginController', loginController);
 
-loginController.$inject = ['$location', 'authService'];
+loginController.$inject = ['$state', 'authService'];
 
-function loginController($location, authService) {
+function loginController($state, authService) {
     var vm = this;
 
     vm.login = function () {
         authService.login(vm.username, vm.password)
             .then(function () {
-                $location.path('/manage');
-            })
-            .catch(function (message) {
-                console.log(message);
+                $state.go('manage');
             });
     };
 }

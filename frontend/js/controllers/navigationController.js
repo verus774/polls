@@ -2,19 +2,15 @@ angular
     .module('pollsApp')
     .controller('navigationController', navigationController);
 
-navigationController.$inject = ['$location', 'authService'];
+navigationController.$inject = ['$state', 'authService'];
 
-function navigationController($location, authService) {
+function navigationController($state, authService) {
     var vm = this;
 
     vm.authService = authService;
 
-    vm.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-    };
-
     vm.logout = function () {
         authService.logout();
-        $location.path('/');
+        $state.go('main');
     }
 }

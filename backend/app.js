@@ -7,8 +7,6 @@ var passport = require('passport');
 var auth = require('./routes/auth')(express);
 var apiV1 = require('./routes/api-v1')(express, passport);
 var path = require('path');
-var cors = require('express-cors');
-
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, function(err) {
@@ -20,13 +18,6 @@ mongoose.connect(config.dbUrl, function(err) {
 });
 
 app.disable('x-powered-by');
-
-app.use(cors({
-    allowedOrigins: [
-        'http://localhost'
-    ]
-}));
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

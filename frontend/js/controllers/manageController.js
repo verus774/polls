@@ -2,16 +2,16 @@ angular
     .module('pollsApp')
     .controller('manageController', manageController);
 
-manageController.$inject = ['pollsService'];
+manageController.$inject = ['pollsService', 'polls', '$state'];
 
-function manageController(pollsService) {
+function manageController(pollsService, polls, $state) {
     var vm = this;
+    vm.polls = polls;
 
-    pollsService.getAll()
-        .then(function (polls) {
-            vm.polls = polls;
-        })
-        .catch(function (message) {
-            console.log(message);
-        });
+    vm.removePoll = function (id) {
+        pollsService.remove(id)
+            .then(function () {
+                $state.reload();
+            });
+    };
 }

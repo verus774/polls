@@ -5,8 +5,8 @@ angular.module('pollsApp', [
 
 angular.module('pollsApp').constant('config', {
     storageType: 'localStorage',
-    apiEndpoint: 'https://polls2.herokuapp.com/api/v1',
-    authEndpoint: 'https://polls2.herokuapp.com/auth'
+    apiEndpoint: 'api/v1',
+    authEndpoint: 'auth'
 });
 
 angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -14,7 +14,12 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/',
         templateUrl: '../templates/main.html',
         controller: 'mainController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+            rooms: function (roomsService) {
+                return roomsService.getAll();
+            }
+        }
     });
 
     $stateProvider.state('login', {
@@ -38,6 +43,18 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/manage',
         templateUrl: '../templates/manage.html',
         controller: 'manageController',
+        controllerAs: 'vm',
+        resolve: {
+            polls: function (pollsService) {
+                return pollsService.getAll();
+            }
+        }
+    });
+
+    $stateProvider.state('addPoll', {
+        url: '/add-poll',
+        templateUrl: '../templates/addPoll.html',
+        controller: 'addPollController',
         controllerAs: 'vm'
     });
 
