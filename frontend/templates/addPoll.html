@@ -1,6 +1,6 @@
 <div class="row">
     <div class="page-header text-center">
-        <h3>Add poll</h3>
+        <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
     </div>
 
     <div class="col-md-6">
@@ -28,13 +28,12 @@
                     <div class="form-group input-group" ng-repeat="choice in question.choices track by $index">
                         <input type="text" class="form-control" ng-model="question.choices[$index]">
                         <span class="input-group-btn">
-                            <button class="btn btn-danger" type="button" title="Удалить"
+                            <button class="btn btn-danger" type="button" title="Remove"
                                     ng-click="vm.removeChoice($parent.$index, $index)">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
                             </button>
                         </span>
                     </div>
-
                 </div>
 
                 <button type="button" class="btn btn-success" ng-click="vm.addChoice($index)">Add choice</button>
@@ -46,9 +45,5 @@
 
             <button type="submit" class="btn btn-success">Save</button>
         </form>
-    </div>
-
-    <div class="col-md-6">
-        <pre>{{ vm.poll | json }}</pre>
     </div>
 </div>

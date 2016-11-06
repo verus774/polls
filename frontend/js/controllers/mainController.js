@@ -2,9 +2,18 @@ angular
     .module('pollsApp')
     .controller('mainController', mainController);
 
-mainController.$inject = ['rooms'];
+mainController.$inject = ['roomsService'];
 
-function mainController(rooms) {
+function mainController(roomsService) {
     var vm = this;
-    vm.rooms = rooms;
+
+    var loadRooms = function () {
+        roomsService.getAll()
+            .then(function (rooms) {
+                vm.rooms = rooms;
+            });
+    };
+
+    loadRooms();
+
 }

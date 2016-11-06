@@ -1,6 +1,8 @@
 angular.module('pollsApp', [
     'ui.router',
-    'angular-jwt'
+    'angular-jwt',
+    'angular.filter',
+    'btford.socket-io'
 ]);
 
 angular.module('pollsApp').constant('config', {
@@ -14,12 +16,7 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/',
         templateUrl: '../templates/main.html',
         controller: 'mainController',
-        controllerAs: 'vm',
-        resolve: {
-            rooms: function (roomsService) {
-                return roomsService.getAll();
-            }
-        }
+        controllerAs: 'vm'
     });
 
     $stateProvider.state('login', {
@@ -43,12 +40,7 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/manage',
         templateUrl: '../templates/manage.html',
         controller: 'manageController',
-        controllerAs: 'vm',
-        resolve: {
-            polls: function (pollsService) {
-                return pollsService.getAll();
-            }
-        }
+        controllerAs: 'vm'
     });
 
     $stateProvider.state('addPoll', {
@@ -62,12 +54,14 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/edit-poll/:id',
         templateUrl: '../templates/addPoll.html',
         controller: 'editPollController',
-        controllerAs: 'vm',
-        resolve: {
-            poll: function (pollsService, $stateParams) {
-                return pollsService.get($stateParams.id);
-            }
-        }
+        controllerAs: 'vm'
+    });
+
+    $stateProvider.state('student', {
+        url: '/student',
+        templateUrl: '../templates/student.html',
+        controller: 'studentController',
+        controllerAs: 'vm'
     });
 
     $urlRouterProvider.otherwise('/');

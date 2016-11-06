@@ -3,11 +3,21 @@ var helper = require('./helperController');
 
 
 exports.list = function (req, res) {
-    Poll.find({creator: req.user._id}, function (err, polls) {
+    var query = {
+        creator: req.user._id
+    };
+
+    if (req.query.active && req.query.active === 'true') {
+        query.active = true;
+    } else if (req.query.active) {
+        return helper.errorResponse(res, 'Invalid active parameter', 400);
+    }
+
+    Poll.find(query, function (err, polls) {
         if (err) {
             return helper.errorResponse(res);
         } else if (polls.length == 0) {
-            return helper.errorResponse(res, 'Poll not found', 404);
+            return helper.errorResponse(res, 'Polls not found', 404);
         }
 
         return helper.successResponse(res, polls);

@@ -8,12 +8,17 @@
             <thead>
             <tr>
                 <th>Room</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="room in vm.rooms | orderBy:'name'">
                 <td>{{ room.name }}</td>
+                <td>
+                    <a ui-sref="student" class="btn btn-success" ng-click="">Enter</a>
+                </td>
             </tr>
+
             </tbody>
         </table>
     </div>

@@ -2,11 +2,17 @@ angular
     .module('pollsApp')
     .controller('editPollController', editPollController);
 
-editPollController.$inject = ['pollsService', '$state', 'poll'];
+editPollController.$inject = ['pollsService', '$state', '$stateParams'];
 
-function editPollController(pollsService, $state, poll) {
+function editPollController(pollsService, $state, $stateParams) {
     var vm = this;
-    vm.poll = poll;
+
+    var loadPoll = function () {
+        pollsService.get($stateParams.id)
+            .then(function (poll) {
+                vm.poll = poll;
+            });
+    };
 
     vm.savePoll = function () {
         if (vm.poll) {
@@ -28,5 +34,7 @@ function editPollController(pollsService, $state, poll) {
     vm.addChoice = function (index) {
         vm.poll.questions[index].choices.push('');
     };
+
+    loadPoll();
 
 }

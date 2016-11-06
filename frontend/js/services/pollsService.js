@@ -34,6 +34,20 @@ function pollsService($http, $q, config) {
         return deferred.promise;
     };
 
+    var getActive = function () {
+        var deferred = $q.defer();
+
+        $http.get(config.apiEndpoint + '/polls' + '?active=true')
+            .success(function (response) {
+                deferred.resolve(response.data);
+            })
+            .error(function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     var add = function (poll) {
         var deferred = $q.defer();
 
@@ -79,6 +93,7 @@ function pollsService($http, $q, config) {
     return {
         getAll: getAll,
         get: get,
+        getActive: getActive,
         add: add,
         remove: remove,
         update: update

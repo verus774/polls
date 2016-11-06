@@ -7,6 +7,8 @@ var passport = require('passport');
 var auth = require('./routes/auth')(express);
 var apiV1 = require('./routes/api-v1')(express, passport);
 var path = require('path');
+var server = require('http').Server(app);
+require('./io').attach(server);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, function(err) {
@@ -30,7 +32,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/auth', auth);
 app.use('/api/v1', apiV1);
 
-app.listen(config.port, function(err) {
+server.listen(config.port, function (err) {
     if(err) {
         console.error(err);
     } else {
