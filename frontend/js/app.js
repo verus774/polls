@@ -58,6 +58,18 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         controllerAs: 'vm'
     });
 
+    $stateProvider.state('editPoll', {
+        url: '/edit-poll/:id',
+        templateUrl: '../templates/addPoll.html',
+        controller: 'editPollController',
+        controllerAs: 'vm',
+        resolve: {
+            poll: function (pollsService, $stateParams) {
+                return pollsService.get($stateParams.id);
+            }
+        }
+    });
+
     $urlRouterProvider.otherwise('/');
 
     $httpProvider.interceptors.push('interceptorService');

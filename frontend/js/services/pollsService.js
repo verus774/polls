@@ -20,6 +20,20 @@ function pollsService($http, $q, config) {
         return deferred.promise;
     };
 
+    var get = function (id) {
+        var deferred = $q.defer();
+
+        $http.get(config.apiEndpoint + '/polls/' + id)
+            .success(function (response) {
+                deferred.resolve(response.data);
+            })
+            .error(function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     var add = function (poll) {
         var deferred = $q.defer();
 
@@ -48,9 +62,25 @@ function pollsService($http, $q, config) {
         return deferred.promise;
     };
 
+    var update = function (id, poll) {
+        var deferred = $q.defer();
+
+        $http.put(config.apiEndpoint + '/polls/' + id, poll)
+            .success(function (response) {
+                deferred.resolve(response.data);
+            })
+            .error(function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     return {
         getAll: getAll,
+        get: get,
         add: add,
-        remove: remove
+        remove: remove,
+        update: update
     };
 }
