@@ -41,8 +41,8 @@ function pollsService($http, $q, config) {
             .success(function (response) {
                 deferred.resolve(response.data);
             })
-            .error(function (response) {
-                deferred.reject(response);
+            .error(function (response, status) {
+                deferred.reject(status);
             });
 
         return deferred.promise;

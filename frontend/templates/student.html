@@ -1,9 +1,12 @@
 <div class="page-header">
-    <h3>{{ vm.activePoll.title }}</h3>
+    <h3>Room: [ {{ vm.curRoom.name }} ]</h3>
 </div>
+
+<h3>{{ vm.message }}</h3>
 
 <div class="row" ng-show="vm.activePoll">
     <div class="col-md-8">
+        <h4>{{ vm.activePoll.title }}</h4>
         <form role="form" name="answerForm" ng-submit="">
             <div class="panel panel-primary" ng-repeat="question in vm.activePoll.questions">
                 <div class="panel-heading">

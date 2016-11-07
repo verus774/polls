@@ -53,7 +53,7 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
     $stateProvider.state('editPoll', {
         url: '/edit-poll/:id',
         templateUrl: '../templates/addPoll.html',
-        controller: 'editPollController',
+        controller: 'addPollController',
         controllerAs: 'vm'
     });
 

@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('addPollController', addPollController);
 
-addPollController.$inject = ['pollsService', '$state'];
+addPollController.$inject = ['pollsService', '$state', '$stateParams'];
 
-function addPollController(pollsService, $state) {
+function addPollController(pollsService, $state, $stateParams) {
     var vm = this;
 
     vm.poll = {
@@ -14,17 +14,35 @@ function addPollController(pollsService, $state) {
         ]
     };
 
-    vm.savePoll = function () {
+    var loadPoll = function (id) {
+        pollsService.get(id)
+            .then(function (poll) {
+                vm.poll = poll;
+            });
+    };
+
+    vm.savePoll = function (id) {
         if (vm.poll) {
-            pollsService.add(vm.poll)
-                .then(function () {
-                    $state.go('manage');
-                });
+            if (id) {
+                pollsService.update(id, vm.poll)
+                    .then(function () {
+                        $state.go('manage');
+                    });
+            } else {
+                pollsService.add(vm.poll)
+                    .then(function () {
+                        $state.go('manage');
+                    });
+            }
         }
     };
 
     vm.addQuestion = function () {
         vm.poll.questions.push({text: '', choices: ['', '']});
+    };
+
+    vm.removeQuestion = function (questionIndex) {
+        vm.poll.questions.splice(questionIndex, 1);
     };
 
     vm.removeChoice = function (questionIndex, choiceIndex) {
@@ -34,5 +52,9 @@ function addPollController(pollsService, $state) {
     vm.addChoice = function (index) {
         vm.poll.questions[index].choices.push('');
     };
+
+    if ($stateParams.id) {
+        loadPoll($stateParams.id);
+    }
 
 }

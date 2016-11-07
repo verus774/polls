@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('mainController', mainController);
 
-mainController.$inject = ['roomsService'];
+mainController.$inject = ['roomsService', '$rootScope'];
 
-function mainController(roomsService) {
+function mainController(roomsService, $rootScope) {
     var vm = this;
 
     var loadRooms = function () {
@@ -14,6 +14,9 @@ function mainController(roomsService) {
             });
     };
 
-    loadRooms();
+    vm.joinRoom = function (id, name) {
+        $rootScope.curRoom = {_id: id, name: name};
+    };
 
+    loadRooms();
 }
