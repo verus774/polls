@@ -7,6 +7,8 @@ manageController.$inject = ['pollsService', '$state', 'ioService', '$filter'];
 function manageController(pollsService, $state, ioService, $filter) {
     var vm = this;
 
+    vm.answers = [];
+
     var loadPolls = function () {
         pollsService.getAll()
             .then(function (polls) {
@@ -39,6 +41,9 @@ function manageController(pollsService, $state, ioService, $filter) {
         loadPolls();
     });
 
-    loadPolls();
+    ioService.on('answers', function (data) {
+        console.log(data);
+    });
 
+    loadPolls();
 }

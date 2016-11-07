@@ -29,6 +29,21 @@ function studentController(ioService, pollsService, $rootScope) {
         vm.activePoll = null;
     });
 
-    loadActivePoll();
+    vm.submitAnswers = function () {
+        var answers = {
+            answers: []
+        };
 
+        angular.forEach(vm.activePoll.questions, function (question) {
+            answers.answers.push({id: question._id, answer: question.answer});
+        });
+
+        ioService.emit('answers', answers);
+
+        answers = null;
+        vm.activePoll = null;
+        vm.message = 'Answers submitted';
+    };
+
+    loadActivePoll();
 }

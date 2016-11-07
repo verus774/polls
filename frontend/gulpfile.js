@@ -4,6 +4,7 @@ var browserSync = require('browser-sync').create();
 gulp.task('browserSync', function() {
     browserSync.init({
         proxy: 'localhost:80',
+        ws: true,
         browser: 'chrome'
     });
 });

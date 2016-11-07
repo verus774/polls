@@ -15,6 +15,11 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('answers', function (data) {
+        data.ip = socket.handshake.address;
+        io.emit('answers', data);
+    });
+
 });
 
 module.exports = io;
