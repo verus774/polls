@@ -37,7 +37,7 @@ function pollsService($http, $q, config) {
     var getActive = function () {
         var deferred = $q.defer();
 
-        $http.get(config.apiEndpoint + '/polls' + '?active=true')
+        $http.get(config.apiEndpoint + '/active-poll')
             .success(function (response) {
                 deferred.resolve(response.data);
             })

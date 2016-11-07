@@ -12,7 +12,7 @@ function studentController(ioService, pollsService, $rootScope) {
     var loadActivePoll = function () {
         pollsService.getActive()
             .then(function (activePoll) {
-                vm.activePoll = activePoll[0];
+                vm.activePoll = activePoll;
             })
             .catch(function (res) {
                 if (res === 404) {

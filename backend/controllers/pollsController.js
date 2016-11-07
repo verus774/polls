@@ -3,17 +3,7 @@ var helper = require('./helperController');
 
 
 exports.list = function (req, res) {
-    var query = {
-        creator: req.user._id
-    };
-
-    if (req.query.active && req.query.active === 'true') {
-        query.active = true;
-    } else if (req.query.active) {
-        return helper.errorResponse(res, 'Invalid active parameter', 400);
-    }
-
-    Poll.find(query, function (err, polls) {
+    Poll.find({creator: req.user._id}, function (err, polls) {
         if (err) {
             return helper.errorResponse(res);
         } else if (polls.length == 0) {
@@ -30,6 +20,18 @@ exports.read = function (req, res) {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
+            return helper.errorResponse(res);
+        } else if (!poll) {
+            return helper.errorResponse(res, 'Poll not found', 404);
+        }
+
+        return helper.successResponse(res, poll);
+    });
+};
+
+exports.readActive = function (req, res) {
+    Poll.findOne({active: true}, function (err, poll) {
+        if (err) {
             return helper.errorResponse(res);
         } else if (!poll) {
             return helper.errorResponse(res, 'Poll not found', 404);

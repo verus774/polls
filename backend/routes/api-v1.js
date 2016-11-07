@@ -4,10 +4,10 @@ var rooms = require('../controllers/roomsController');
 var helper = require('../controllers/helperController');
 
 function requireRole(role) {
-    return function(req, res, next) {
-        if(req.user.role === role)
+    return function (req, res, next) {
+        if (req.user.role === role)
             next();
-        else{
+        else {
             return helper.errorResponse(res, 'Forbidden', 403);
         }
     }
@@ -15,6 +15,9 @@ function requireRole(role) {
 
 module.exports = function (express, passport) {
     var api = express.Router();
+
+    api.route('/active-poll')
+        .get(polls.readActive);
 
     api.use('/polls', passport.authenticate('jwt', {session: false}));
     api.route('/polls')
