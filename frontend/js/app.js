@@ -3,7 +3,8 @@ angular.module('pollsApp', [
     'angular-jwt',
     'angular.filter',
     'btford.socket-io',
-    'googlechart'
+    'googlechart',
+    'angular-loading-bar'
 ]);
 
 angular.module('pollsApp').constant('config', {
@@ -12,7 +13,9 @@ angular.module('pollsApp').constant('config', {
     authEndpoint: 'auth'
 });
 
-angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = false;
+
     $stateProvider.state('main', {
         url: '/',
         templateUrl: '../templates/main.html',
@@ -68,4 +71,5 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
     $urlRouterProvider.otherwise('/');
 
     $httpProvider.interceptors.push('interceptorService');
+
 });
