@@ -2,7 +2,8 @@ angular.module('pollsApp', [
     'ui.router',
     'angular-jwt',
     'angular.filter',
-    'btford.socket-io'
+    'btford.socket-io',
+    'googlechart'
 ]);
 
 angular.module('pollsApp').constant('config', {

@@ -15,6 +15,7 @@
     "angular-jwt": "^0.1.7",
     "angular-socket-io": "^0.7.0",
     "socket.io-client": "^1.5.1",
-    "angular-filter": "^0.5.11"
+    "angular-filter": "^0.5.11",
+    "angular-google-chart": "^0.1.0"
   }
 }
