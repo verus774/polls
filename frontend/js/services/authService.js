@@ -26,7 +26,7 @@ function authService($http, $q, config, storageService, jwtHelper) {
             })
             .error(function (response) {
                 storageService.remove('access_token');
-                deferred.reject(response.message);
+                deferred.reject(response);
             });
 
         return deferred.promise;
@@ -41,9 +41,39 @@ function authService($http, $q, config, storageService, jwtHelper) {
         return !!(token && !jwtHelper.isTokenExpired(token));
     };
 
+    var signup = function (username, name, password) {
+        var deferred = $q.defer();
+
+        var user = {
+            username: username,
+            name: name,
+            password: password
+        };
+
+        $http.post(config.authEndpoint + '/signup', user)
+            .success(function (response) {
+                var token = response.data.token;
+
+                if (token) {
+                    storageService.set('access_token', token);
+                    deferred.resolve();
+                } else {
+                    storageService.remove('access_token');
+                    deferred.reject('No access token in server response');
+                }
+            })
+            .error(function (response) {
+                storageService.remove('access_token');
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     return {
         login: login,
         logout: logout,
-        isLoggedIn: isLoggedIn
+        isLoggedIn: isLoggedIn,
+        signup: signup
     }
 }

@@ -11,6 +11,9 @@ function loginController($state, authService) {
         authService.login(vm.username, vm.password)
             .then(function () {
                 $state.go('manage');
+            })
+            .catch(function () {
+                vm.authFail = true;
             });
     };
 }

@@ -15,13 +15,13 @@ function createToken(user) {
 }
 
 exports.signup = function (req, res) {
-    // TODO
-    if (!req.body.username || !req.body.password) {
-        return helper.errorResponse(res, 'Pass username and password', 400);
+    if (!(req.body.username || req.body.name || req.body.password)) {
+        return helper.errorResponse(res, 'Pass username, name and password', 400);
     }
 
     var newUser = new User({
         username: req.body.username,
+        name: req.body.name,
         password: req.body.password
     });
 

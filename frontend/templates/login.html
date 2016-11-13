@@ -1,25 +1,43 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-
         <div class="page-header text-center">
             <h3>Login</h3>
         </div>
+        <form role="form" name="loginForm" ng-submit="vm.login()" novalidate>
 
-        <form role="form" ng-submit="vm.login()">
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
                 <label for="username">Username</label>
-                <input type="text" id="username" class="form-control" placeholder="Enter username" ng-model="vm.username">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"
+                       ng-model="vm.username"
+                       required
+                       ng-minlength="4"
+                       ng-pattern="/^[a-z0-9_-]*$/">
+
+                <p ng-show="loginForm.username.$error.pattern" class="help-block">Only Latin characters, numbers, '-'
+                    and '_' symbols</p>
+                <p ng-show="loginForm.username.$error.minlength" class="help-block">At least 4 characters</p>
+                <p ng-show="loginForm.username.$error.maxlength" class="help-block">Maximum 10 characters</p>
             </div>
 
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" placeholder="Enter password" ng-model="vm.password">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"
+                       ng-model="vm.password" required>
+
+                <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block">Required
+                    field</p>
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid">Login</button>
             </div>
-        </form>
 
+            <div class="form-group has-error" ng-show="vm.authFail">
+                <p class="help-block">Authorization fail</p>
+            </div>
+
+        </form>
     </div>
 </div>

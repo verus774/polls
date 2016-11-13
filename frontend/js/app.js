@@ -32,7 +32,9 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
 
     $stateProvider.state('signup', {
         url: '/signup',
-        templateUrl: '../templates/signup.html'
+        templateUrl: '../templates/signup.html',
+        controller: 'signupController',
+        controllerAs: 'vm'
     });
 
     $stateProvider.state('me', {
