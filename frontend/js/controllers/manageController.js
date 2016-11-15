@@ -2,14 +2,13 @@ angular
     .module('pollsApp')
     .controller('manageController', manageController);
 
-manageController.$inject = ['pollsService', '$state', 'ioService', '$filter'];
+manageController.$inject = ['pollsService', '$state', 'ioService', '$filter', 'chartsService'];
 
-function manageController(pollsService, $state, ioService, $filter) {
+function manageController(pollsService, $state, ioService, $filter, chartsService) {
     var vm = this;
 
     vm.answers = [];
     var chartPrefix = 'chart_';
-    var chartType = 'PieChart';
 
     function loadPolls() {
         pollsService.getAll()
@@ -18,7 +17,7 @@ function manageController(pollsService, $state, ioService, $filter) {
                 vm.activePoll = $filter('filter')(polls, {active: true})[0];
 
                 if (vm.activePoll) {
-                    initCharts(vm.activePoll.questions, chartType);
+                    initCharts(vm.activePoll.questions);
                 }
             });
     }
@@ -35,30 +34,16 @@ function manageController(pollsService, $state, ioService, $filter) {
         return groupedAnswers;
     }
 
-    function initCharts(questions, chartType) {
+    function initCharts(questions) {
         angular.forEach(questions, function (question) {
             var chart = chartPrefix + question._id;
-
-            vm[chart] = {};
-            vm[chart].type = chartType || 'PieChart';
-
-            vm[chart].options = {
-                title: question.text,
-                legend: {position: 'left'}
-            };
-
-            vm[chart].data = {
-                'cols': [
-                    {label: 'Var', type: 'string'},
-                    {label: 'Count', type: 'number'}
-                ], 'rows': []
-            };
+            vm[chart] = chartsService.init(question);
         });
     }
 
     function clearCharts(questions) {
         angular.forEach(questions, function (question) {
-            vm[chartPrefix + question._id].data.rows = [];
+            chartsService.clear(vm[chartPrefix + question._id]);
         });
     }
 
@@ -73,12 +58,7 @@ function manageController(pollsService, $state, ioService, $filter) {
                 }
             });
 
-            vm[chart].data.rows.push({
-                c: [
-                    {v: answerText},
-                    {v: answer.count}
-                ]
-            });
+            chartsService.draw(vm[chart], answerText, answer.count);
         });
 
     }
