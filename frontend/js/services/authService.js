@@ -70,10 +70,18 @@ function authService($http, $q, config, storageService, jwtHelper) {
         return deferred.promise;
     };
 
+    var getUser = function () {
+        if (isLoggedIn()) {
+            var token = storageService.get('access_token');
+            return jwtHelper.decodeToken(token);
+        }
+    };
+
     return {
         login: login,
         logout: logout,
         isLoggedIn: isLoggedIn,
-        signup: signup
+        signup: signup,
+        getUser: getUser
     }
 }
