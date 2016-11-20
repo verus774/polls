@@ -33,16 +33,20 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-success" ng-click="vm.startPoll(poll._id)" title="Start">
+                            <button class="btn btn-success" ng-click="vm.startPoll(poll._id)" title="Start"
+                                    ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                             </button>
-                            <button class="btn btn-primary" ng-click="vm.stopPoll(poll._id)" title="Stop">
+                            <button class="btn btn-primary" ng-click="vm.stopPoll(poll._id)" title="Stop"
+                                    ng-disabled="!poll.active">
                                 <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
                             </button>
-                            <a class="btn btn-warning" ui-sref="editPoll({ id: poll._id })" title="Edit">
+                            <a class="btn btn-warning" ui-sref="editPoll({ id: poll._id })" title="Edit"
+                               ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                             </a>
-                            <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)" title="Remove">
+                            <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)" title="Remove"
+                                    ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                         </div>
