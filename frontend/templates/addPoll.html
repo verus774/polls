@@ -18,7 +18,7 @@
             <div ng-repeat="question in vm.poll.questions track by $index">
 
                 <div class="form-group">
-                    <label for="question">Question</label>
+                    <label for="question">Question #{{$index + 1}}</label>
                     <textarea id="question" class="form-control" rows="5" ng-model="question.text"></textarea>
                 </div>
 
