@@ -12,14 +12,24 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="room in vm.rooms | orderBy:'name'">
+            <tr ng-repeat="room in vm.rooms | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize">
                 <td>{{ room.name }}</td>
                 <td>
                     <a ui-sref="student" class="btn btn-success" ng-click="vm.joinRoom(room._id, room.name)">Enter</a>
                 </td>
             </tr>
-
             </tbody>
         </table>
+
+        <ul uib-pagination
+            boundary-links="true"
+            total-items="vm.rooms.length"
+            ng-model="vm.currentPage"
+            items-per-page="vm.pageSize"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;">
+        </ul>
     </div>
 </div>

@@ -1,9 +1,19 @@
 var User = require('../models/User');
 var helper = require('./helperController');
 
+var selectFields = 'name';
+var sortField = 'name';
+
 exports.list = function (req, res) {
+    var page = parseInt(req.query.page),
+        size = parseInt(req.query.size),
+        skip = page > 0 ? ((page - 1) * size) : 0;
+
     User.find({})
-        .select('name')
+        .select(selectFields)
+        .skip(skip)
+        .limit(size)
+        .sort(sortField)
         .exec(function (err, users) {
             if (err) {
                 return helper.errorResponse(res);

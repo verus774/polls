@@ -7,6 +7,9 @@ manageController.$inject = ['pollsService', '$state', 'ioService', '$filter', 'c
 function manageController(pollsService, $state, ioService, $filter, chartsService) {
     var vm = this;
 
+    vm.currentPage = 1;
+    vm.pageSize = 10;
+
     vm.answers = [];
     var chartPrefix = 'chart_';
 

@@ -1,44 +1,53 @@
 var Poll = require('../models/Poll');
 var helper = require('./helperController');
 
+var selectFields = 'title description questions active';
+var sortField = 'title';
 
 exports.list = function (req, res) {
-    Poll.find({creator: req.user._id}, function (err, polls) {
-        if (err) {
-            return helper.errorResponse(res);
-        } else if (polls.length == 0) {
-            return helper.errorResponse(res, 'Polls not found', 404);
-        }
+    Poll.find({creator: req.user._id})
+        .select(selectFields)
+        .sort(sortField)
+        .exec(function (err, polls) {
+            if (err) {
+                return helper.errorResponse(res);
+            } else if (polls.length == 0) {
+                return helper.errorResponse(res, 'Polls not found', 404);
+            }
 
-        return helper.successResponse(res, polls);
-    });
+            return helper.successResponse(res, polls);
+        });
 };
 
 exports.read = function (req, res) {
-    Poll.findOne({_id: req.params.id, creator: req.user._id}, function (err, poll) {
-        if (err) {
-            if (err.name == 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
+    Poll.findOne({creator: req.user._id, _id: req.params.id})
+        .select(selectFields)
+        .exec(function (err, poll) {
+            if (err) {
+                if (err.name == 'ValidationError') {
+                    return helper.errorResponse(res, 'Invalid id parameter', 400);
+                }
+                return helper.errorResponse(res);
+            } else if (!poll) {
+                return helper.errorResponse(res, 'Poll not found', 404);
             }
-            return helper.errorResponse(res);
-        } else if (!poll) {
-            return helper.errorResponse(res, 'Poll not found', 404);
-        }
 
-        return helper.successResponse(res, poll);
-    });
+            return helper.successResponse(res, poll);
+        });
 };
 
 exports.readActive = function (req, res) {
-    Poll.findOne({active: true}, function (err, poll) {
-        if (err) {
-            return helper.errorResponse(res);
-        } else if (!poll) {
-            return helper.errorResponse(res, 'Poll not found', 404);
-        }
+    Poll.findOne({active: true})
+        .select(selectFields)
+        .exec(function (err, poll) {
+            if (err) {
+                return helper.errorResponse(res);
+            } else if (!poll) {
+                return helper.errorResponse(res, 'No active polls', 404);
+            }
 
-        return helper.successResponse(res, poll);
-    });
+            return helper.successResponse(res, poll);
+        });
 };
 
 exports.create = function (req, res) {
@@ -58,49 +67,51 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    Poll.findOne({_id: req.params.id, creator: req.user._id}, function (err, poll) {
-        if (err) {
-            if (err.name == 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
-            }
-            return helper.errorResponse(res);
-        } else if (!poll) {
-            return helper.errorResponse(res, 'Poll not found', 404);
-        }
-
-        poll.title = req.body.title;
-        poll.description = req.body.description;
-        poll.questions = req.body.questions;
-        poll.active = req.body.active;
-
-        poll.save(function (err, poll) {
+    Poll.findOne({creator: req.user._id, _id: req.params.id})
+        .exec(function (err, poll) {
             if (err) {
                 if (err.name == 'ValidationError') {
-                    return helper.errorResponse(res, 'Must provide title, questions, and active parameters', 400);
+                    return helper.errorResponse(res, 'Invalid id parameter', 400);
                 }
                 return helper.errorResponse(res);
+            } else if (!poll) {
+                return helper.errorResponse(res, 'Poll not found', 404);
             }
-            return helper.successResponse(res, poll);
+
+            poll.title = req.body.title;
+            poll.description = req.body.description;
+            poll.questions = req.body.questions;
+            poll.active = req.body.active;
+
+            poll.save(function (err, poll) {
+                if (err) {
+                    if (err.name == 'ValidationError') {
+                        return helper.errorResponse(res, 'Must provide title, questions, and active parameters', 400);
+                    }
+                    return helper.errorResponse(res);
+                }
+                return helper.successResponse(res, poll);
+            });
         });
-    });
 };
 
 exports.delete = function (req, res) {
-    Poll.findOne({_id: req.params.id, creator: req.user._id}, function (err, poll) {
-        if (err) {
-            if (err.name == 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
-            }
-            return helper.errorResponse(res);
-        } else if (!poll) {
-            return helper.errorResponse(res, 'Poll not found', 404);
-        }
-
-        poll.remove(function (err) {
+    Poll.findOne({creator: req.user._id, _id: req.params.id})
+        .exec(function (err, poll) {
             if (err) {
+                if (err.name == 'ValidationError') {
+                    return helper.errorResponse(res, 'Invalid id parameter', 400);
+                }
                 return helper.errorResponse(res);
+            } else if (!poll) {
+                return helper.errorResponse(res, 'Poll not found', 404);
             }
-            return helper.successResponse(res);
+
+            poll.remove(function (err) {
+                if (err) {
+                    return helper.errorResponse(res);
+                }
+                return helper.successResponse(res);
+            });
         });
-    });
 };

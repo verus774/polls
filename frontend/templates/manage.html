@@ -22,7 +22,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="poll in vm.polls" ng-class="{'list-group-item-success': poll.active}">
+                <tr ng-repeat="poll in vm.polls | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize">
                     <td>{{ poll.title }}</td>
                     <td>
                         <ol>
@@ -55,5 +55,16 @@
                 </tbody>
             </table>
         </div>
+
+        <ul uib-pagination
+            boundary-links="true"
+            total-items="vm.polls.length"
+            ng-model="vm.currentPage"
+            items-per-page="vm.pageSize"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;">
+        </ul>
     </div>
 </div>

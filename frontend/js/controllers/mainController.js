@@ -7,6 +7,9 @@ mainController.$inject = ['roomsService', '$rootScope'];
 function mainController(roomsService, $rootScope) {
     var vm = this;
 
+    vm.currentPage = 1;
+    vm.pageSize = 10;
+
     var loadRooms = function () {
         roomsService.getAll()
             .then(function (rooms) {

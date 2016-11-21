@@ -4,7 +4,8 @@ angular.module('pollsApp', [
     'angular.filter',
     'btford.socket-io',
     'googlechart',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'ui.bootstrap'
 ]);
 
 angular.module('pollsApp').constant('config', {
@@ -74,4 +75,14 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
 
     $httpProvider.interceptors.push('interceptorService');
 
+});
+
+angular.module('pollsApp').filter('startFrom', function () {
+    return function (input, start) {
+        if (!input || !input.length) {
+            return;
+        }
+        start = parseInt(start, 10);
+        return input.slice(start);
+    }
 });

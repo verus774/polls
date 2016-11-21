@@ -17,6 +17,7 @@
     "socket.io-client": "^1.5.1",
     "angular-filter": "^0.5.11",
     "angular-google-chart": "^0.1.0",
-    "angular-loading-bar": "^0.9.0"
+    "angular-loading-bar": "^0.9.0",
+    "angular-bootstrap": "^2.2.0"
   }
 }
