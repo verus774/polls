@@ -2,15 +2,15 @@ angular
     .module('pollsApp')
     .controller('studentController', studentController);
 
-studentController.$inject = ['ioService', 'pollsService', '$rootScope', '$state'];
+studentController.$inject = ['ioService', 'pollsService', '$state', 'roomsService'];
 
-function studentController(ioService, pollsService, $rootScope, $state) {
+function studentController(ioService, pollsService, $state, roomsService) {
     var vm = this;
 
-    vm.currentRoom = $rootScope.currentRoom;
+    vm.currentRoom = roomsService.getCurrentRoom();
 
     var loadActivePoll = function () {
-        pollsService.getActive($rootScope.currentRoom._id)
+        pollsService.getActive(vm.currentRoom._id)
             .then(function (activePoll) {
                 vm.activePoll = activePoll;
             })
