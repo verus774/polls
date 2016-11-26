@@ -35,7 +35,7 @@
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="manage">Manage</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
-                <li ui-sref-active="active"><a ui-sref="me">Profile</a></li>
+                <li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
                 <li><a href="" ng-click="vm.logout()">Logout [{{ vm.authService.getUser().username }}]</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -70,6 +70,7 @@
 <script src="js/controllers/navigationController.js"></script>
 <script src="js/controllers/mainController.js"></script>
 <script src="js/controllers/loginController.js"></script>
+<script src="js/controllers/profileController.js"></script>
 <script src="js/controllers/signupController.js"></script>
 <script src="js/controllers/manageController.js"></script>
 <script src="js/controllers/addPollController.js"></script>

@@ -38,30 +38,36 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         controllerAs: 'vm'
     });
 
-    $stateProvider.state('me', {
-        url: '/me',
-        templateUrl: '../templates/me.html'
+    $stateProvider.state('profile', {
+        url: '/profile',
+        templateUrl: '../templates/profile.html',
+        controller: 'profileController',
+        controllerAs: 'vm',
+        data: {restricted: true}
     });
 
     $stateProvider.state('manage', {
         url: '/manage',
         templateUrl: '../templates/manage.html',
         controller: 'manageController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        data: {restricted: true}
     });
 
     $stateProvider.state('addPoll', {
         url: '/add-poll',
         templateUrl: '../templates/addPoll.html',
         controller: 'addPollController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        data: {restricted: true}
     });
 
     $stateProvider.state('editPoll', {
         url: '/edit-poll/:id',
         templateUrl: '../templates/addPoll.html',
         controller: 'addPollController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        data: {restricted: true}
     });
 
     $stateProvider.state('student', {
@@ -74,6 +80,16 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
     $urlRouterProvider.otherwise('/');
 
     $httpProvider.interceptors.push('interceptorService');
+
+});
+
+angular.module('pollsApp').run(function ($rootScope, authService, $state) {
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
+        if (toState.data && toState.data.restricted && !authService.isLoggedIn()) {
+            event.preventDefault();
+            $state.go('login');
+        }
+    });
 
 });
 
