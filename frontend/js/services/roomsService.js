@@ -16,6 +16,7 @@ function roomsService($http, $q, config) {
         return deferred.promise;
     };
 
+
     return {
         getAll : getAll
     };

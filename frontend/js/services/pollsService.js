@@ -34,10 +34,10 @@ function pollsService($http, $q, config) {
         return deferred.promise;
     };
 
-    var getActive = function () {
+    var getActive = function (room) {
         var deferred = $q.defer();
 
-        $http.get(config.apiEndpoint + '/active-poll')
+        $http.get(config.apiEndpoint + '/active-poll' + '?room=' + room)
             .success(function (response) {
                 deferred.resolve(response.data);
             })

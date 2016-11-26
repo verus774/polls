@@ -37,7 +37,7 @@ exports.read = function (req, res) {
 };
 
 exports.readActive = function (req, res) {
-    Poll.findOne({active: true})
+    Poll.findOne({active: true, creator: req.query.room})
         .select(selectFields)
         .exec(function (err, poll) {
             if (err) {

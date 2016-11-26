@@ -1,13 +1,17 @@
 <div class="page-header">
-    <h3>Room: [ {{ vm.curRoom.name }} ]</h3>
+    <h3>Room: [ {{ vm.currentRoom.name }} ]</h3>
 </div>
+
+<button type="button" class="btn btn-warning" ng-click="vm.leaveRoom()">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Leave room
+</button>
 
 <h3>{{ vm.message }}</h3>
 
 <div class="row">
     <div class="col-md-8" ng-show="vm.activePoll">
         <h4>{{ vm.activePoll.title }}</h4>
-        <form role="form" name="answerForm" ng-submit="vm.submitAnswers()">
+        <form role="form" name="answerForm" ng-submit="vm.submitAnswers()" novalidate>
             <div class="panel panel-primary" ng-repeat="question in vm.activePoll.questions">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -20,7 +24,7 @@
                             <div class="radio">
                                 <label>
                                     <input type="radio" name="{{ question._id }}" value="{{$index}}"
-                                           ng-model="question.answer">{{ choice }}
+                                           ng-model="question.answer" required>{{ choice }}
                                 </label>
                             </div>
                         </li>
@@ -28,7 +32,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success" ng-disabled="answerForm.$invalid">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Отправить
             </button>
 

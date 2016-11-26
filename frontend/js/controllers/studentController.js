@@ -2,15 +2,15 @@ angular
     .module('pollsApp')
     .controller('studentController', studentController);
 
-studentController.$inject = ['ioService', 'pollsService', '$rootScope'];
+studentController.$inject = ['ioService', 'pollsService', '$rootScope', '$state'];
 
-function studentController(ioService, pollsService, $rootScope) {
+function studentController(ioService, pollsService, $rootScope, $state) {
     var vm = this;
 
-    vm.curRoom = $rootScope.curRoom;
+    vm.currentRoom = $rootScope.currentRoom;
 
     var loadActivePoll = function () {
-        pollsService.getActive()
+        pollsService.getActive($rootScope.currentRoom._id)
             .then(function (activePoll) {
                 vm.activePoll = activePoll;
             })
@@ -43,6 +43,11 @@ function studentController(ioService, pollsService, $rootScope) {
         answers = null;
         vm.activePoll = null;
         vm.message = 'Answers submitted';
+    };
+
+    vm.leaveRoom = function () {
+        ioService.emit('leaveRoom', vm.currentRoom._id);
+        $state.go('main');
     };
 
     loadActivePoll();

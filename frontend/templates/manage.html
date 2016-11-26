@@ -1,15 +1,24 @@
 <div class="row">
-    <div class="col-md-3">
-        <div ng-repeat="question in vm.activePoll.questions">
-            <div google-chart chart="vm.chart_{{ question._id }}" style="width:100%;"></div>
-        </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="page-header text-center">
             <h3>Manage</h3>
         </div>
+        <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
+    </div>
+</div>
 
-        <a ui-sref="addPoll" class="btn btn-success">Add poll</a>
+<div class="row" ng-show="vm.polls">
+    <div class="col-md-3">
+        <h4 ng-show="!vm.activePoll">No active polls</h4>
+
+        <div ng-show="vm.activePoll">
+            <h4>Answers</h4>
+            <div ng-repeat="question in vm.activePoll.questions">
+                <div google-chart chart="vm.chart_{{ question._id }}" style="width:100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
         <h4>Total: {{ vm.polls.length }}</h4>
 
         <div class="table-responsive">
@@ -22,7 +31,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="poll in vm.polls | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize">
+                <tr ng-repeat="poll in vm.polls | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize"
+                    ng-class="{'list-group-item-success': poll.active}">
                     <td>{{ poll.title }}</td>
                     <td>
                         <ol>
