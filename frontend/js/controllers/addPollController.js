@@ -18,6 +18,7 @@ function addPollController(pollsService, $state, $stateParams) {
         pollsService.get(id)
             .then(function (poll) {
                 vm.poll = poll;
+                vm.orig = angular.copy(vm.poll);
             });
     };
 
@@ -51,6 +52,15 @@ function addPollController(pollsService, $state, $stateParams) {
 
     vm.addChoice = function (index) {
         vm.poll.questions[index].choices.push('');
+    };
+
+    vm.resetForm = function () {
+        if (vm.poll._id) {
+            vm.poll = angular.copy(vm.orig);
+            vm.addPollForm.$setPristine();
+        } else {
+            $state.reload();
+        }
     };
 
     if ($stateParams.id) {

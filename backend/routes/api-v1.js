@@ -33,6 +33,8 @@ module.exports = function (express, passport) {
         .get(requireRole('admin'), users.list);
     api.route('/users/me')
         .get(users.me);
+    api.route('/users')
+        .put(users.update);
 
     api.route('/rooms')
         .get(rooms.list);

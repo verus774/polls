@@ -36,7 +36,6 @@ exports.signup = function (req, res) {
 };
 
 exports.login = function (req, res) {
-    // TODO
     if (!req.body.username || !req.body.password) {
         return helper.errorResponse(res, 'Empty username or password', 401);
     }
@@ -69,4 +68,23 @@ exports.list = function (req, res) {
 
             return helper.successResponse(res, users);
         });
+};
+
+exports.update = function (req, res) {
+    User.findOne({_id: req.user._id})
+        .exec(function (err, user) {
+            if (err) {
+                return helper.errorResponse(res);
+            }
+
+            user.name = req.body.name;
+
+            user.save(function (err, user) {
+                if (err) {
+                    return helper.errorResponse(res);
+                }
+                return helper.successResponse(res, user);
+            });
+        });
+
 };

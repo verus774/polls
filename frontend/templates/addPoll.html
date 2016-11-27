@@ -3,7 +3,7 @@
         <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
     </div>
     <div class="col-md-6">
-        <form role="form" ng-submit="vm.savePoll(vm.poll._id)">
+        <form role="form" name="vm.addPollForm" ng-submit="vm.savePoll(vm.poll._id)" novalidate>
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" id="title" class="form-control" ng-model="vm.poll.title">
@@ -49,8 +49,10 @@
             </div>
 
             <button type="submit" class="btn btn-success">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
-                Save
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
+            </button>
+            <button type="button" class="btn btn-warning" ng-click="vm.resetForm()" ng-hide="vm.addPollForm.$pristine">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
             </button>
         </form>
     </div>

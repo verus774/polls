@@ -10,7 +10,7 @@ module.exports = function(passport) {
 
     passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
         User.findOne({_id: jwt_payload._id})
-            .select('name username role')
+            .select('name username')
             .exec(function (err, user) {
                 if (err) {
                     return done(err, false);

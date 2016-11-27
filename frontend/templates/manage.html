@@ -12,10 +12,14 @@
         <h4 ng-show="!vm.activePoll">No active polls</h4>
 
         <div ng-show="vm.activePoll">
-            <h4>Answers</h4>
+            <h4>Results</h4>
+            <button class="btn btn-primary btn-block" ng-click="vm.stopPoll(vm.activePoll._id)">Stop poll</button>
+            <br><br>
             <div ng-repeat="question in vm.activePoll.questions">
                 <div google-chart chart="vm.chart_{{ question._id }}" style="width:100%;"></div>
             </div>
+            <button class="btn btn-primary btn-block" ng-click="vm.stopPoll(vm.activePoll._id)">Stop poll</button>
+            <br><br>
         </div>
     </div>
     <div class="col-md-9">
