@@ -40,18 +40,22 @@ function addPollController(pollsService, $state, $stateParams) {
 
     vm.addQuestion = function () {
         vm.poll.questions.push({text: '', choices: ['', '']});
+        vm.addPollForm.$setDirty();
     };
 
     vm.removeQuestion = function (questionIndex) {
         vm.poll.questions.splice(questionIndex, 1);
+        vm.addPollForm.$setDirty();
     };
 
     vm.removeChoice = function (questionIndex, choiceIndex) {
         vm.poll.questions[questionIndex].choices.splice(choiceIndex, 1);
+        vm.addPollForm.$setDirty();
     };
 
     vm.addChoice = function (index) {
         vm.poll.questions[index].choices.push('');
+        vm.addPollForm.$setDirty();
     };
 
     vm.resetForm = function () {
