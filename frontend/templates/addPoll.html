@@ -1,37 +1,60 @@
 <div class="row">
-    <div class="page-header text-center">
-        <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header text-center">
+            <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
+        </div>
         <form role="form" name="vm.addPollForm" ng-submit="vm.savePoll(vm.poll._id)" novalidate>
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.addPollForm.title.$invalid && vm.addPollForm.title.$dirty }">
                 <label for="title">Title</label>
-                <input type="text" id="title" class="form-control" ng-model="vm.poll.title">
+                <input type="text" id="title" name="title" class="form-control" ng-model="vm.poll.title"
+                       required
+                       ng-maxlength="100">
+                <p ng-show="vm.addPollForm.title.$invalid && vm.addPollForm.title.$dirty" class="help-block">Required
+                    field</p>
+                <p ng-show="vm.addPollForm.title.$error.maxlength" class="help-block">Maximum 100 characters</p>
             </div>
             <br>
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.addPollForm.description.$invalid && vm.addPollForm.description.$dirty }">
                 <label for="description">Description (optional)</label>
-                <input type="text" id="description" class="form-control" ng-model="vm.poll.description">
+                <input type="text" id="description" name="description" class="form-control"
+                       ng-model="vm.poll.description"
+                       ng-maxlength="100">
+                <p ng-show="vm.addPollForm.description.$error.maxlength" class="help-block">Maximum 100 characters</p>
             </div>
             <br>
-
             <div ng-repeat="question in vm.poll.questions track by $index">
+                <ng-form name="questioFieldForm">
+                    <div class="form-group"
+                         ng-class="{ 'has-error' : questioFieldForm.question.$invalid && questioFieldForm.question.$dirty }">
+                        <label for="question">Question #{{$index + 1}}</label>
+                        <textarea id="question" name="question" class="form-control" rows="5" ng-model="question.text"
+                                  required></textarea>
+                        <p ng-show="questioFieldForm.question.$invalid && questioFieldForm.question.$dirty"
+                           class="help-block">Required field</p>
+                    </div>
+                </ng-form>
 
-                <div class="form-group">
-                    <label for="question">Question #{{$index + 1}}</label>
-                    <textarea id="question" class="form-control" rows="5" ng-model="question.text"></textarea>
-                </div>
 
                 <div class="form-group">
                     <label>Choices</label>
-                    <div class="form-group input-group" ng-repeat="choice in question.choices track by $index">
-                        <input type="text" class="form-control" ng-model="question.choices[$index]">
-                        <span class="input-group-btn">
-                            <button class="btn btn-danger" type="button" title="Remove choice"
-                                    ng-click="vm.removeChoice($parent.$index, $index)">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
-                            </button>
-                        </span>
+                    <div ng-repeat="choice in question.choices track by $index">
+                        <ng-form name="choiceFieldForm"
+                                 ng-class="{ 'has-error' : choiceFieldForm.choice.$invalid && choiceFieldForm.choice.$dirty }">
+                            <div class="form-group input-group">
+                                <input type="text" name="choice" class="form-control"
+                                       ng-model="question.choices[$index]" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button" title="Remove choice"
+                                            ng-click="vm.removeChoice($parent.$index, $index)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
+                                    </button>
+                                </span>
+                            </div>
+                            <p ng-show="choiceFieldForm.choice.$invalid && choiceFieldForm.choice.$dirty"
+                               class="help-block">Required field</p>
+                        </ng-form>
                     </div>
                 </div>
 
@@ -48,7 +71,7 @@
                 <br><br>
             </div>
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success" ng-disabled="vm.addPollForm.$invalid">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
             </button>
             <button type="button" class="btn btn-warning" ng-click="vm.resetForm()" ng-hide="vm.addPollForm.$pristine">
