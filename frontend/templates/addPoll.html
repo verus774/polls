@@ -1,5 +1,7 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
+        <div uib-alert ng-repeat="alert in vm.alerts" ng-class="alert.type" close="alert.close()">{{alert.msg}}</div>
+
         <div class="page-header text-center">
             <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
         </div>
@@ -29,13 +31,16 @@
                     <div class="form-group"
                          ng-class="{ 'has-error' : questioFieldForm.question.$invalid && questioFieldForm.question.$dirty }">
                         <label for="question">Question #{{$index + 1}}</label>
+                        <button type="button" class="btn btn-danger pull-right" ng-click="vm.removeQuestion($index)">
+                            Remove question
+                        </button>
+                        <br><br>
                         <textarea id="question" name="question" class="form-control" rows="5" ng-model="question.text"
                                   required></textarea>
                         <p ng-show="questioFieldForm.question.$invalid && questioFieldForm.question.$dirty"
                            class="help-block">Required field</p>
                     </div>
                 </ng-form>
-
 
                 <div class="form-group">
                     <label>Choices</label>
@@ -62,21 +67,20 @@
                         ng-click="vm.addChoice($index)">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
                 </button>
-                <br><br>
-                <button type="button" class="btn btn-success" ng-click="vm.addQuestion()" ng-show="$last">Add question
-                </button>
-                <button type="button" class="btn btn-danger" ng-click="vm.removeQuestion($index)" ng-show="$last">Remove
-                    question
-                </button>
-                <br><br>
+                <br><br><br><br>
             </div>
 
-            <button type="submit" class="btn btn-success" ng-disabled="vm.addPollForm.$invalid">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
-            </button>
-            <button type="button" class="btn btn-warning" ng-click="vm.resetForm()" ng-hide="vm.addPollForm.$pristine">
-                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
-            </button>
+            <button type="button" class="btn btn-success" ng-click="vm.addQuestion()">Add question</button>
+            <br><br>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" ng-disabled="vm.addPollForm.$invalid">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="vm.resetForm()"
+                        ng-hide="vm.addPollForm.$pristine">
+                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
+                </button>
+            </div>
         </form>
     </div>
 </div>

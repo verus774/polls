@@ -48,6 +48,15 @@ function pollsService($http, $q, config) {
         return deferred.promise;
     };
 
+    var getEmpty = function () {
+        return angular.copy({
+            title: '',
+            questions: [
+                {text: '', choices: ['', '']}
+            ]
+        });
+    };
+
     var add = function (poll) {
         var deferred = $q.defer();
 
@@ -94,6 +103,7 @@ function pollsService($http, $q, config) {
         getAll: getAll,
         get: get,
         getActive: getActive,
+        getEmpty: getEmpty,
         add: add,
         remove: remove,
         update: update

@@ -2,17 +2,16 @@ angular
     .module('pollsApp')
     .controller('addPollController', addPollController);
 
-addPollController.$inject = ['pollsService', '$state', '$stateParams'];
+addPollController.$inject = ['pollsService', '$stateParams', '$window', 'alertService'];
 
-function addPollController(pollsService, $state, $stateParams) {
+function addPollController(pollsService, $stateParams, $window, alertService) {
     var vm = this;
 
-    vm.poll = {
-        title: '',
-        questions: [
-            {text: '', choices: ['', '']}
-        ]
-    };
+    var alertTimeout = 3000;
+    vm.alerts = alertService.get();
+    alertService.clear();
+
+    vm.poll = pollsService.getEmpty();
 
     var loadPoll = function (id) {
         pollsService.get(id)
@@ -22,19 +21,33 @@ function addPollController(pollsService, $state, $stateParams) {
             });
     };
 
+    vm.closeAlert = function () {
+        vm.alert = null;
+    };
+
     vm.savePoll = function (id) {
         if (vm.poll) {
             if (id) {
                 pollsService.update(id, vm.poll)
-                    .then(function () {
-                        $state.go('manage');
+                    .then(function (updatedPoll) {
+                        vm.poll = updatedPoll;
+                        alertService.add('success', 'Poll updated', alertTimeout);
+                    })
+                    .catch(function () {
+                        alertService.add('danger', 'Fail', alertTimeout);
                     });
             } else {
                 pollsService.add(vm.poll)
                     .then(function () {
-                        $state.go('manage');
+                        vm.poll = pollsService.getEmpty();
+                        vm.addPollForm.$setPristine();
+                        alertService.add('success', 'Poll added', alertTimeout);
+                    })
+                    .catch(function () {
+                        alertService.add('danger', 'Fail', alertTimeout);
                     });
             }
+            $window.scrollTo(0, 0);
         }
     };
 
@@ -63,7 +76,8 @@ function addPollController(pollsService, $state, $stateParams) {
             vm.poll = angular.copy(vm.orig);
             vm.addPollForm.$setPristine();
         } else {
-            $state.reload();
+            vm.poll = pollsService.getEmpty();
+            vm.addPollForm.$setPristine();
         }
     };
 

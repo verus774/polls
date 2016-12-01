@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('manageController', manageController);
 
-manageController.$inject = ['pollsService', '$state', 'ioService', '$filter', 'chartsService'];
+manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window'];
 
-function manageController(pollsService, $state, ioService, $filter, chartsService) {
+function manageController(pollsService, ioService, $filter, chartsService, alertService, $window) {
     var vm = this;
 
     vm.currentPage = 1;
@@ -12,6 +12,10 @@ function manageController(pollsService, $state, ioService, $filter, chartsServic
 
     vm.answers = [];
     var chartPrefix = 'chart_';
+
+    var alertTimeout = 3000;
+    vm.alerts = alertService.get();
+    alertService.clear();
 
     function loadPolls() {
         pollsService.getAll()
@@ -69,8 +73,13 @@ function manageController(pollsService, $state, ioService, $filter, chartsServic
     vm.removePoll = function (id) {
         pollsService.remove(id)
             .then(function () {
-                $state.reload();
+                loadPolls();
+                alertService.add('success', 'Poll deleted', alertTimeout);
+            })
+            .catch(function () {
+                alertService.add('danger', 'Fail', alertTimeout);
             });
+        $window.scrollTo(0, 0);
     };
 
     vm.startPoll = function (id) {
