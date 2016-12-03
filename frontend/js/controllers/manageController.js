@@ -29,6 +29,8 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
             });
     }
 
+    loadPolls();
+
     function groupAnswers(answers) {
         var groupedAnswers = [];
 
@@ -102,5 +104,4 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
         fillCharts(groupAnswers(vm.answers));
     });
 
-    loadPolls();
 }

@@ -30,8 +30,9 @@
                 <ng-form name="questioFieldForm">
                     <div class="form-group"
                          ng-class="{ 'has-error' : questioFieldForm.question.$invalid && questioFieldForm.question.$dirty }">
-                        <label for="question">Question #{{$index + 1}}</label>
-                        <button type="button" class="btn btn-danger pull-right" ng-click="vm.removeQuestion($index)">
+                        <label for="question">Question {{$index + 1}}</label>
+                        <button type="button" class="btn btn-danger pull-right" ng-click="vm.removeQuestion($index)"
+                                ng-disabled="vm.poll.questions.length < 2">
                             Remove question
                         </button>
                         <br><br>
@@ -43,16 +44,17 @@
                 </ng-form>
 
                 <div class="form-group">
-                    <label>Choices</label>
                     <div ng-repeat="choice in question.choices track by $index">
+                        <label for="{{$parent.$index}}-{{$index}}">Choice {{$index + 1}}</label>
                         <ng-form name="choiceFieldForm"
                                  ng-class="{ 'has-error' : choiceFieldForm.choice.$invalid && choiceFieldForm.choice.$dirty }">
                             <div class="form-group input-group">
-                                <input type="text" name="choice" class="form-control"
+                                <input type="text" id="{{$parent.$index}}-{{$index}}" name="choice" class="form-control"
                                        ng-model="question.choices[$index]" required>
                                 <span class="input-group-btn">
                                     <button class="btn btn-danger" type="button" title="Remove choice"
-                                            ng-click="vm.removeChoice($parent.$index, $index)">
+                                            ng-click="vm.removeChoice($parent.$index, $index)"
+                                            ng-disabled="question.choices.length < 3">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
                                     </button>
                                 </span>
