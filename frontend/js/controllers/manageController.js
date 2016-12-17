@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('manageController', manageController);
 
-manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window'];
+manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService'];
 
-function manageController(pollsService, ioService, $filter, chartsService, alertService, $window) {
+function manageController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService) {
     var vm = this;
 
     vm.currentPage = 1;
@@ -73,15 +73,24 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
     }
 
     vm.removePoll = function (id) {
-        pollsService.remove(id)
-            .then(function () {
-                loadPolls();
-                alertService.add('success', 'Poll deleted', alertTimeout);
-            })
-            .catch(function () {
-                alertService.add('danger', 'Fail', alertTimeout);
-            });
-        $window.scrollTo(0, 0);
+        var modalOptions = {
+            closeButtonText: 'Cancel',
+            actionButtonText: 'Delete poll',
+            headerText: 'Delete poll?',
+            bodyText: 'Are you sure you want to delete this poll?'
+        };
+
+        modalService.show(modalOptions).then(function () {
+            pollsService.remove(id)
+                .then(function () {
+                    loadPolls();
+                    alertService.add('success', 'Poll deleted', alertTimeout);
+                })
+                .catch(function () {
+                    alertService.add('danger', 'Fail', alertTimeout);
+                });
+            $window.scrollTo(0, 0);
+        });
     };
 
     vm.startPoll = function (id) {
