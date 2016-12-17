@@ -9,10 +9,10 @@ function usersService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.put(config.apiEndpoint + '/users', user)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 

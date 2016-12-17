@@ -8,9 +8,13 @@ function roomsService($http, $q, config, storageService) {
     var getAll = function() {
         var deferred = $q.defer();
 
-        $http.get(config.apiEndpoint + '/rooms').success(function (response) {
-            deferred.resolve(response.data);
-        });
+        $http.get(config.apiEndpoint + '/rooms')
+            .then(function (response) {
+                deferred.resolve(response.data.data);
+            })
+            .catch(function (response) {
+                deferred.reject(response);
+            });
 
         return deferred.promise;
     };

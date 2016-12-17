@@ -13,8 +13,8 @@ function authService($http, $q, config, storageService, jwtHelper) {
         };
 
         $http.post(config.authEndpoint + '/login', user)
-            .success(function (response) {
-                var token = response.data.token;
+            .then(function (response) {
+                var token = response.data.data.token;
 
                 if (token) {
                     storageService.set('access_token', token);
@@ -24,7 +24,7 @@ function authService($http, $q, config, storageService, jwtHelper) {
                     deferred.reject('No access token in server response');
                 }
             })
-            .error(function (response) {
+            .catch(function (response) {
                 storageService.remove('access_token');
                 deferred.reject(response);
             });
@@ -38,7 +38,7 @@ function authService($http, $q, config, storageService, jwtHelper) {
 
     var isLoggedIn = function () {
         var token = storageService.get('access_token');
-        return !!(token && !jwtHelper.isTokenExpired(token));
+        return (token && !jwtHelper.isTokenExpired(token));
     };
 
     var signup = function (username, name, password) {
@@ -51,8 +51,8 @@ function authService($http, $q, config, storageService, jwtHelper) {
         };
 
         $http.post(config.authEndpoint + '/signup', user)
-            .success(function (response) {
-                var token = response.data.token;
+            .then(function (response) {
+                var token = response.data.data.token;
 
                 if (token) {
                     storageService.set('access_token', token);
@@ -62,7 +62,7 @@ function authService($http, $q, config, storageService, jwtHelper) {
                     deferred.reject('No access token in server response');
                 }
             })
-            .error(function (response) {
+            .catch(function (response) {
                 storageService.remove('access_token');
                 deferred.reject(response);
             });

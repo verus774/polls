@@ -10,10 +10,10 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.get(config.apiEndpoint + '/polls')
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 
@@ -24,10 +24,10 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.get(config.apiEndpoint + '/polls/' + id)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 
@@ -38,11 +38,11 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.get(config.apiEndpoint + '/active-poll' + '?room=' + room)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response, status) {
-                deferred.reject(status);
+            .catch(function (response) {
+                deferred.reject(response);
             });
 
         return deferred.promise;
@@ -61,10 +61,10 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.post(config.apiEndpoint + '/polls', poll)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 
@@ -75,10 +75,10 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.delete(config.apiEndpoint + '/polls/' + id)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 
@@ -89,10 +89,10 @@ function pollsService($http, $q, config) {
         var deferred = $q.defer();
 
         $http.put(config.apiEndpoint + '/polls/' + id, poll)
-            .success(function (response) {
-                deferred.resolve(response.data);
+            .then(function (response) {
+                deferred.resolve(response.data.data);
             })
-            .error(function (response) {
+            .catch(function (response) {
                 deferred.reject(response);
             });
 
