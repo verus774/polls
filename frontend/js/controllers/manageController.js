@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('manageController', manageController);
 
-manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService'];
+manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService', 'resultsService'];
 
-function manageController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService) {
+function manageController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService, resultsService) {
     var vm = this;
 
     vm.currentPage = 1;
@@ -57,14 +57,27 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
     }
 
     function fillCharts(answers) {
+        vm.results = [];
+
         angular.forEach(answers, function (answer) {
             var chart = chartPrefix + answer.question;
             var answerText;
+            var questionText;
+            var questionId;
 
             angular.forEach(vm.activePoll.questions, function (question) {
                 if (answer.question === question._id) {
                     answerText = question.choices[answer.answer];
+                    questionText = question.text;
+                    questionId = question._id
                 }
+            });
+
+            vm.results.push({
+                questionId: questionId,
+                questionText: questionText,
+                answer: answerText,
+                count: answer.count
             });
 
             chartsService.draw(vm[chart], answerText, answer.count);
@@ -102,6 +115,33 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
         ioService.emit('stopPoll', {id: id});
         vm.activePoll = null;
         loadPolls();
+    };
+
+    vm.saveResults = function () {
+        var modalOptions = {
+            closeButtonText: 'Cancel',
+            actionButtonText: 'Save result',
+            headerText: 'Save result?',
+            bodyText: 'Are you sure you want to stop poll and save result?'
+        };
+
+        var result = {
+            title: vm.activePoll.title,
+            results: vm.results
+        };
+
+        modalService.show(modalOptions).then(function () {
+            resultsService.add(result)
+                .then(function () {
+                    vm.stopPoll(vm.activePoll._id);
+                    alertService.add('success', 'Result added', alertTimeout);
+                })
+                .catch(function () {
+                    alertService.add('danger', 'Fail', alertTimeout);
+                });
+            $window.scrollTo(0, 0);
+        });
+
     };
 
     ioService.on('answers', function (data) {

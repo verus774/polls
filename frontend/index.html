@@ -33,6 +33,7 @@
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">Signup</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="manage">Manage</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">Results</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
                 <li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
@@ -65,6 +66,7 @@
 <script src="js/services/usersService.js"></script>
 <script src="js/services/roomsService.js"></script>
 <script src="js/services/pollsService.js"></script>
+<script src="js/services/resultsService.js"></script>
 <script src="js/services/ioService.js"></script>
 <script src="js/services/chartsService.js"></script>
 <script src="js/services/alertService.js"></script>
@@ -76,6 +78,8 @@
 <script src="js/controllers/profileController.js"></script>
 <script src="js/controllers/signupController.js"></script>
 <script src="js/controllers/manageController.js"></script>
+<script src="js/controllers/resultsController.js"></script>
+<script src="js/controllers/resultDetailController.js"></script>
 <script src="js/controllers/addPollController.js"></script>
 <script src="js/controllers/studentController.js"></script>
 

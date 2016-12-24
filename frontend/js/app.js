@@ -54,6 +54,22 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         data: {restricted: true}
     });
 
+    $stateProvider.state('results', {
+        url: '/results',
+        templateUrl: '../templates/results.html',
+        controller: 'resultsController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('resultsDetail', {
+        url: '/results/:id',
+        templateUrl: '../templates/resultDetail.html',
+        controller: 'resultDetailController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
     $stateProvider.state('addPoll', {
         url: '/add-poll',
         templateUrl: '../templates/addPoll.html',

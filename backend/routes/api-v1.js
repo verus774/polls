@@ -1,6 +1,7 @@
 var polls = require('../controllers/pollsController');
 var users = require('../controllers/usersController');
 var rooms = require('../controllers/roomsController');
+var results = require('../controllers/resultsController');
 var helper = require('../controllers/helperController');
 
 function requireRole(role) {
@@ -27,6 +28,14 @@ module.exports = function (express, passport) {
         .get(polls.read)
         .delete(polls.delete)
         .put(polls.update);
+
+    api.use('/results', passport.authenticate('jwt', {session: false}));
+    api.route('/results')
+        .get(results.list)
+        .post(results.create);
+    api.route('/results/:id')
+        .get(results.read)
+        .delete(results.delete);
 
     api.use('/users', passport.authenticate('jwt', {session: false}));
     api.route('/users')
