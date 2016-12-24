@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "^1.5.9",
+    "angular": "^1.6.1",
     "angular-ui-router": "^0.3.1",
     "bootstrap": "^3.3.7",
     "angular-jwt": "^0.1.7",
@@ -21,6 +21,6 @@
     "angular-bootstrap": "^2.2.0"
   },
   "resolutions": {
-    "angular": "1.5.9"
+    "angular": "1.6.1"
   }
 }
