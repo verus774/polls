@@ -8,11 +8,16 @@ angular.module('pollsApp', [
     'ui.bootstrap'
 ]);
 
-angular.module('pollsApp').constant('config', {
-    storageType: 'localStorage',
-    apiEndpoint: 'api/v1',
-    authEndpoint: 'auth'
-});
+angular.module('pollsApp')
+    .constant('config', {
+        storageType: 'localStorage',
+        apiEndpoint: 'api/v1',
+        authEndpoint: 'auth'
+    })
+    .constant('USER_ROLES', {
+        admin: 'admin',
+        user: 'user'
+    });
 
 angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
@@ -58,6 +63,30 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider, 
         url: '/results',
         templateUrl: '../templates/results.html',
         controller: 'resultsController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('users', {
+        url: '/users',
+        templateUrl: '../templates/users.html',
+        controller: 'usersController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('addUser', {
+        url: '/add-user',
+        templateUrl: '../templates/addUser.html',
+        controller: 'addUserController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('editUser', {
+        url: '/edit-user/:id',
+        templateUrl: '../templates/addUser.html',
+        controller: 'addUserController',
         controllerAs: 'vm',
         data: {restricted: true}
     });

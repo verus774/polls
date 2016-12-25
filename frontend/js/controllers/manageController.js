@@ -26,6 +26,9 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
                 if (vm.activePoll) {
                     initCharts(vm.activePoll.questions);
                 }
+            })
+            .catch(function () {
+                vm.polls = null;
             });
     }
 
@@ -88,7 +91,7 @@ function manageController(pollsService, ioService, $filter, chartsService, alert
     vm.removePoll = function (id) {
         var modalOptions = {
             closeButtonText: 'Cancel',
-            actionButtonText: 'Delete poll',
+            actionButtonText: 'Delete',
             headerText: 'Delete poll?',
             bodyText: 'Are you sure you want to delete this poll?'
         };

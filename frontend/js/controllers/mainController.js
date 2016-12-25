@@ -14,6 +14,9 @@ function mainController(roomsService, ioService) {
         roomsService.getAll()
             .then(function (rooms) {
                 vm.rooms = rooms;
+            })
+            .catch(function () {
+                vm.rooms = null;
             });
     };
 

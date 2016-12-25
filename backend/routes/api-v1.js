@@ -39,11 +39,15 @@ module.exports = function (express, passport) {
 
     api.use('/users', passport.authenticate('jwt', {session: false}));
     api.route('/users')
-        .get(requireRole('admin'), users.list);
+        .get(requireRole('admin'), users.list)
+        .post(requireRole('admin'), users.create);
+    api.route('/users/:id')
+        .get(requireRole('admin'), users.read)
+        .delete(requireRole('admin'), users.delete)
+        .put(requireRole('admin'), users.update);
+
     api.route('/users/me')
         .get(users.me);
-    api.route('/users')
-        .put(users.update);
 
     api.route('/rooms')
         .get(rooms.list);

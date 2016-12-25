@@ -62,15 +62,10 @@ function resultsService($http, $q, config) {
         return deferred.promise;
     };
 
-    var update = function (id, poll) {
-
-    };
-
     return {
         getAll: getAll,
         get: get,
         add: add,
-        remove: remove,
-        update: update
+        remove: remove
     };
 }

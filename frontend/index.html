@@ -8,8 +8,7 @@
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css'
-          media='all'/>
+    <link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.min.css' media='all'/>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body ng-cloak>
@@ -34,6 +33,7 @@
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">Signup</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="manage">Manage</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">Results</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">Users</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
                 <li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
@@ -82,6 +82,8 @@
 <script src="js/controllers/resultDetailController.js"></script>
 <script src="js/controllers/addPollController.js"></script>
 <script src="js/controllers/studentController.js"></script>
+<script src="js/controllers/usersController.js"></script>
+<script src="js/controllers/addUserController.js"></script>
 
 </body>
 </html>

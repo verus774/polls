@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .factory('authService', authService);
 
-authService.$inject = ['$http', '$q', 'config', 'storageService', 'jwtHelper'];
+authService.$inject = ['$http', '$q', 'config', 'storageService', 'jwtHelper', 'USER_ROLES'];
 
-function authService($http, $q, config, storageService, jwtHelper) {
+function authService($http, $q, config, storageService, jwtHelper, USER_ROLES) {
     var login = function (username, password) {
         var deferred = $q.defer();
         var user = {
@@ -77,11 +77,17 @@ function authService($http, $q, config, storageService, jwtHelper) {
         }
     };
 
+    var isAdmin = function () {
+        var token = storageService.get('access_token');
+        return token && !jwtHelper.isTokenExpired(token) && jwtHelper.decodeToken(token).role === USER_ROLES.admin;
+    };
+
     return {
         login: login,
         logout: logout,
         isLoggedIn: isLoggedIn,
         signup: signup,
-        getUser: getUser
+        getUser: getUser,
+        isAdmin: isAdmin
     }
 }
