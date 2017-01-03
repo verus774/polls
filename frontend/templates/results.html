@@ -4,10 +4,9 @@
         <div class="page-header text-center">
             <h3>Results</h3>
         </div>
-        <div>
-            <h4>{{ vm.results ? 'Total: '+ vm.results.length : 'No results' }}</h4>
-
-            <table class="table" ng-show="vm.results">
+        <h4>{{ vm.results ? 'Total: '+ vm.results.length : 'No results' }}</h4>
+        <div ng-show="vm.results">
+            <table class="table table-hover" ng-show="vm.results">
                 <thead>
                 <tr>
                     <th>Poll</th>

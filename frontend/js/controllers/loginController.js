@@ -7,6 +7,7 @@ loginController.$inject = ['$state', 'authService', 'alertService'];
 function loginController($state, authService, alertService) {
     var vm = this;
 
+    var alertTimeout = 3000;
     vm.alerts = alertService.get();
     alertService.clear();
 
@@ -16,7 +17,11 @@ function loginController($state, authService, alertService) {
                 $state.go('manage');
             })
             .catch(function () {
-                alertService.add('danger', 'Authorization fail');
+                alertService.clear();
+                alertService.add('danger', 'Authorization fail', alertTimeout);
+                vm.username = null;
+                vm.password = null;
+                vm.loginForm.$setPristine();
             });
     };
 

@@ -106,7 +106,8 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    User.findOne({_id: req.user._id})
+    User.findOne({_id: req.params.id})
+        .select('name username role')
         .exec(function (err, user) {
             if (err) {
                 if (err.name == 'ValidationError') {
@@ -119,7 +120,9 @@ exports.update = function (req, res) {
 
             user.username = req.body.username;
             user.name = req.body.name;
-            user.password = req.body.password;
+            user.role = req.body.role;
+            if (req.body.password)
+                user.password = req.body.password;
 
             user.save(function (err, user) {
                 if (err) {

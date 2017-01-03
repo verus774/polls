@@ -5,7 +5,6 @@
         <div class="page-header text-center">
             <h3>{{ vm.user._id ? 'Update' : 'Add' }} user</h3>
         </div>
-        <pre>{{ vm.user | json }}</pre>
         <form role="form" name="vm.addUserForm" ng-submit="vm.saveUser(vm.user._id)" novalidate>
 
             <div class="form-group"
