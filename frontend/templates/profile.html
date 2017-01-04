@@ -6,6 +6,23 @@
         <div uib-alert ng-repeat="alert in vm.alerts" ng-class="alert.type" close="alert.close()">{{alert.msg}}</div>
 
         <form role="form" name="vm.profileForm" ng-submit="vm.updateUser()" novalidate>
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.profileForm.username.$invalid && !vm.profileForm.username.$pristine}">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"
+                       ng-model="vm.user.username"
+                       required
+                       ng-minlength="4"
+                       ng-maxlength="20"
+                       ng-pattern="/^[a-z0-9_-]*$/">
+
+                <p ng-show="vm.profileForm.username.$error.required" class="help-block">Required field</p>
+                <p ng-show="vm.profileForm.username.$error.pattern" class="help-block">Only Latin characters, numbers,
+                    '-' and '_' symbols</p>
+                <p ng-show="vm.profileForm.username.$error.minlength" class="help-block">At least 4 characters</p>
+                <p ng-show="vm.profileForm.username.$error.maxlength" class="help-block">Maximum 20 characters</p>
+            </div>
+
             <div class="form-group" ng-class="{ 'has-error' : vm.profileForm.name.$invalid }">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Enter name"
@@ -17,6 +34,21 @@
                 <p ng-show="vm.profileForm.name.$error.required" class="help-block">Required field</p>
                 <p ng-show="vm.profileForm.name.$error.minlength" class="help-block">At least 4 characters</p>
                 <p ng-show="vm.profileForm.name.$error.maxlength" class="help-block">Maximum 10 characters</p>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.profileForm.password.$invalid && !vm.profileForm.password.$pristine }">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control"
+                       placeholder="Enter new password"
+                       ng-model="vm.user.password"
+                       ng-minlength="3"
+                       ng-pattern="/^[ A-Za-z0-9_@./#&+-]*$/">
+
+                <p ng-show="vm.profileForm.password.$error.pattern" class="help-block">Only Latin characters, numbers,
+                    '-'
+                    and '_' symbols</p>
+                <p ng-show="vm.profileForm.password.$error.minlength" class="help-block">At least 3 characters</p>
             </div>
 
             <button type="submit" class="btn btn-success"
