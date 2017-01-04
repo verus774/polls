@@ -9,7 +9,8 @@
         <h4>{{ vm.users ? 'Total: '+ vm.users.length : 'No users' }}</h4>
 
         <div ng-show="vm.users">
-            <table class="table table-hover" ng-show="vm.users">
+            <div class="table-responsive">
+                <table class="table table-hover" ng-show="vm.users">
                 <thead>
                 <tr>
                     <th>Username</th>
@@ -30,6 +31,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
 
             <ul uib-pagination
                 boundary-links="true"

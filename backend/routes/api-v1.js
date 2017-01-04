@@ -46,9 +46,6 @@ module.exports = function (express, passport) {
         .delete(requireRole('admin'), users.delete)
         .put(requireRole('admin'), users.update);
 
-    api.route('/users/me')
-        .get(users.me);
-
     api.route('/rooms')
         .get(rooms.list);
 

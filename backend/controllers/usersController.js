@@ -124,12 +124,40 @@ exports.update = function (req, res) {
             if (req.body.password)
                 user.password = req.body.password;
 
-            user.save(function (err, user) {
+            user.save(function (err, updatedUser) {
                 if (err) {
-                    console.log(err);
                     return helper.errorResponse(res);
                 }
-                return helper.successResponse(res, user);
+                return helper.successResponse(res, updatedUser);
+            });
+        });
+
+};
+
+exports.updateMe = function (req, res) {
+    User.findOne({_id: req.user._id})
+        .select('name username role')
+        .exec(function (err, user) {
+            if (err) {
+                if (err.name == 'ValidationError') {
+                    return helper.errorResponse(res, 'Invalid id parameter', 400);
+                }
+                return helper.errorResponse(res);
+            } else if (!user) {
+                return helper.errorResponse(res, 'User not found', 404);
+            }
+
+            user.username = req.body.username;
+            user.name = req.body.name;
+            if (req.body.password)
+                user.password = req.body.password;
+
+            user.save(function (err, updatedUser) {
+                if (err) {
+                    return helper.errorResponse(res);
+                }
+                var token = createToken(updatedUser);
+                return helper.successResponse(res, {token: token});
             });
         });
 

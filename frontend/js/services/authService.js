@@ -77,6 +77,29 @@ function authService($http, $q, config, storageService, jwtHelper, USER_ROLES) {
         }
     };
 
+    var updateMe = function (user) {
+        var deferred = $q.defer();
+
+        $http.put(config.authEndpoint + '/me', user)
+            .then(function (response) {
+                var token = response.data.data.token;
+
+                if (token) {
+                    storageService.set('access_token', token);
+                    deferred.resolve();
+                } else {
+                    storageService.remove('access_token');
+                    deferred.reject('No access token in server response');
+                }
+            })
+            .catch(function (response) {
+                storageService.remove('access_token');
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     var isAdmin = function () {
         var token = storageService.get('access_token');
         return token && !jwtHelper.isTokenExpired(token) && jwtHelper.decodeToken(token).role === USER_ROLES.admin;
@@ -88,6 +111,7 @@ function authService($http, $q, config, storageService, jwtHelper, USER_ROLES) {
         isLoggedIn: isLoggedIn,
         signup: signup,
         getUser: getUser,
+        updateMe: updateMe,
         isAdmin: isAdmin
     }
 }

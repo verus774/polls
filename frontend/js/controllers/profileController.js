@@ -2,10 +2,14 @@ angular
     .module('pollsApp')
     .controller('profileController', profileController);
 
-profileController.$inject = ['authService', 'usersService', '$state'];
+profileController.$inject = ['authService', 'alertService'];
 
-function profileController(authService, usersService, $state) {
+function profileController(authService, alertService) {
     var vm = this;
+
+    var alertTimeout = 3000;
+    vm.alerts = alertService.get();
+    alertService.clear();
 
     vm.user = authService.getUser();
     vm.orig = angular.copy(vm.user);
@@ -17,9 +21,12 @@ function profileController(authService, usersService, $state) {
 
     vm.updateUser = function () {
         if (vm.user) {
-            usersService.update(vm.user)
+            authService.updateMe(vm.user)
                 .then(function () {
-                    $state.reload();
+                    alertService.add('success', 'Profile updated', alertTimeout);
+                })
+                .catch(function () {
+                    alertService.add('danger', 'Fail', alertTimeout);
                 });
         }
     };
