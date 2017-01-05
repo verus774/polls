@@ -4,6 +4,11 @@
             <h3>{{ vm.result.title }} ({{ vm.result.createdAt | date:"dd.MM.yyyy 'at' HH:mm" }})</h3>
         </div>
 
+        <button type="button" class="btn btn-warning" back-button>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+        </button>
+        <br><br>
+
         <div google-chart chart="vm.chart" style="width:100%;"></div>
 
         <div ng-repeat="(key, value) in vm.result.results | groupBy: 'questionId'">

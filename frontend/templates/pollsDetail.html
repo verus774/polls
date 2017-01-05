@@ -4,6 +4,11 @@
             <h3>{{ vm.poll.title }}</h3>
         </div>
 
+        <button type="button" class="btn btn-warning" back-button>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+        </button>
+        <br><br>
+
         <p ng-show="vm.poll.description">
             <strong>Description</strong>: {{ vm.poll.description }}
             <br>
