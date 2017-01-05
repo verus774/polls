@@ -33,22 +33,14 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th class="col-sm-2">Title</th>
-                    <th class="col-sm-6">Questions</th>
-                    <th class="col-sm-4">Action</th>
+                    <th>Title</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="poll in vm.polls | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize"
                     ng-class="{'list-group-item-success': poll.active}">
-                    <td>{{ poll.title }}</td>
-                    <td>
-                        <ol>
-                            <li ng-repeat="question in poll.questions">
-                                {{ question.text | limitTo:40 }} ...
-                            </li>
-                        </ol>
-                    </td>
+                    <td><a ui-sref="pollsDetail({ id: poll._id })">{{ poll.title }}</a></td>
                     <td>
                         <div class="btn-group">
                             <button class="btn btn-success" ng-click="vm.startPoll(poll._id)" title="Start"

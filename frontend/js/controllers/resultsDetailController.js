@@ -1,10 +1,10 @@
 angular
     .module('pollsApp')
-    .controller('resultDetailController', resultDetailController);
+    .controller('resultsDetailController', resultsDetailController);
 
-resultDetailController.$inject = ['resultsService', '$stateParams', '$filter'];
+resultsDetailController.$inject = ['resultsService', '$stateParams', '$filter'];
 
-function resultDetailController(resultsService, $stateParams, $filter) {
+function resultsDetailController(resultsService, $stateParams, $filter) {
     var vm = this;
 
     var chartPrefix = 'chart_';

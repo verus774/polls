@@ -1,7 +1,7 @@
 <html ng-app="pollsApp">
 <head>
     <meta charset="UTF-8">
-    <title>Polls</title>
+    <title>Student polls</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#e7e7e7">
@@ -23,7 +23,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="main">Polls</a>
+            <a class="navbar-brand" ui-sref="main"><span class="glyphicon glyphicon-education"
+                                                         aria-hidden="true"></span> Student polls</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,7 +32,7 @@
             <ul class="nav navbar-nav">
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">Signup</a></li>
-                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="manage">Manage</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="polls">Polls</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">Results</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">Users</a></li>
             </ul>
@@ -81,9 +82,10 @@
 <script src="js/controllers/loginController.js"></script>
 <script src="js/controllers/profileController.js"></script>
 <script src="js/controllers/signupController.js"></script>
-<script src="js/controllers/manageController.js"></script>
+<script src="js/controllers/pollsController.js"></script>
+<script src="js/controllers/pollsDetailController.js"></script>
 <script src="js/controllers/resultsController.js"></script>
-<script src="js/controllers/resultDetailController.js"></script>
+<script src="js/controllers/resultsDetailController.js"></script>
 <script src="js/controllers/addPollController.js"></script>
 <script src="js/controllers/studentController.js"></script>
 <script src="js/controllers/usersController.js"></script>

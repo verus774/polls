@@ -28,10 +28,18 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider) 
         data: {restricted: true}
     });
 
-    $stateProvider.state('manage', {
-        url: '/manage',
-        templateUrl: '../templates/manage.html',
-        controller: 'manageController',
+    $stateProvider.state('polls', {
+        url: '/polls',
+        templateUrl: '../templates/polls.html',
+        controller: 'pollsController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('pollsDetail', {
+        url: '/polls/:id',
+        templateUrl: '../templates/pollsDetail.html',
+        controller: 'pollsDetailController',
         controllerAs: 'vm',
         data: {restricted: true}
     });
@@ -40,6 +48,14 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider) 
         url: '/results',
         templateUrl: '../templates/results.html',
         controller: 'resultsController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('resultsDetail', {
+        url: '/results/:id',
+        templateUrl: '../templates/resultsDetail.html',
+        controller: 'resultsDetailController',
         controllerAs: 'vm',
         data: {restricted: true}
     });
@@ -64,14 +80,6 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider) 
         url: '/edit-user/:id',
         templateUrl: '../templates/addUser.html',
         controller: 'addUserController',
-        controllerAs: 'vm',
-        data: {restricted: true}
-    });
-
-    $stateProvider.state('resultsDetail', {
-        url: '/results/:id',
-        templateUrl: '../templates/resultDetail.html',
-        controller: 'resultDetailController',
         controllerAs: 'vm',
         data: {restricted: true}
     });

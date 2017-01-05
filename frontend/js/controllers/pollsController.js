@@ -1,10 +1,10 @@
 angular
     .module('pollsApp')
-    .controller('manageController', manageController);
+    .controller('pollsController', pollsController);
 
-manageController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService', 'resultsService'];
+pollsController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService', 'resultsService'];
 
-function manageController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService, resultsService) {
+function pollsController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService, resultsService) {
     var vm = this;
 
     vm.currentPage = 1;
