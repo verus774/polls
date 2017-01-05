@@ -14,6 +14,12 @@
             <br>
         </p>
 
+        <p>
+            <strong>Created</strong>: {{ vm.poll.createdAt | date:"dd.MM.yyyy 'at' HH:mm" }}
+            <br>
+            <strong>Updated</strong>: {{ vm.poll.updatedAt | date:"dd.MM.yyyy 'at' HH:mm" }}
+        </p>
+
         <h4 class="text-center">Questions</h4>
 
         <div ng-repeat="question in vm.poll.questions">

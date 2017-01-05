@@ -1,7 +1,7 @@
 var Poll = require('../models/Poll');
 var helper = require('./helperController');
 
-var selectFields = 'title description questions active';
+var selectFields = 'title description questions active createdAt updatedAt';
 var sortField = 'title';
 
 exports.list = function (req, res) {

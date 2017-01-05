@@ -3,26 +3,38 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        select: false
-    },
-    role: {
-        type: String,
-        enum: ['admin', 'user'],
-        default: 'user'
-    }
-});
+        name: {
+            type: String,
+            minlength: 4,
+            maxlength: 100,
+            match: /^[a-z0-9_-]*$/,
+            required: true,
+            trim: true
+        },
+        username: {
+            type: String,
+            minlength: 4,
+            maxlength: 20,
+            required: true,
+            unique: true,
+            trim: true,
+            lowercase: true
+        },
+        password: {
+            type: String,
+            minlength: 3,
+            maxlength: 100,
+            match: /^[ A-Za-z0-9_@./#&+-]*$/,
+            required: true,
+            select: false
+        },
+        role: {
+            type: String,
+            enum: ['admin', 'user'],
+            default: 'user'
+        }
+    }, {timestamps: true}
+);
 
 UserSchema.pre('save', function (next) {
     var user = this;
@@ -44,7 +56,7 @@ UserSchema.pre('save', function (next) {
 
 });
 
-UserSchema.methods.comparePasswords = function(password) {
+UserSchema.methods.comparePasswords = function (password) {
     var user = this;
     return bcrypt.compareSync(password, user.password);
 };

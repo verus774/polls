@@ -60,7 +60,7 @@ exports.me = function (req, res) {
 
 exports.list = function (req, res) {
     User.find({})
-        .select('name username role')
+        .select('name username role createdAt updatedAt')
         .sort('username')
         .exec(function (err, users) {
             if (err) {
@@ -75,7 +75,7 @@ exports.list = function (req, res) {
 
 exports.read = function (req, res) {
     User.findOne({_id: req.params.id})
-        .select('name username role')
+        .select('name username role createdAt updatedAt')
         .exec(function (err, user) {
             if (err) {
                 if (err.name == 'ValidationError') {

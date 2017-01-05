@@ -5,19 +5,23 @@ var ValidationError = mongoose.Error.ValidationError;
 var PollSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     description: {
-        type: String
+        type: String,
+        trim: true
     },
     questions: [{
         text: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         choices: {
             type: [String],
-            required: true
+            required: true,
+            trim: true
         }
     }],
     active: {
@@ -29,7 +33,7 @@ var PollSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'User',
         required: true
     }
-});
+}, {timestamps: true});
 
 PollSchema.path('questions').validate(function(questions) {
     return (questions && questions.length !== 0);

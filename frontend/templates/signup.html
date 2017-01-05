@@ -3,7 +3,7 @@
         <div class="page-header text-center">
             <h3>Signup</h3>
         </div>
-        <form role="form" name="signupForm" ng-submit="vm.signup()" novalidate>
+        <form role="form" name="signupForm" ng-submit="vm.signup()" autocomplete="off" novalidate>
 
             <div class="form-group"
                  ng-class="{ 'has-error' : signupForm.username.$invalid && !signupForm.username.$pristine}">

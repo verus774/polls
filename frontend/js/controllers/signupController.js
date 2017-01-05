@@ -10,7 +10,7 @@ function signupController($state, authService) {
     vm.signup = function () {
         authService.signup(vm.username, vm.name, vm.password)
             .then(function () {
-                $state.go('manage');
+                $state.go('polls');
             })
             .catch(function () {
                 vm.signupFail = true;

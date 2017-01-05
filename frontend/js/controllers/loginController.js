@@ -14,7 +14,7 @@ function loginController($state, authService, alertService) {
     vm.login = function () {
         authService.login(vm.username, vm.password)
             .then(function () {
-                $state.go('manage');
+                $state.go('polls');
             })
             .catch(function () {
                 alertService.clear();

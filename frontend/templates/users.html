@@ -14,16 +14,16 @@
                 <thead>
                 <tr>
                     <th>Username</th>
-                    <th>Name</th>
                     <th>Role</th>
+                    <th>Created</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="user in vm.users | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize">
                     <td>{{ user.username }}</td>
-                    <td>{{ user.name }}</td>
                     <td>{{ user.role }}</td>
+                    <td>{{ user.createdAt | date:"dd.MM.yyyy" }}</td>
                     <td>
                         <a class="btn btn-warning" ui-sref="editUser({ id: user._id })">Edit</a>
                         <button class="btn btn-danger" ng-click="vm.removeUser(user._id)">Remove</button>

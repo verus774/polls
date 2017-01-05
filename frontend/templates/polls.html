@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div uib-alert ng-repeat="alert in vm.alerts" ng-class="alert.type" close="alert.close()">{{alert.msg}}</div>
         <div class="page-header text-center">
-            <h3>Manage</h3>
+            <h3>Polls</h3>
         </div>
         <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
         <h4>{{ vm.polls ? 'Total: '+ vm.polls.length : 'No polls' }}</h4>

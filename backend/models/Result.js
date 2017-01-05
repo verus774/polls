@@ -26,15 +26,11 @@ var ResultSchema = new Schema({
         },
         _id: false
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     creator: {
         type: Schema.Types.ObjectId, ref: 'User',
         required: true
     }
-});
+}, {timestamps: true});
 
 ResultSchema.path('results').validate(function (results) {
     return (results && results.length !== 0);
