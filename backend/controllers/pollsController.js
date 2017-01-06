@@ -83,14 +83,14 @@ exports.update = function (req, res) {
             poll.questions = req.body.questions;
             poll.active = req.body.active;
 
-            poll.save(function (err, poll) {
+            poll.save(function (err, updatedPoll) {
                 if (err) {
                     if (err.name == 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide title, questions, and active parameters', 400);
                     }
                     return helper.errorResponse(res);
                 }
-                return helper.successResponse(res, poll);
+                return helper.successResponse(res, updatedPoll);
             });
         });
 };

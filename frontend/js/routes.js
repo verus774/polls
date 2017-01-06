@@ -28,6 +28,14 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider) 
         data: {restricted: true}
     });
 
+    $stateProvider.state('categories', {
+        url: '/categories',
+        templateUrl: '../templates/categories.html',
+        controller: 'categoriesController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
     $stateProvider.state('polls', {
         url: '/polls',
         templateUrl: '../templates/polls.html',
@@ -96,6 +104,22 @@ angular.module('pollsApp').config(function ($stateProvider, $urlRouterProvider) 
         url: '/edit-poll/:id',
         templateUrl: '../templates/addPoll.html',
         controller: 'addPollController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('addCategory', {
+        url: '/add-category',
+        templateUrl: '../templates/addCategory.html',
+        controller: 'addCategoryController',
+        controllerAs: 'vm',
+        data: {restricted: true}
+    });
+
+    $stateProvider.state('editCategory', {
+        url: '/edit-category/:id',
+        templateUrl: '../templates/addCategory.html',
+        controller: 'addCategoryController',
         controllerAs: 'vm',
         data: {restricted: true}
     });

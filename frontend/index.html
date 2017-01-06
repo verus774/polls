@@ -32,6 +32,8 @@
             <ul class="nav navbar-nav">
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
                 <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">Signup</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="categories">Categories</a>
+                </li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="polls">Polls</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">Results</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">Users</a></li>
@@ -72,6 +74,7 @@
 <script src="js/services/authService.js"></script>
 <script src="js/services/usersService.js"></script>
 <script src="js/services/roomsService.js"></script>
+<script src="js/services/categoriesService.js"></script>
 <script src="js/services/pollsService.js"></script>
 <script src="js/services/resultsService.js"></script>
 <script src="js/services/ioService.js"></script>
@@ -84,6 +87,8 @@
 <script src="js/controllers/loginController.js"></script>
 <script src="js/controllers/profileController.js"></script>
 <script src="js/controllers/signupController.js"></script>
+<script src="js/controllers/categoriesController.js"></script>
+<script src="js/controllers/addCategoryController.js"></script>
 <script src="js/controllers/pollsController.js"></script>
 <script src="js/controllers/pollsDetailController.js"></script>
 <script src="js/controllers/resultsController.js"></script>

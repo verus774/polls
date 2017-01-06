@@ -1,4 +1,5 @@
 var polls = require('../controllers/pollsController');
+var categories = require('../controllers/categoriesController');
 var users = require('../controllers/usersController');
 var rooms = require('../controllers/roomsController');
 var results = require('../controllers/resultsController');
@@ -28,6 +29,15 @@ module.exports = function (express, passport) {
         .get(polls.read)
         .delete(polls.delete)
         .put(polls.update);
+
+    api.use('/categories', passport.authenticate('jwt', {session: false}));
+    api.route('/categories')
+        .get(categories.list)
+        .post(categories.create);
+    api.route('/categories/:id')
+        .get(categories.read)
+        .delete(categories.delete)
+        .put(categories.update);
 
     api.use('/results', passport.authenticate('jwt', {session: false}));
     api.route('/results')
