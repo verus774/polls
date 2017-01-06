@@ -1,6 +1,6 @@
 module.exports = {
     'port': process.env.PORT || 80,
-    'dbUrl' : 'mongodb://verus774:1235813zztop@ds013956.mlab.com:13956/polls',
-    'secretKey': 'mySecretKey',
+    'dbUrl': process.env.DB_URL || 'mongodb://<username>:<password>@<host>:<port>/<db_name>',
+    'secretKey': process.env.SECRET_KEY || 'mySecretKey',
     'tokenExpiresIn': '21d'
 };
