@@ -34,7 +34,7 @@ function usersController(usersService, modalService, alertService, $window, $sta
             closeButtonText: 'Cancel',
             actionButtonText: 'Delete',
             headerText: 'Delete user?',
-            bodyText: 'Are you sure you want to delete this user?'
+            bodyText: 'Are you sure you want to delete this user and the related objects?'
         };
 
         modalService.show(modalOptions).then(function () {

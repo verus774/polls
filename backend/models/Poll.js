@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ValidationError = mongoose.Error.ValidationError;
+var Result = require('./Result');
 
 var PollSchema = new Schema({
     title: {
@@ -46,6 +47,11 @@ PollSchema.pre('findOne', function(next) {
         var error = new ValidationError();
         return next(error);
     }
+    next();
+});
+
+PollSchema.pre('remove', function (next) {
+    Result.remove({poll: this._id}).exec();
     next();
 });
 

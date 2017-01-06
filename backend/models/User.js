@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var Poll = require('./Poll');
+var Result = require('./Result');
 
 var UserSchema = new Schema({
         name: {
@@ -54,6 +56,12 @@ UserSchema.pre('save', function (next) {
         });
     });
 
+});
+
+UserSchema.pre('remove', function (next) {
+    Poll.remove({creator: this._id}).exec();
+    Result.remove({creator: this._id}).exec();
+    next();
 });
 
 UserSchema.methods.comparePasswords = function (password) {

@@ -3,6 +3,10 @@ var Schema = mongoose.Schema;
 var ValidationError = mongoose.Error.ValidationError;
 
 var ResultSchema = new Schema({
+    poll: {
+        type: Schema.Types.ObjectId, ref: 'Poll',
+        required: true
+    },
     title: {
         type: String,
         required: true

@@ -93,7 +93,7 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
             closeButtonText: 'Cancel',
             actionButtonText: 'Delete',
             headerText: 'Delete poll?',
-            bodyText: 'Are you sure you want to delete this poll?'
+            bodyText: 'Are you sure you want to delete this poll and the related results?'
         };
 
         modalService.show(modalOptions).then(function () {
@@ -129,6 +129,7 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
         };
 
         var result = {
+            poll: vm.activePoll._id,
             title: vm.activePoll.title,
             results: vm.results
         };
