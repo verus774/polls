@@ -20,7 +20,7 @@ function profileController(authService, $state, Notification) {
             authService.updateMe(vm.user)
                 .then(function () {
                     Notification.success('Profile updated');
-                    $state.go('profile');
+                    $state.reload();
                 })
                 .catch(function () {
                     Notification.error('Fail');

@@ -93,7 +93,6 @@ function authService($http, $q, config, storageService, jwtHelper, USER_ROLES) {
                 }
             })
             .catch(function (response) {
-                storageService.remove('access_token');
                 deferred.reject(response);
             });
 

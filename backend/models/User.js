@@ -9,7 +9,6 @@ var UserSchema = new Schema({
             type: String,
             minlength: 4,
             maxlength: 100,
-            match: /^[a-z0-9_-]*$/,
             required: true,
             trim: true
         },
