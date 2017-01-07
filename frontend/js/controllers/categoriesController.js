@@ -2,17 +2,13 @@ angular
     .module('pollsApp')
     .controller('categoriesController', categoriesController);
 
-categoriesController.$inject = ['categoriesService', 'modalService', 'alertService', '$window'];
+categoriesController.$inject = ['categoriesService', 'modalService', 'Notification', '$window'];
 
-function categoriesController(categoriesService, modalService, alertService, $window) {
+function categoriesController(categoriesService, modalService, Notification, $window) {
     var vm = this;
 
     vm.currentPage = 1;
     vm.pageSize = 10;
-
-    var alertTimeout = 3000;
-    vm.alerts = alertService.get();
-    alertService.clear();
 
     var loadCategories = function () {
         categoriesService.getAll()
@@ -35,11 +31,11 @@ function categoriesController(categoriesService, modalService, alertService, $wi
         modalService.show(modalOptions).then(function () {
             categoriesService.remove(id)
                 .then(function () {
+                    Notification.success('Category deleted');
                     loadCategories();
-                    alertService.add('success', 'Category deleted', alertTimeout);
                 })
                 .catch(function () {
-                    alertService.add('danger', 'Fail', alertTimeout);
+                    Notification.error('Fail');
                 });
             $window.scrollTo(0, 0);
         });

@@ -2,14 +2,10 @@ angular
     .module('pollsApp')
     .controller('addPollController', addPollController);
 
-addPollController.$inject = ['pollsService', '$stateParams', '$window', 'alertService', 'categoriesService'];
+addPollController.$inject = ['pollsService', '$stateParams', '$window', '$state', 'Notification', 'categoriesService'];
 
-function addPollController(pollsService, $stateParams, $window, alertService, categoriesService) {
+function addPollController(pollsService, $stateParams, $window, $state, Notification, categoriesService) {
     var vm = this;
-
-    var alertTimeout = 3000;
-    vm.alerts = alertService.get();
-    alertService.clear();
 
     vm.poll = pollsService.getEmpty();
 
@@ -40,22 +36,21 @@ function addPollController(pollsService, $stateParams, $window, alertService, ca
         if (vm.poll) {
             if (id) {
                 pollsService.update(id, vm.poll)
-                    .then(function (updatedPoll) {
-                        vm.poll = updatedPoll;
-                        alertService.add('success', 'Poll updated', alertTimeout);
+                    .then(function () {
+                        Notification.success('Poll updated');
+                        $state.go('polls');
                     })
                     .catch(function () {
-                        alertService.add('danger', 'Fail', alertTimeout);
+                        Notification.error('Fail');
                     });
             } else {
                 pollsService.add(vm.poll)
                     .then(function () {
-                        vm.poll = pollsService.getEmpty();
-                        vm.addPollForm.$setPristine();
-                        alertService.add('success', 'Poll added', alertTimeout);
+                        Notification.success('Poll added');
+                        $state.go('polls');
                     })
                     .catch(function () {
-                        alertService.add('danger', 'Fail', alertTimeout);
+                        Notification.error('Fail');
                     });
             }
             $window.scrollTo(0, 0);

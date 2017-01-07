@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('signupController', signupController);
 
-signupController.$inject = ['$state', 'authService'];
+signupController.$inject = ['$state', 'authService', 'Notification'];
 
-function signupController($state, authService) {
+function signupController($state, authService, Notification) {
     var vm = this;
 
     vm.signup = function () {
@@ -13,7 +13,8 @@ function signupController($state, authService) {
                 $state.go('polls');
             })
             .catch(function () {
-                vm.signupFail = true;
+                Notification.error('Signup fail');
+                $state.reload();
             });
 
     }

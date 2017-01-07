@@ -2,14 +2,10 @@ angular
     .module('pollsApp')
     .controller('addUserController', addUserController);
 
-addUserController.$inject = ['usersService', '$state', 'USER_ROLES', '$stateParams', 'alertService'];
+addUserController.$inject = ['usersService', '$state', 'USER_ROLES', '$stateParams', 'Notification'];
 
-function addUserController(usersService, $state, USER_ROLES, $stateParams, alertService) {
+function addUserController(usersService, $state, USER_ROLES, $stateParams, Notification) {
     var vm = this;
-
-    var alertTimeout = 3000;
-    vm.alerts = alertService.get();
-    alertService.clear();
 
     vm.user = {};
     vm.USER_ROLES = USER_ROLES;
@@ -26,18 +22,20 @@ function addUserController(usersService, $state, USER_ROLES, $stateParams, alert
         if (id) {
             usersService.update(id, vm.user)
                 .then(function () {
+                    Notification.success('User updated');
                     $state.go('users');
                 })
                 .catch(function () {
-                    alertService.add('danger', 'Fail', alertTimeout);
+                    Notification.error('Fail');
                 });
         } else {
             usersService.add(vm.user)
                 .then(function () {
+                    Notification.success('User added');
                     $state.go('users');
                 })
                 .catch(function () {
-                    alertService.add('danger', 'Fail', alertTimeout);
+                    Notification.error('Fail');
                 });
         }
 

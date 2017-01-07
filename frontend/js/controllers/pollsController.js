@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('pollsController', pollsController);
 
-pollsController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', 'alertService', '$window', 'modalService', 'resultsService'];
+pollsController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'resultsService', 'Notification'];
 
-function pollsController(pollsService, ioService, $filter, chartsService, alertService, $window, modalService, resultsService) {
+function pollsController(pollsService, ioService, $filter, chartsService, $window, modalService, resultsService, Notification) {
     var vm = this;
 
     vm.currentPage = 1;
@@ -13,11 +13,6 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
     vm.answers = [];
     vm.categories = [];
     var chartPrefix = 'chart_';
-
-    var alertTimeout = 3000;
-    vm.alerts = alertService.get();
-    alertService.clear();
-
 
     function loadPolls() {
         pollsService.getAll()
@@ -105,11 +100,11 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
         modalService.show(modalOptions).then(function () {
             pollsService.remove(id)
                 .then(function () {
+                    Notification.success('Poll deleted');
                     loadPolls();
-                    alertService.add('success', 'Poll deleted', alertTimeout);
                 })
                 .catch(function () {
-                    alertService.add('danger', 'Fail', alertTimeout);
+                    Notification.error('Fail');
                 });
             $window.scrollTo(0, 0);
         });
@@ -144,10 +139,10 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
             resultsService.add(result)
                 .then(function () {
                     vm.stopPoll(vm.activePoll._id);
-                    alertService.add('success', 'Result added', alertTimeout);
+                    Notification.success('Result added');
                 })
                 .catch(function () {
-                    alertService.add('danger', 'Fail', alertTimeout);
+                    Notification.error('Fail');
                 });
             $window.scrollTo(0, 0);
         });

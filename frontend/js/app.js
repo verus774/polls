@@ -5,7 +5,8 @@ angular.module('pollsApp', [
     'btford.socket-io',
     'googlechart',
     'angular-loading-bar',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui-notification'
 ]);
 
 angular.module('pollsApp').config(function ($httpProvider, cfpLoadingBarProvider) {

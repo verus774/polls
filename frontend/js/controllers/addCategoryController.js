@@ -2,14 +2,10 @@ angular
     .module('pollsApp')
     .controller('addCategoryController', addCategoryController);
 
-addCategoryController.$inject = ['categoriesService', '$stateParams', '$window', 'alertService'];
+addCategoryController.$inject = ['categoriesService', '$stateParams', '$window', '$state', 'Notification'];
 
-function addCategoryController(categoriesService, $stateParams, $window, alertService) {
+function addCategoryController(categoriesService, $stateParams, $window, $state, Notification) {
     var vm = this;
-
-    var alertTimeout = 3000;
-    vm.alerts = alertService.get();
-    alertService.clear();
 
     var loadCategory = function (id) {
         categoriesService.get(id)
@@ -23,22 +19,23 @@ function addCategoryController(categoriesService, $stateParams, $window, alertSe
         if (vm.category) {
             if (id) {
                 categoriesService.update(id, vm.category)
-                    .then(function (updatedCategory) {
-                        vm.category = updatedCategory;
-                        alertService.add('success', 'Category updated', alertTimeout);
+                    .then(function () {
+                        Notification.success('Category updated');
+                        $state.go('categories');
                     })
                     .catch(function () {
-                        alertService.add('danger', 'Fail', alertTimeout);
+                        Notification.error('Fail');
                     });
             } else {
                 categoriesService.add(vm.category)
                     .then(function () {
                         vm.category = {};
                         vm.addCategoryForm.$setPristine();
-                        alertService.add('success', 'Category added', alertTimeout);
+                        Notification.success('Category added');
+                        $state.go('categories');
                     })
                     .catch(function () {
-                        alertService.add('danger', 'Fail', alertTimeout);
+                        Notification.error('Fail');
                     });
             }
             $window.scrollTo(0, 0);
