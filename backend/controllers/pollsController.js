@@ -1,13 +1,14 @@
 var Poll = require('../models/Poll');
 var helper = require('./helperController');
 
-var selectFields = 'title description questions active createdAt updatedAt';
+var selectFields = 'title description category questions active createdAt updatedAt';
 var sortField = 'title';
 
 exports.list = function (req, res) {
     Poll.find({creator: req.user._id})
         .select(selectFields)
         .sort(sortField)
+        .populate('category', 'title')
         .exec(function (err, polls) {
             if (err) {
                 return helper.errorResponse(res);
@@ -22,6 +23,7 @@ exports.list = function (req, res) {
 exports.read = function (req, res) {
     Poll.findOne({creator: req.user._id, _id: req.params.id})
         .select(selectFields)
+        .populate('category', 'title')
         .exec(function (err, poll) {
             if (err) {
                 if (err.name == 'ValidationError') {
@@ -80,6 +82,7 @@ exports.update = function (req, res) {
 
             poll.title = req.body.title;
             poll.description = req.body.description;
+            poll.category = req.body.category;
             poll.questions = req.body.questions;
             poll.active = req.body.active;
 

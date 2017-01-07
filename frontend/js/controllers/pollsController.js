@@ -11,15 +11,21 @@ function pollsController(pollsService, ioService, $filter, chartsService, alertS
     vm.pageSize = 10;
 
     vm.answers = [];
+    vm.categories = [];
     var chartPrefix = 'chart_';
 
     var alertTimeout = 3000;
     vm.alerts = alertService.get();
     alertService.clear();
 
+
     function loadPolls() {
         pollsService.getAll()
             .then(function (polls) {
+                angular.forEach(polls, function (poll) {
+                    vm.categories.push(poll.category);
+                });
+
                 vm.polls = polls;
                 vm.activePoll = $filter('filter')(polls, {active: true})[0];
 

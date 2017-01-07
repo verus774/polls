@@ -4,8 +4,19 @@
         <div class="page-header text-center">
             <h3>Polls</h3>
         </div>
-        <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
         <h4>{{ vm.polls ? 'Total: '+ vm.polls.length : 'No polls' }}</h4>
+
+        <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
+        <form class="form-inline text-center" ng-show="vm.polls">
+            <div class="form-group">
+                <label for="category">Category: </label>
+                <select class="form-control" name="category" id="category" ng-model="vm.currCategory">
+                    <option ng-repeat="category in vm.categories | unique:'_id' | orderBy:'title'"
+                            value="{{category._id}}">{{category.title}}
+                    </option>
+                </select>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -38,7 +49,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="poll in vm.polls | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize"
+                <tr ng-repeat="poll in vm.polls | filter:{$:vm.currCategory}:true | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize"
                     ng-class="{'list-group-item-success': poll.active}">
                     <td><a ui-sref="pollsDetail({ id: poll._id })">{{ poll.title }}</a></td>
                     <td>

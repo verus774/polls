@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('addPollController', addPollController);
 
-addPollController.$inject = ['pollsService', '$stateParams', '$window', 'alertService'];
+addPollController.$inject = ['pollsService', '$stateParams', '$window', 'alertService', 'categoriesService'];
 
-function addPollController(pollsService, $stateParams, $window, alertService) {
+function addPollController(pollsService, $stateParams, $window, alertService, categoriesService) {
     var vm = this;
 
     var alertTimeout = 3000;
@@ -18,6 +18,17 @@ function addPollController(pollsService, $stateParams, $window, alertService) {
             .then(function (poll) {
                 vm.poll = poll;
                 vm.orig = angular.copy(vm.poll);
+            });
+    };
+
+    var loadCategories = function () {
+        categoriesService.getAll()
+            .then(function (categories) {
+                vm.categories = categories;
+                vm.poll.category = vm.categories[0];
+            })
+            .catch(function () {
+                vm.categories = null;
             });
     };
 
@@ -80,6 +91,8 @@ function addPollController(pollsService, $stateParams, $window, alertService) {
             vm.addPollForm.$setPristine();
         }
     };
+
+    loadCategories();
 
     if ($stateParams.id) {
         loadPoll($stateParams.id);

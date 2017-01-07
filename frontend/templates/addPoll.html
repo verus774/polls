@@ -25,6 +25,18 @@
                        ng-maxlength="100">
                 <p ng-show="vm.addPollForm.description.$error.maxlength" class="help-block">Maximum 100 characters</p>
             </div>
+
+            <div class="form-group" ng-class="{ 'has-error' : vm.addPollForm.category.$invalid }">
+                <label for="category">Category: </label>
+
+                <select class="form-control" name="category" id="category"
+                        ng-options="category.title for category in vm.categories | orderBy:'title' track by category._id"
+                        ng-model="vm.poll.category"
+                        required>
+                </select>
+                <p ng-show="vm.addPollForm.category.$error.required" class="help-block">Please, add categories</p>
+            </div>
+
             <br>
             <div ng-repeat="question in vm.poll.questions track by $index">
                 <ng-form name="questioFieldForm">

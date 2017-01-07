@@ -51,6 +51,7 @@ function pollsService($http, $q, config) {
     var getEmpty = function () {
         return angular.copy({
             title: '',
+            category: '',
             questions: [
                 {text: '', choices: ['', '']}
             ]

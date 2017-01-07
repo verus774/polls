@@ -13,6 +13,10 @@ var PollSchema = new Schema({
         type: String,
         trim: true
     },
+    category: {
+        type: Schema.Types.ObjectId, ref: 'Category',
+        required: true
+    },
     questions: [{
         text: {
             type: String,
