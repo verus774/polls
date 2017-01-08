@@ -1,22 +1,27 @@
-angular
-    .module('pollsApp')
-    .factory('pollsService', pollsService);
+(function () {
+    'use strict';
 
-pollsService.$inject = [];
+    angular
+        .module('pollsApp')
+        .factory('pollsService', pollsService);
 
-function pollsService() {
+    pollsService.$inject = [];
 
-    var getEmpty = function () {
-        return angular.copy({
-            title: '',
-            category: '',
-            questions: [
-                {text: '', choices: ['', '']}
-            ]
-        });
-    };
+    function pollsService() {
 
-    return {
-        getEmpty: getEmpty
-    };
-}
+        var getEmpty = function () {
+            return angular.copy({
+                title: '',
+                category: '',
+                questions: [
+                    {text: '', choices: ['', '']}
+                ]
+            });
+        };
+
+        return {
+            getEmpty: getEmpty
+        };
+    }
+
+})();

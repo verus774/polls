@@ -1,46 +1,51 @@
-angular
-    .module('pollsApp')
-    .factory('chartsService', chartsService);
+(function () {
+    'use strict';
 
-chartsService.$inject = [];
+    angular
+        .module('pollsApp')
+        .factory('chartsService', chartsService);
 
-function chartsService() {
+    chartsService.$inject = [];
 
-    var init = function (question) {
-        var chart = {};
-        chart.type = 'PieChart';
+    function chartsService() {
 
-        chart.options = {
-            title: question.text,
-            legend: {position: 'left'}
+        var init = function (question) {
+            var chart = {};
+            chart.type = 'PieChart';
+
+            chart.options = {
+                title: question.text,
+                legend: {position: 'left'}
+            };
+
+            chart.data = {
+                'cols': [
+                    {label: 'Var', type: 'string'},
+                    {label: 'Count', type: 'number'}
+                ], 'rows': []
+            };
+
+            return chart;
         };
 
-        chart.data = {
-            'cols': [
-                {label: 'Var', type: 'string'},
-                {label: 'Count', type: 'number'}
-            ], 'rows': []
+        var clear = function (chartObj) {
+            chartObj.data.rows = [];
         };
 
-        return chart;
-    };
+        var draw = function (chartObj, answerText, answerCount) {
+            chartObj.data.rows.push({
+                c: [
+                    {v: answerText},
+                    {v: answerCount}
+                ]
+            })
+        };
 
-    var clear = function (chartObj) {
-        chartObj.data.rows = [];
-    };
+        return {
+            init: init,
+            clear: clear,
+            draw: draw
+        };
+    }
 
-    var draw = function (chartObj, answerText, answerCount) {
-        chartObj.data.rows.push({
-            c: [
-                {v: answerText},
-                {v: answerCount}
-            ]
-        })
-    };
-
-    return {
-        init: init,
-        clear: clear,
-        draw: draw
-    };
-}
+})();

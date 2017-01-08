@@ -1,56 +1,61 @@
-angular
-    .module('pollsApp')
-    .controller('resultsDetailController', resultsDetailController);
+(function () {
+    'use strict';
 
-resultsDetailController.$inject = ['crudService', '$stateParams', '$filter'];
+    angular
+        .module('pollsApp')
+        .controller('resultsDetailController', resultsDetailController);
 
-function resultsDetailController(crudService, $stateParams, $filter) {
-    var vm = this;
+    resultsDetailController.$inject = ['crudService', '$stateParams', '$filter'];
 
-    var chartPrefix = 'chart_';
+    function resultsDetailController(crudService, $stateParams, $filter) {
+        var vm = this;
 
-    var loadResult = function (id) {
-        crudService.get('results', id)
-            .then(function (result) {
-                vm.result = result;
-                initCharts(vm.result.results);
+        var chartPrefix = 'chart_';
+
+        var loadResult = function (id) {
+            crudService.get('results', id)
+                .then(function (result) {
+                    vm.result = result;
+                    initCharts(vm.result.results);
+                });
+        };
+
+        function initCharts(results) {
+            angular.forEach($filter('groupBy')(results, 'questionId'), function (value, key) {
+                var chart = chartPrefix + key;
+                vm[chart] = {};
+                vm[chart].type = 'PieChart';
+
+                vm[chart].data = {
+                    'cols': [
+                        {label: 'Var', type: 'string'},
+                        {label: 'Count', type: 'number'}
+                    ], 'rows': []
+                };
+
+                angular.forEach(vm.result.results, function (res) {
+                    if (res.questionId == key) {
+                        vm[chart].options = {
+                            title: res.questionText,
+                            legend: {position: 'left'}
+                        };
+
+                        vm[chart].data.rows.push({
+                            c: [
+                                {v: res.answer},
+                                {v: res.count}
+                            ]
+                        });
+                    }
+
+                });
+
             });
-    };
+        }
 
-    function initCharts(results) {
-        angular.forEach($filter('groupBy')(results, 'questionId'), function (value, key) {
-            var chart = chartPrefix + key;
-            vm[chart] = {};
-            vm[chart].type = 'PieChart';
-
-            vm[chart].data = {
-                'cols': [
-                    {label: 'Var', type: 'string'},
-                    {label: 'Count', type: 'number'}
-                ], 'rows': []
-            };
-
-            angular.forEach(vm.result.results, function (res) {
-                if (res.questionId == key) {
-                    vm[chart].options = {
-                        title: res.questionText,
-                        legend: {position: 'left'}
-                    };
-
-                    vm[chart].data.rows.push({
-                        c: [
-                            {v: res.answer},
-                            {v: res.count}
-                        ]
-                    });
-                }
-
-            });
-
-        });
+        if ($stateParams.id) {
+            loadResult($stateParams.id);
+        }
     }
 
-    if ($stateParams.id) {
-        loadResult($stateParams.id);
-    }
-}
+})();

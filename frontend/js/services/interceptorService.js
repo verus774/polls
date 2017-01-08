@@ -1,31 +1,36 @@
-angular
-    .module('pollsApp')
-    .factory('interceptorService', interceptorService);
+(function () {
+    'use strict';
 
-interceptorService.$inject = ['$location', '$q', 'storageService'];
+    angular
+        .module('pollsApp')
+        .factory('interceptorService', interceptorService);
 
-function interceptorService($location, $q, storageService) {
+    interceptorService.$inject = ['$location', '$q', 'storageService'];
 
-    var request = function (config) {
-        var token = storageService.get('access_token');
+    function interceptorService($location, $q, storageService) {
 
-        if (token) {
-            config.headers.Authorization = token;
-        }
+        var request = function (config) {
+            var token = storageService.get('access_token');
 
-        return config;
-    };
+            if (token) {
+                config.headers.Authorization = token;
+            }
 
-    var response = function (response) {
-        if (response.status === 401 || response.status === 403) {
-            $location.path('/login');
-        }
+            return config;
+        };
 
-        return $q.when(response);
-    };
+        var response = function (response) {
+            if (response.status === 401 || response.status === 403) {
+                $location.path('/login');
+            }
 
-    return {
-        request: request,
-        response: response
-    };
-}
+            return $q.when(response);
+        };
+
+        return {
+            request: request,
+            response: response
+        };
+    }
+
+})();

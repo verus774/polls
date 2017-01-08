@@ -1,19 +1,24 @@
-angular
-    .module('pollsApp')
-    .directive('backButton', backButton);
+(function () {
+    'use strict';
 
-backButton.$inject = ['$window'];
+    angular
+        .module('pollsApp')
+        .directive('backButton', backButton);
 
-function backButton($window) {
-    function link(scope, element, attrs) {
-        element.bind('click', function () {
-            $window.history.back();
-        });
+    backButton.$inject = ['$window'];
+
+    function backButton($window) {
+        function link(scope, element, attrs) {
+            element.bind('click', function () {
+                $window.history.back();
+            });
+        }
+
+        return {
+            link: link,
+            restrict: 'A'
+        };
+
     }
 
-    return {
-        link: link,
-        restrict: 'A'
-    };
-
-}
+})();

@@ -1,30 +1,35 @@
-angular
-    .module('pollsApp')
-    .controller('profileController', profileController);
+(function () {
+    'use strict';
 
-profileController.$inject = ['authService', '$state', 'Notification'];
+    angular
+        .module('pollsApp')
+        .controller('profileController', profileController);
 
-function profileController(authService, $state, Notification) {
-    var vm = this;
+    profileController.$inject = ['authService', '$state', 'Notification'];
 
-    vm.user = authService.getUser();
-    vm.orig = angular.copy(vm.user);
+    function profileController(authService, $state, Notification) {
+        var vm = this;
 
-    vm.resetForm = function () {
-        vm.user = angular.copy(vm.orig);
-        vm.profileForm.$setPristine();
-    };
+        vm.user = authService.getUser();
+        vm.orig = angular.copy(vm.user);
 
-    vm.updateUser = function () {
-        if (vm.user) {
-            authService.updateMe(vm.user)
-                .then(function () {
-                    Notification.success('Profile updated');
-                    $state.reload();
-                })
-                .catch(function () {
-                    Notification.error('Fail');
-                });
-        }
-    };
-}
+        vm.resetForm = function () {
+            vm.user = angular.copy(vm.orig);
+            vm.profileForm.$setPristine();
+        };
+
+        vm.updateUser = function () {
+            if (vm.user) {
+                authService.updateMe(vm.user)
+                    .then(function () {
+                        Notification.success('Profile updated');
+                        $state.reload();
+                    })
+                    .catch(function () {
+                        Notification.error('Fail');
+                    });
+            }
+        };
+    }
+
+})();

@@ -10,9 +10,7 @@ function crudService($http, $q, config) {
     var getAll = function (collectionName, query) {
         var deferred = $q.defer();
 
-        var queryString = query || '';
-
-        $http.get(apiEndpoint + collectionName + queryString)
+        $http.get(apiEndpoint + collectionName, {params: query})
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })

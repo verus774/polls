@@ -1,45 +1,50 @@
-angular
-    .module('pollsApp')
-    .controller('resultsController', resultsController);
+(function () {
+    'use strict';
 
-resultsController.$inject = ['crudService', 'modalService', 'Notification', '$window'];
+    angular
+        .module('pollsApp')
+        .controller('resultsController', resultsController);
 
-function resultsController(crudService, modalService, Notification, $window) {
-    var vm = this;
+    resultsController.$inject = ['crudService', 'modalService', 'Notification', '$window'];
 
-    vm.currentPage = 1;
-    vm.pageSize = 10;
+    function resultsController(crudService, modalService, Notification, $window) {
+        var vm = this;
 
-    var loadResults = function () {
-        crudService.getAll('results')
-            .then(function (results) {
-                vm.results = results;
-            })
-            .catch(function () {
-                vm.results = null;
-            });
-    };
+        vm.currentPage = 1;
+        vm.pageSize = 10;
 
-    vm.removeResult = function (id) {
-        var modalOptions = {
-            closeButtonText: 'Cancel',
-            actionButtonText: 'Delete',
-            headerText: 'Delete result?',
-            bodyText: 'Are you sure you want to delete this result?'
-        };
-
-        modalService.show(modalOptions).then(function () {
-            crudService.remove('results', id)
-                .then(function () {
-                    Notification.success('Result deleted');
-                    loadResults();
+        var loadResults = function () {
+            crudService.getAll('results')
+                .then(function (results) {
+                    vm.results = results;
                 })
                 .catch(function () {
-                    Notification.error('Fail');
+                    vm.results = null;
                 });
-            $window.scrollTo(0, 0);
-        });
-    };
+        };
 
-    loadResults();
-}
+        vm.removeResult = function (id) {
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Delete',
+                headerText: 'Delete result?',
+                bodyText: 'Are you sure you want to delete this result?'
+            };
+
+            modalService.show(modalOptions).then(function () {
+                crudService.remove('results', id)
+                    .then(function () {
+                        Notification.success('Result deleted');
+                        loadResults();
+                    })
+                    .catch(function () {
+                        Notification.error('Fail');
+                    });
+                $window.scrollTo(0, 0);
+            });
+        };
+
+        loadResults();
+    }
+
+})();

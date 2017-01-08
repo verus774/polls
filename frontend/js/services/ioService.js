@@ -1,9 +1,14 @@
-angular
-    .module('pollsApp')
-    .factory('ioService', ioService);
+(function () {
+    'use strict';
 
-ioService.$inject = ['socketFactory'];
+    angular
+        .module('pollsApp')
+        .factory('ioService', ioService);
 
-function ioService(socketFactory) {
-    return socketFactory();
-}
+    ioService.$inject = ['socketFactory'];
+
+    function ioService(socketFactory) {
+        return socketFactory();
+    }
+
+})();

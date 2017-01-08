@@ -1,16 +1,21 @@
-angular
-    .module('pollsApp')
-    .controller('navigationController', navigationController);
+(function () {
+    'use strict';
 
-navigationController.$inject = ['$state', 'authService'];
+    angular
+        .module('pollsApp')
+        .controller('navigationController', navigationController);
 
-function navigationController($state, authService) {
-    var vm = this;
+    navigationController.$inject = ['$state', 'authService'];
 
-    vm.authService = authService;
+    function navigationController($state, authService) {
+        var vm = this;
 
-    vm.logout = function () {
-        authService.logout();
-        $state.go('main');
+        vm.authService = authService;
+
+        vm.logout = function () {
+            authService.logout();
+            $state.go('main');
+        }
     }
-}
+
+})();

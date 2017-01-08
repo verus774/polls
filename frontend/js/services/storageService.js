@@ -1,27 +1,32 @@
-angular
-    .module('pollsApp')
-    .factory('storageService', storageService);
+(function () {
+    'use strict';
 
-storageService.$inject = ['$window', 'config'];
+    angular
+        .module('pollsApp')
+        .factory('storageService', storageService);
 
-function storageService($window, config) {
-    var storageType = config.storageType;
+    storageService.$inject = ['$window', 'config'];
 
-    var get = function(key) {
-        return $window[storageType].getItem(key);
-    };
+    function storageService($window, config) {
+        var storageType = config.storageType;
 
-    var set = function(key, value) {
-        $window[storageType].setItem(key, value);
-    };
+        var get = function (key) {
+            return $window[storageType].getItem(key);
+        };
 
-    var remove = function(key) {
-        $window[storageType].removeItem(key);
-    };
+        var set = function (key, value) {
+            $window[storageType].setItem(key, value);
+        };
 
-    return {
-        set : set,
-        get : get,
-        remove : remove
+        var remove = function (key) {
+            $window[storageType].removeItem(key);
+        };
+
+        return {
+            set: set,
+            get: get,
+            remove: remove
+        }
     }
-}
+
+})();

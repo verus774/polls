@@ -10,7 +10,7 @@ function studentController(ioService, crudService, $state, roomsService) {
     vm.currentRoom = roomsService.getCurrentRoom();
 
     var loadActivePoll = function () {
-        crudService.getAll('active-poll', '?room=' + vm.currentRoom._id)
+        crudService.getAll('active-poll', {room: vm.currentRoom._id})
             .then(function (activePoll) {
                 vm.activePoll = activePoll;
             })

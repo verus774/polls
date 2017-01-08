@@ -1,45 +1,50 @@
-angular
-    .module('pollsApp')
-    .controller('categoriesController', categoriesController);
+(function () {
+    'use strict';
 
-categoriesController.$inject = ['crudService', 'modalService', 'Notification', '$window'];
+    angular
+        .module('pollsApp')
+        .controller('categoriesController', categoriesController);
 
-function categoriesController(crudService, modalService, Notification, $window) {
-    var vm = this;
+    categoriesController.$inject = ['crudService', 'modalService', 'Notification', '$window'];
 
-    vm.currentPage = 1;
-    vm.pageSize = 10;
+    function categoriesController(crudService, modalService, Notification, $window) {
+        var vm = this;
 
-    var loadCategories = function () {
-        crudService.getAll('categories')
-            .then(function (categories) {
-                vm.categories = categories;
-            })
-            .catch(function () {
-                vm.categories = null;
-            });
-    };
+        vm.currentPage = 1;
+        vm.pageSize = 10;
 
-    vm.removeCategory = function (id) {
-        var modalOptions = {
-            closeButtonText: 'Cancel',
-            actionButtonText: 'Delete',
-            headerText: 'Delete category?',
-            bodyText: 'Are you sure you want to delete this category?'
-        };
-
-        modalService.show(modalOptions).then(function () {
-            crudService.remove('categories', id)
-                .then(function () {
-                    Notification.success('Category deleted');
-                    loadCategories();
+        var loadCategories = function () {
+            crudService.getAll('categories')
+                .then(function (categories) {
+                    vm.categories = categories;
                 })
                 .catch(function () {
-                    Notification.error('Fail');
+                    vm.categories = null;
                 });
-            $window.scrollTo(0, 0);
-        });
-    };
+        };
 
-    loadCategories();
-}
+        vm.removeCategory = function (id) {
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Delete',
+                headerText: 'Delete category?',
+                bodyText: 'Are you sure you want to delete this category?'
+            };
+
+            modalService.show(modalOptions).then(function () {
+                crudService.remove('categories', id)
+                    .then(function () {
+                        Notification.success('Category deleted');
+                        loadCategories();
+                    })
+                    .catch(function () {
+                        Notification.error('Fail');
+                    });
+                $window.scrollTo(0, 0);
+            });
+        };
+
+        loadCategories();
+    }
+
+})();

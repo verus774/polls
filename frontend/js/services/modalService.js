@@ -1,38 +1,43 @@
-angular
-    .module('pollsApp')
-    .factory('modalService', modalService);
+(function () {
+    'use strict';
 
-modalService.$inject = ['$uibModal'];
+    angular
+        .module('pollsApp')
+        .factory('modalService', modalService);
 
-function modalService($uibModal) {
+    modalService.$inject = ['$uibModal'];
 
-    var modalDefaults = {
-        templateUrl: '../templates/modal.html',
-        controllerAs: 'vm'
-    };
+    function modalService($uibModal) {
 
-    var show = function (modalOptions) {
-        modalDefaults.controller = function ($uibModalInstance) {
-            var vm = this;
-
-            vm.modalOptions = modalOptions;
-
-            vm.modalOptions.ok = function () {
-                $uibModalInstance.close();
-            };
-
-            vm.modalOptions.close = function () {
-                $uibModalInstance.dismiss();
-            };
+        var modalDefaults = {
+            templateUrl: '../templates/modal.html',
+            controllerAs: 'vm'
         };
 
-        var tempModalOptions = {};
-        angular.extend(tempModalOptions, modalDefaults, modalOptions);
+        var show = function (modalOptions) {
+            modalDefaults.controller = function ($uibModalInstance) {
+                var vm = this;
 
-        return $uibModal.open(tempModalOptions).result;
-    };
+                vm.modalOptions = modalOptions;
 
-    return {
-        show: show
-    };
-}
+                vm.modalOptions.ok = function () {
+                    $uibModalInstance.close();
+                };
+
+                vm.modalOptions.close = function () {
+                    $uibModalInstance.dismiss();
+                };
+            };
+
+            var tempModalOptions = {};
+            angular.extend(tempModalOptions, modalDefaults, modalOptions);
+
+            return $uibModal.open(tempModalOptions).result;
+        };
+
+        return {
+            show: show
+        };
+    }
+
+})();

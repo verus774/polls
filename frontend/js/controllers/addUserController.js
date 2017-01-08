@@ -1,60 +1,65 @@
-angular
-    .module('pollsApp')
-    .controller('addUserController', addUserController);
+(function () {
+    'use strict';
 
-addUserController.$inject = ['crudService', '$state', '$window', 'USER_ROLES', '$stateParams', 'Notification'];
+    angular
+        .module('pollsApp')
+        .controller('addUserController', addUserController);
 
-function addUserController(crudService, $state, $window, USER_ROLES, $stateParams, Notification) {
-    var vm = this;
+    addUserController.$inject = ['crudService', '$state', '$window', 'USER_ROLES', '$stateParams', 'Notification'];
 
-    vm.user = {};
-    vm.USER_ROLES = USER_ROLES;
+    function addUserController(crudService, $state, $window, USER_ROLES, $stateParams, Notification) {
+        var vm = this;
 
-    var loadUser = function (id) {
-        crudService.get('users', id)
-            .then(function (user) {
-                vm.user = user;
-                vm.orig = angular.copy(vm.user);
-            });
-    };
+        vm.user = {};
+        vm.USER_ROLES = USER_ROLES;
 
-    vm.saveUser = function (id) {
-        if (id) {
-            crudService.update('users', vm.user)
-                .then(function () {
-                    Notification.success('User updated');
-                    $state.go('users');
-                })
-                .catch(function () {
-                    $window.scrollTo(0, 0);
-                    Notification.error('Fail');
+        var loadUser = function (id) {
+            crudService.get('users', id)
+                .then(function (user) {
+                    vm.user = user;
+                    vm.orig = angular.copy(vm.user);
                 });
-        } else {
-            crudService.add('users', vm.user)
-                .then(function () {
-                    Notification.success('User added');
-                    $state.go('users');
-                })
-                .catch(function () {
-                    $window.scrollTo(0, 0);
-                    Notification.error('Fail');
-                });
+        };
+
+        vm.saveUser = function (id) {
+            if (id) {
+                crudService.update('users', vm.user)
+                    .then(function () {
+                        Notification.success('User updated');
+                        $state.go('users');
+                    })
+                    .catch(function () {
+                        $window.scrollTo(0, 0);
+                        Notification.error('Fail');
+                    });
+            } else {
+                crudService.add('users', vm.user)
+                    .then(function () {
+                        Notification.success('User added');
+                        $state.go('users');
+                    })
+                    .catch(function () {
+                        $window.scrollTo(0, 0);
+                        Notification.error('Fail');
+                    });
+            }
+
+        };
+
+        vm.resetForm = function () {
+            if (vm.user._id) {
+                vm.user = angular.copy(vm.orig);
+                vm.addUserForm.$setPristine();
+            } else {
+                vm.user = {};
+                vm.addUserForm.$setPristine();
+            }
+        };
+
+        if ($stateParams.id) {
+            loadUser($stateParams.id);
         }
 
-    };
-
-    vm.resetForm = function () {
-        if (vm.user._id) {
-            vm.user = angular.copy(vm.orig);
-            vm.addUserForm.$setPristine();
-        } else {
-            vm.user = {};
-            vm.addUserForm.$setPristine();
-        }
-    };
-
-    if ($stateParams.id) {
-        loadUser($stateParams.id);
     }
 
-}
+})();

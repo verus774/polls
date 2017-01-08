@@ -1,29 +1,34 @@
-angular
-    .module('pollsApp')
-    .controller('mainController', mainController);
+(function () {
+    'use strict';
 
-mainController.$inject = ['crudService', 'roomsService', 'ioService'];
+    angular
+        .module('pollsApp')
+        .controller('mainController', mainController);
 
-function mainController(crudService, roomsService, ioService) {
-    var vm = this;
+    mainController.$inject = ['crudService', 'roomsService', 'ioService'];
 
-    vm.currentPage = 1;
-    vm.pageSize = 10;
+    function mainController(crudService, roomsService, ioService) {
+        var vm = this;
 
-    var loadRooms = function () {
-        crudService.getAll('rooms')
-            .then(function (rooms) {
-                vm.rooms = rooms;
-            })
-            .catch(function () {
-                vm.rooms = null;
-            });
-    };
+        vm.currentPage = 1;
+        vm.pageSize = 10;
 
-    vm.joinRoom = function (id, name) {
-        ioService.emit('joinRoom', id);
-        roomsService.setCurrentRoom({_id: id, name: name});
-    };
+        var loadRooms = function () {
+            crudService.getAll('rooms')
+                .then(function (rooms) {
+                    vm.rooms = rooms;
+                })
+                .catch(function () {
+                    vm.rooms = null;
+                });
+        };
 
-    loadRooms();
-}
+        vm.joinRoom = function (id, name) {
+            ioService.emit('joinRoom', id);
+            roomsService.setCurrentRoom({_id: id, name: name});
+        };
+
+        loadRooms();
+    }
+
+})();

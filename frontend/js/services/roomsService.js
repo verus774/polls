@@ -1,20 +1,25 @@
-angular
-    .module('pollsApp')
-    .factory('roomsService', roomsService);
+(function () {
+    'use strict';
 
-roomsService.$inject = ['storageService'];
+    angular
+        .module('pollsApp')
+        .factory('roomsService', roomsService);
 
-function roomsService(storageService) {
-    var setCurrentRoom = function (room) {
-        storageService.set('currentRoom', JSON.stringify(room));
-    };
+    roomsService.$inject = ['storageService'];
 
-    var getCurrentRoom = function () {
-        return JSON.parse(storageService.get('currentRoom'));
-    };
+    function roomsService(storageService) {
+        var setCurrentRoom = function (room) {
+            storageService.set('currentRoom', JSON.stringify(room));
+        };
 
-    return {
-        setCurrentRoom: setCurrentRoom,
-        getCurrentRoom: getCurrentRoom
-    };
-}
+        var getCurrentRoom = function () {
+            return JSON.parse(storageService.get('currentRoom'));
+        };
+
+        return {
+            setCurrentRoom: setCurrentRoom,
+            getCurrentRoom: getCurrentRoom
+        };
+    }
+
+})();

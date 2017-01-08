@@ -1,15 +1,20 @@
-angular
-    .module('pollsApp')
-    .controller('pollsDetailController', pollsDetailController);
+(function () {
+    'use strict';
 
-pollsDetailController.$inject = ['crudService', '$stateParams'];
+    angular
+        .module('pollsApp')
+        .controller('pollsDetailController', pollsDetailController);
 
-function pollsDetailController(crudService, $stateParams) {
-    var vm = this;
+    pollsDetailController.$inject = ['crudService', '$stateParams'];
 
-    crudService.get('polls', $stateParams.id)
-        .then(function (poll) {
-            vm.poll = poll;
-        });
+    function pollsDetailController(crudService, $stateParams) {
+        var vm = this;
 
-}
+        crudService.get('polls', $stateParams.id)
+            .then(function (poll) {
+                vm.poll = poll;
+            });
+
+    }
+
+})();

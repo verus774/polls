@@ -1,21 +1,26 @@
-angular
-    .module('pollsApp')
-    .controller('loginController', loginController);
+(function () {
+    'use strict';
 
-loginController.$inject = ['$state', 'authService', 'Notification'];
+    angular
+        .module('pollsApp')
+        .controller('loginController', loginController);
 
-function loginController($state, authService, Notification) {
-    var vm = this;
+    loginController.$inject = ['$state', 'authService', 'Notification'];
 
-    vm.login = function () {
-        authService.login(vm.username, vm.password)
-            .then(function () {
-                $state.go('polls');
-            })
-            .catch(function () {
-                Notification.error('Authorization fail');
-                $state.reload();
-            });
-    };
+    function loginController($state, authService, Notification) {
+        var vm = this;
 
-}
+        vm.login = function () {
+            authService.login(vm.username, vm.password)
+                .then(function () {
+                    $state.go('polls');
+                })
+                .catch(function () {
+                    Notification.error('Authorization fail');
+                    $state.reload();
+                });
+        };
+
+    }
+
+})();
