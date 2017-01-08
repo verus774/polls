@@ -1,14 +1,18 @@
 angular
     .module('pollsApp')
-    .factory('usersService', usersService);
+    .factory('crudService', crudService);
 
-usersService.$inject = ['$http', '$q', 'config'];
+crudService.$inject = ['$http', '$q', 'config'];
 
-function usersService($http, $q, config) {
-    var getAll = function () {
+function crudService($http, $q, config) {
+    var apiEndpoint = config.apiEndpoint + '/';
+
+    var getAll = function (collectionName, query) {
         var deferred = $q.defer();
 
-        $http.get(config.apiEndpoint + '/users')
+        var queryString = query || '';
+
+        $http.get(apiEndpoint + collectionName + queryString)
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })
@@ -19,10 +23,10 @@ function usersService($http, $q, config) {
         return deferred.promise;
     };
 
-    var get = function (id) {
+    var get = function (collectionName, id) {
         var deferred = $q.defer();
 
-        $http.get(config.apiEndpoint + '/users/' + id)
+        $http.get(apiEndpoint + collectionName + '/' + id)
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })
@@ -33,10 +37,10 @@ function usersService($http, $q, config) {
         return deferred.promise;
     };
 
-    var remove = function (id) {
+    var add = function (collectionName, item) {
         var deferred = $q.defer();
 
-        $http.delete(config.apiEndpoint + '/users/' + id)
+        $http.post(apiEndpoint + collectionName, item)
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })
@@ -47,10 +51,10 @@ function usersService($http, $q, config) {
         return deferred.promise;
     };
 
-    var add = function (user) {
+    var remove = function (collectionName, id) {
         var deferred = $q.defer();
 
-        $http.post(config.apiEndpoint + '/users', user)
+        $http.delete(apiEndpoint + collectionName + '/' + id)
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })
@@ -61,10 +65,10 @@ function usersService($http, $q, config) {
         return deferred.promise;
     };
 
-    var update = function (id, user) {
+    var update = function (collectionName, item) {
         var deferred = $q.defer();
 
-        $http.put(config.apiEndpoint + '/users/' + id, user)
+        $http.put(apiEndpoint + collectionName + '/' + item._id, item)
             .then(function (response) {
                 deferred.resolve(response.data.data);
             })
@@ -78,8 +82,8 @@ function usersService($http, $q, config) {
     return {
         getAll: getAll,
         get: get,
-        remove: remove,
         add: add,
+        remove: remove,
         update: update
     };
 }

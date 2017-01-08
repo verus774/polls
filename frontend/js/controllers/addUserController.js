@@ -2,16 +2,16 @@ angular
     .module('pollsApp')
     .controller('addUserController', addUserController);
 
-addUserController.$inject = ['usersService', '$state', 'USER_ROLES', '$stateParams', 'Notification'];
+addUserController.$inject = ['crudService', '$state', '$window', 'USER_ROLES', '$stateParams', 'Notification'];
 
-function addUserController(usersService, $state, USER_ROLES, $stateParams, Notification) {
+function addUserController(crudService, $state, $window, USER_ROLES, $stateParams, Notification) {
     var vm = this;
 
     vm.user = {};
     vm.USER_ROLES = USER_ROLES;
 
     var loadUser = function (id) {
-        usersService.get(id)
+        crudService.get('users', id)
             .then(function (user) {
                 vm.user = user;
                 vm.orig = angular.copy(vm.user);
@@ -20,21 +20,23 @@ function addUserController(usersService, $state, USER_ROLES, $stateParams, Notif
 
     vm.saveUser = function (id) {
         if (id) {
-            usersService.update(id, vm.user)
+            crudService.update('users', vm.user)
                 .then(function () {
                     Notification.success('User updated');
                     $state.go('users');
                 })
                 .catch(function () {
+                    $window.scrollTo(0, 0);
                     Notification.error('Fail');
                 });
         } else {
-            usersService.add(vm.user)
+            crudService.add('users', vm.user)
                 .then(function () {
                     Notification.success('User added');
                     $state.go('users');
                 })
                 .catch(function () {
+                    $window.scrollTo(0, 0);
                     Notification.error('Fail');
                 });
         }

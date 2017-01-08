@@ -2,9 +2,9 @@ angular
     .module('pollsApp')
     .controller('pollsController', pollsController);
 
-pollsController.$inject = ['pollsService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'resultsService', 'Notification'];
+pollsController.$inject = ['crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification'];
 
-function pollsController(pollsService, ioService, $filter, chartsService, $window, modalService, resultsService, Notification) {
+function pollsController(crudService, ioService, $filter, chartsService, $window, modalService, Notification) {
     var vm = this;
 
     vm.currentPage = 1;
@@ -15,7 +15,7 @@ function pollsController(pollsService, ioService, $filter, chartsService, $windo
     var chartPrefix = 'chart_';
 
     function loadPolls() {
-        pollsService.getAll()
+        crudService.getAll('polls')
             .then(function (polls) {
                 angular.forEach(polls, function (poll) {
                     vm.categories.push(poll.category);
@@ -98,7 +98,7 @@ function pollsController(pollsService, ioService, $filter, chartsService, $windo
         };
 
         modalService.show(modalOptions).then(function () {
-            pollsService.remove(id)
+            crudService.remove('polls', id)
                 .then(function () {
                     Notification.success('Poll deleted');
                     loadPolls();
@@ -136,7 +136,7 @@ function pollsController(pollsService, ioService, $filter, chartsService, $windo
         };
 
         modalService.show(modalOptions).then(function () {
-            resultsService.add(result)
+            crudService.add('results', result)
                 .then(function () {
                     vm.stopPoll(vm.activePoll._id);
                     Notification.success('Result added');

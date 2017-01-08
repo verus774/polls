@@ -2,20 +2,21 @@ angular
     .module('pollsApp')
     .controller('studentController', studentController);
 
-studentController.$inject = ['ioService', 'pollsService', '$state', 'roomsService'];
+studentController.$inject = ['ioService', 'crudService', '$state', 'roomsService'];
 
-function studentController(ioService, pollsService, $state, roomsService) {
+function studentController(ioService, crudService, $state, roomsService) {
     var vm = this;
 
     vm.currentRoom = roomsService.getCurrentRoom();
 
     var loadActivePoll = function () {
-        pollsService.getActive(vm.currentRoom._id)
+        crudService.getAll('active-poll', '?room=' + vm.currentRoom._id)
             .then(function (activePoll) {
                 vm.activePoll = activePoll;
             })
             .catch(function (res) {
-                if (res === 404) {
+                vm.activePoll = null;
+                if (res.status === 404) {
                     vm.message = 'No active polls';
                 }
             });

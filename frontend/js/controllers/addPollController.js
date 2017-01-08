@@ -2,15 +2,15 @@ angular
     .module('pollsApp')
     .controller('addPollController', addPollController);
 
-addPollController.$inject = ['pollsService', '$stateParams', '$window', '$state', 'Notification', 'categoriesService'];
+addPollController.$inject = ['pollsService', '$stateParams', '$window', '$state', 'Notification', 'crudService'];
 
-function addPollController(pollsService, $stateParams, $window, $state, Notification, categoriesService) {
+function addPollController(pollsService, $stateParams, $window, $state, Notification, crudService) {
     var vm = this;
 
     vm.poll = pollsService.getEmpty();
 
     var loadPoll = function (id) {
-        pollsService.get(id)
+        crudService.get('polls', id)
             .then(function (poll) {
                 vm.poll = poll;
                 vm.orig = angular.copy(vm.poll);
@@ -18,7 +18,7 @@ function addPollController(pollsService, $stateParams, $window, $state, Notifica
     };
 
     var loadCategories = function () {
-        categoriesService.getAll()
+        crudService.getAll('categories')
             .then(function (categories) {
                 vm.categories = categories;
                 vm.poll.category = vm.categories[0];
@@ -35,25 +35,26 @@ function addPollController(pollsService, $stateParams, $window, $state, Notifica
     vm.savePoll = function (id) {
         if (vm.poll) {
             if (id) {
-                pollsService.update(id, vm.poll)
+                crudService.update('polls', vm.poll)
                     .then(function () {
                         Notification.success('Poll updated');
                         $state.go('polls');
                     })
                     .catch(function () {
+                        $window.scrollTo(0, 0);
                         Notification.error('Fail');
                     });
             } else {
-                pollsService.add(vm.poll)
+                crudService.add('polls', vm.poll)
                     .then(function () {
                         Notification.success('Poll added');
                         $state.go('polls');
                     })
                     .catch(function () {
+                        $window.scrollTo(0, 0);
                         Notification.error('Fail');
                     });
             }
-            $window.scrollTo(0, 0);
         }
     };
 

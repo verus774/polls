@@ -2,13 +2,13 @@ angular
     .module('pollsApp')
     .controller('addCategoryController', addCategoryController);
 
-addCategoryController.$inject = ['categoriesService', '$stateParams', '$window', '$state', 'Notification'];
+addCategoryController.$inject = ['crudService', '$stateParams', '$window', '$state', 'Notification'];
 
-function addCategoryController(categoriesService, $stateParams, $window, $state, Notification) {
+function addCategoryController(crudService, $stateParams, $window, $state, Notification) {
     var vm = this;
 
     var loadCategory = function (id) {
-        categoriesService.get(id)
+        crudService.get('categories', id)
             .then(function (category) {
                 vm.category = category;
                 vm.orig = angular.copy(vm.category);
@@ -18,27 +18,26 @@ function addCategoryController(categoriesService, $stateParams, $window, $state,
     vm.saveCategory = function (id) {
         if (vm.category) {
             if (id) {
-                categoriesService.update(id, vm.category)
+                crudService.update('categories', vm.category)
                     .then(function () {
                         Notification.success('Category updated');
                         $state.go('categories');
                     })
                     .catch(function () {
+                        $window.scrollTo(0, 0);
                         Notification.error('Fail');
                     });
             } else {
-                categoriesService.add(vm.category)
+                crudService.add('categories', vm.category)
                     .then(function () {
-                        vm.category = {};
-                        vm.addCategoryForm.$setPristine();
                         Notification.success('Category added');
                         $state.go('categories');
                     })
                     .catch(function () {
+                        $window.scrollTo(0, 0);
                         Notification.error('Fail');
                     });
             }
-            $window.scrollTo(0, 0);
         }
     };
 

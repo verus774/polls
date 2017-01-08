@@ -2,15 +2,15 @@ angular
     .module('pollsApp')
     .controller('resultsDetailController', resultsDetailController);
 
-resultsDetailController.$inject = ['resultsService', '$stateParams', '$filter'];
+resultsDetailController.$inject = ['crudService', '$stateParams', '$filter'];
 
-function resultsDetailController(resultsService, $stateParams, $filter) {
+function resultsDetailController(crudService, $stateParams, $filter) {
     var vm = this;
 
     var chartPrefix = 'chart_';
 
     var loadResult = function (id) {
-        resultsService.get(id)
+        crudService.get('results', id)
             .then(function (result) {
                 vm.result = result;
                 initCharts(vm.result.results);
