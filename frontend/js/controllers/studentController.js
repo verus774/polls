@@ -16,8 +16,11 @@ function studentController(ioService, crudService, $state, roomsService) {
             })
             .catch(function (res) {
                 vm.activePoll = null;
+
                 if (res.status === 404) {
-                    vm.message = 'No active polls';
+                    vm.message = 'No active poll';
+                } else {
+                    vm.message = 'Error';
                 }
             });
     };

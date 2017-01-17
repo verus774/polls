@@ -18,8 +18,14 @@
                 .then(function (rooms) {
                     vm.rooms = rooms;
                 })
-                .catch(function () {
+                .catch(function (res) {
                     vm.rooms = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No rooms';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

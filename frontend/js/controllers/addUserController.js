@@ -18,6 +18,15 @@
                 .then(function (user) {
                     vm.user = user;
                     vm.orig = angular.copy(vm.user);
+                })
+                .catch(function (res) {
+                    vm.user = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No such user';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

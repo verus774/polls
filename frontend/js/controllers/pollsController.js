@@ -31,8 +31,14 @@
                         initCharts(vm.activePoll.questions);
                     }
                 })
-                .catch(function () {
+                .catch(function (res) {
                     vm.polls = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No polls';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         }
 

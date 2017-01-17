@@ -5,7 +5,7 @@
         </div>
 
         <a ui-sref="addCategory" class="btn btn-success pull-right">Add category</a>
-        <h4>{{ vm.categories ? 'Total: '+ vm.categories.length : 'No categories' }}</h4>
+        <h4>{{ vm.categories ? 'Total: '+ vm.categories.length : vm.message }}</h4>
 
         <div ng-show="vm.categories">
             <div class="table-responsive">

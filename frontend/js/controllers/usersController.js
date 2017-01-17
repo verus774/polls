@@ -19,11 +19,12 @@
                     vm.users = users;
                 })
                 .catch(function (res) {
+                    vm.users = null;
+
                     if (res.status === 403) {
                         $state.go('polls');
-                    }
-                    else if (res.status === 404) {
-                        vm.users = null;
+                    } else {
+                        vm.message = 'Error';
                     }
                 });
         };

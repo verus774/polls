@@ -1,9 +1,12 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <div class="page-header text-center">
+        <div class="page-header text-center" ng-show="vm.poll">
             <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
         </div>
-        <form role="form" name="vm.addPollForm" ng-submit="vm.savePoll(vm.poll._id)" novalidate>
+
+        <h3>{{ vm.message }}</h3>
+
+        <form role="form" name="vm.addPollForm" ng-submit="vm.savePoll(vm.poll._id)" ng-show="vm.poll" novalidate>
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addPollForm.title.$invalid && vm.addPollForm.title.$dirty }">
                 <label for="title">Title</label>

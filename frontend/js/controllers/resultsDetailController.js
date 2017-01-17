@@ -17,6 +17,15 @@
                 .then(function (result) {
                     vm.result = result;
                     initCharts(vm.result.results);
+                })
+                .catch(function (res) {
+                    vm.result = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No such result';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

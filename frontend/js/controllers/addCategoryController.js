@@ -10,11 +10,22 @@
     function addCategoryController(crudService, $stateParams, $window, $state, Notification) {
         var vm = this;
 
+        vm.category = {};
+
         var loadCategory = function (id) {
             crudService.get('categories', id)
                 .then(function (category) {
                     vm.category = category;
                     vm.orig = angular.copy(vm.category);
+                })
+                .catch(function (res) {
+                    vm.category = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No such category';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

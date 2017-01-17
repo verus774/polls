@@ -18,8 +18,14 @@
                 .then(function (results) {
                     vm.results = results;
                 })
-                .catch(function () {
+                .catch(function (res) {
                     vm.results = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No results';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

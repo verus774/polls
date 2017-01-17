@@ -18,8 +18,14 @@
                 .then(function (categories) {
                     vm.categories = categories;
                 })
-                .catch(function () {
+                .catch(function (res) {
                     vm.categories = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No categories';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 

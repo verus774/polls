@@ -5,7 +5,7 @@
         </div>
 
         <a ui-sref="addUser" class="btn btn-success pull-right">Add user</a>
-        <h4>{{ vm.users ? 'Total: '+ vm.users.length : 'No users' }}</h4>
+        <h4>{{ vm.users ? 'Total: '+ vm.users.length : vm.message }}</h4>
 
         <div ng-show="vm.users">
             <div class="table-responsive">

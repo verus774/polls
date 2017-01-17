@@ -5,9 +5,9 @@
         .module('pollsApp')
         .factory('interceptorService', interceptorService);
 
-    interceptorService.$inject = ['$location', '$q', 'storageService'];
+    interceptorService.$inject = ['storageService'];
 
-    function interceptorService($location, $q, storageService) {
+    function interceptorService(storageService) {
 
         var request = function (config) {
             var token = storageService.get('access_token');
@@ -19,17 +19,8 @@
             return config;
         };
 
-        var response = function (response) {
-            if (response.status === 401 || response.status === 403) {
-                $location.path('/login');
-            }
-
-            return $q.when(response);
-        };
-
         return {
-            request: request,
-            response: response
+            request: request
         };
     }
 

@@ -1,10 +1,13 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <div class="page-header text-center">
+        <div class="page-header text-center" ng-show="vm.category">
             <h3>{{ vm.category._id ? 'Update' : 'Add' }} category</h3>
         </div>
 
-        <form role="form" name="vm.addCategoryForm" ng-submit="vm.saveCategory(vm.category._id)" novalidate>
+        <h3>{{ vm.message }}</h3>
+
+        <form role="form" name="vm.addCategoryForm" ng-submit="vm.saveCategory(vm.category._id)" ng-show="vm.category"
+              novalidate>
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addCategoryForm.title.$invalid && vm.addCategoryForm.title.$dirty }">
                 <label for="title">Title</label>

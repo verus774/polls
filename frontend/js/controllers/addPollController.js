@@ -17,6 +17,15 @@
                 .then(function (poll) {
                     vm.poll = poll;
                     vm.orig = angular.copy(vm.poll);
+                })
+                .catch(function (res) {
+                    vm.poll = null;
+
+                    if (res.status === 404) {
+                        vm.message = 'No such poll';
+                    } else {
+                        vm.message = 'Error';
+                    }
                 });
         };
 
