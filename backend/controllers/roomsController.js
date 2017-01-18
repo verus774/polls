@@ -14,13 +14,14 @@ exports.list = function (req, res) {
         .skip(skip)
         .limit(size)
         .sort(sortField)
-        .exec(function (err, users) {
-            if (err) {
-                return helper.errorResponse(res);
-            } else if (users.length == 0) {
+        .exec()
+        .then(function (users) {
+            if (users.length == 0) {
                 return helper.errorResponse(res, 'Rooms not found', 404);
             }
-
             return helper.successResponse(res, users);
+        })
+        .catch(function () {
+            return helper.errorResponse(res);
         });
 };

@@ -5,16 +5,24 @@ io.on('connection', function (socket) {
     socket.on('startPoll', function (data) {
         Poll.findOneAndUpdate({_id: data.id}, {$set: {active: true}}, {new: true})
             .select('title questions creator')
-            .exec(function (err, poll) {
+            .exec()
+            .then(function (poll) {
                 io.in(poll.creator).emit('startPoll', poll);
+            })
+            .catch(function (err) {
+                io.in(poll.creator).emit('error', {message: err.name});
             });
     });
 
     socket.on('stopPoll', function (data) {
-        Poll.findOneAndUpdate({_id: data.id}, {$set: {active: false}}, {new: true}, function (err, poll) {
-            data = null;
-            io.in(poll.creator).emit('stopPoll', data);
-        });
+        Poll.findOneAndUpdate({_id: data.id}, {$set: {active: false}}, {new: true})
+            .exec()
+            .then(function (poll) {
+                io.in(poll.creator).emit('stopPoll', null);
+            })
+            .catch(function (err) {
+                io.in(poll.creator).emit('error', {message: err.name});
+            });
     });
 
     socket.on('answers', function (data) {
