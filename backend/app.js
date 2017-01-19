@@ -8,6 +8,7 @@ var auth = require('./routes/auth')(express, passport);
 var apiV1 = require('./routes/api-v1')(express, passport);
 var path = require('path');
 var server = require('http').Server(app);
+var helmet = require('helmet');
 require('./io').attach(server);
 
 mongoose.Promise = global.Promise;
@@ -19,7 +20,7 @@ mongoose.connect(config.dbUrl, function(err) {
     }
 });
 
-app.disable('x-powered-by');
+app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

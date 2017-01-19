@@ -29,7 +29,7 @@
                 <p><strong>Question #{{$index + 1}}</strong>: {{ question.text }}</p>
 
                 <ul>
-                    <li ng-repeat="choice in question.choices">
+                    <li ng-repeat="choice in question.choices  track by $index">
                         {{ choice }}
                     </li>
                 </ul>
