@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('pollsController', pollsController);
 
-    pollsController.$inject = ['crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification'];
+    pollsController.$inject = ['authService', 'crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification'];
 
-    function pollsController(crudService, ioService, $filter, chartsService, $window, modalService, Notification) {
+    function pollsController(authService, crudService, ioService, $filter, chartsService, $window, modalService, Notification) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -16,6 +16,8 @@
         vm.answers = [];
         vm.categories = [];
         var chartPrefix = 'chart_';
+
+        ioService.emit('joinRoom', authService.getUser()._id);
 
         function loadPolls() {
             crudService.getAll('polls')
@@ -121,13 +123,10 @@
 
         vm.startPoll = function (id) {
             ioService.emit('startPoll', {id: id});
-            loadPolls();
         };
 
         vm.stopPoll = function (id) {
             ioService.emit('stopPoll', {id: id});
-            vm.activePoll = null;
-            loadPolls();
         };
 
         vm.saveResults = function () {
@@ -165,6 +164,30 @@
 
             clearCharts(vm.activePoll.questions);
             fillCharts(groupAnswers(vm.answers));
+        });
+
+        ioService.on('startPoll', function (data) {
+            vm.activePoll = data;
+
+            if (vm.activePoll) {
+                initCharts(vm.activePoll.questions);
+            }
+
+            angular.forEach(vm.polls, function (poll) {
+                if (vm.activePoll._id == poll._id) {
+                    poll.active = true;
+                }
+            });
+
+        });
+
+        ioService.on('stopPoll', function (data) {
+            angular.forEach(vm.polls, function (poll) {
+                if (data._id == poll._id) {
+                    poll.active = false;
+                }
+            });
+            vm.activePoll = null;
         });
 
     }

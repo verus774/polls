@@ -18,7 +18,7 @@ io.on('connection', function (socket) {
         Poll.findOneAndUpdate({_id: data.id}, {$set: {active: false}}, {new: true})
             .exec()
             .then(function (poll) {
-                io.in(poll.creator).emit('stopPoll', null);
+                io.in(poll.creator).emit('stopPoll', poll);
             })
             .catch(function (err) {
                 io.in(poll.creator).emit('error', {message: err.name});
