@@ -7,7 +7,6 @@ var CategorySchema = new Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
         maxlength: 100
     },
     description: {
@@ -20,6 +19,8 @@ var CategorySchema = new Schema({
         required: true
     }
 });
+
+CategorySchema.index({title: 1, creator: 1}, {unique: true});
 
 CategorySchema.pre('findOne', function (next) {
     var id = this._conditions._id;

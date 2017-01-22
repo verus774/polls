@@ -40,6 +40,8 @@ var PollSchema = new Schema({
     }
 }, {timestamps: true});
 
+PollSchema.index({title: 1, creator: 1}, {unique: true});
+
 PollSchema.path('questions').validate(function(questions) {
     return (questions && questions.length !== 0);
 
