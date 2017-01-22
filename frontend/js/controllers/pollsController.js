@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('pollsController', pollsController);
 
-    pollsController.$inject = ['authService', 'crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification'];
+    pollsController.$inject = ['storageService', 'authService', 'crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification'];
 
-    function pollsController(authService, crudService, ioService, $filter, chartsService, $window, modalService, Notification) {
+    function pollsController(storageService, authService, crudService, ioService, $filter, chartsService, $window, modalService, Notification) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -122,11 +122,17 @@
         };
 
         vm.startPoll = function (id) {
-            ioService.emit('startPoll', {id: id});
+            var token = storageService.get('access_token');
+            if (token) {
+                ioService.emit('startPoll', {access_token: token, id: id});
+            }
         };
 
         vm.stopPoll = function (id) {
-            ioService.emit('stopPoll', {id: id});
+            var token = storageService.get('access_token');
+            if (token) {
+                ioService.emit('stopPoll', {access_token: token, id: id});
+            }
         };
 
         vm.saveResults = function () {
@@ -188,6 +194,10 @@
                 }
             });
             vm.activePoll = null;
+        });
+
+        ioService.on('error', function (data) {
+            Notification.error('Error: ' + data.message);
         });
 
     }
