@@ -1,8 +1,8 @@
-var Result = require('../models/Result');
-var helper = require('./helperController');
+const Result = require('../models/Result');
+const helper = require('./helperController');
 
-var selectFields = 'title results createdAt';
-var sortField = '-createdAt';
+const selectFields = 'title results createdAt';
+const sortField = '-createdAt';
 
 exports.list = function (req, res) {
     Result.find({creator: req.user._id})
@@ -39,7 +39,7 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var newResult = new Result(req.body);
+    const newResult = new Result(req.body);
     newResult.creator = req.user._id;
 
     newResult.save()

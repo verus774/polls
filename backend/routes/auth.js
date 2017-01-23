@@ -1,7 +1,7 @@
-var users = require('../controllers/usersController');
+const users = require('../controllers/usersController');
 
 module.exports = function (express, passport) {
-    var api = express.Router();
+    const api = express.Router();
 
     api.post('/signup', users.signup);
     api.post('/login', users.login);

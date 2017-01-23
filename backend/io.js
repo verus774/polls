@@ -1,8 +1,8 @@
-var io = require('socket.io')();
-var Poll = require('./models/Poll');
-var User = require('./models/User');
-var jsonWebToken = require('jsonwebtoken');
-var config = require('./config');
+const io = require('socket.io')();
+const Poll = require('./models/Poll');
+const User = require('./models/User');
+const jsonWebToken = require('jsonwebtoken');
+const config = require('./config');
 
 function getUserByToken(token, callback) {
     jsonWebToken.verify(token.substr(4), config.secretKey, function (err, decoded) {

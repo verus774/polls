@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
-var Poll = require('./Poll');
-var Result = require('./Result');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt-nodejs');
+const Poll = require('./Poll');
+const Result = require('./Result');
 
-var UserSchema = new Schema({
+const UserSchema = new Schema({
         name: {
             type: String,
             minlength: 4,
@@ -38,7 +38,7 @@ var UserSchema = new Schema({
 );
 
 UserSchema.pre('save', function (next) {
-    var user = this;
+    const user = this;
 
     if (!user.isModified('password')) {
         return next();
@@ -64,8 +64,7 @@ UserSchema.pre('remove', function (next) {
 });
 
 UserSchema.methods.comparePasswords = function (password) {
-    var user = this;
-    return bcrypt.compareSync(password, user.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model('User', UserSchema);

@@ -1,14 +1,14 @@
-var express = require('express');
-var app = express();
-var config = require('./config');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-var auth = require('./routes/auth')(express, passport);
-var apiV1 = require('./routes/api-v1')(express, passport);
-var path = require('path');
-var server = require('http').Server(app);
-var helmet = require('helmet');
+const express = require('express');
+const app = express();
+const config = require('./config');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const auth = require('./routes/auth')(express, passport);
+const apiV1 = require('./routes/api-v1')(express, passport);
+const path = require('path');
+const server = require('http').Server(app);
+const helmet = require('helmet');
 require('./io').attach(server);
 
 mongoose.Promise = global.Promise;

@@ -1,8 +1,8 @@
-var Poll = require('../models/Poll');
-var helper = require('./helperController');
+const Poll = require('../models/Poll');
+const helper = require('./helperController');
 
-var selectFields = 'title description category questions active createdAt updatedAt';
-var sortField = 'title';
+const selectFields = 'title description category questions active createdAt updatedAt';
+const sortField = 'title';
 
 exports.list = function (req, res) {
     Poll.find({creator: req.user._id})
@@ -56,7 +56,7 @@ exports.readActive = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var newPoll = new Poll(req.body);
+    const newPoll = new Poll(req.body);
     newPoll.creator = req.user._id;
 
     newPoll.save()

@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ValidationError = mongoose.Error.ValidationError;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ValidationError = mongoose.Error.ValidationError;
 
-var ResultSchema = new Schema({
+const ResultSchema = new Schema({
     poll: {
         type: Schema.Types.ObjectId, ref: 'Poll',
         required: true
@@ -42,10 +42,9 @@ ResultSchema.path('results').validate(function (results) {
 }, 'Results array needs to have at least one element');
 
 ResultSchema.pre('findOne', function (next) {
-    var id = this._conditions._id;
+    const id = this._conditions._id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
-        var error = new ValidationError();
-        return next(error);
+        return next(new ValidationError());
     }
     next();
 });

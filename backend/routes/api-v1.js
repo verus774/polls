@@ -1,9 +1,9 @@
-var polls = require('../controllers/pollsController');
-var categories = require('../controllers/categoriesController');
-var users = require('../controllers/usersController');
-var rooms = require('../controllers/roomsController');
-var results = require('../controllers/resultsController');
-var helper = require('../controllers/helperController');
+const polls = require('../controllers/pollsController');
+const categories = require('../controllers/categoriesController');
+const users = require('../controllers/usersController');
+const rooms = require('../controllers/roomsController');
+const results = require('../controllers/resultsController');
+const helper = require('../controllers/helperController');
 
 function requireRole(role) {
     return function (req, res, next) {
@@ -16,7 +16,7 @@ function requireRole(role) {
 }
 
 module.exports = function (express, passport) {
-    var api = express.Router();
+    const api = express.Router();
 
     api.route('/active-poll')
         .get(polls.readActive);

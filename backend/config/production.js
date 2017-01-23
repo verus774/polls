@@ -1,4 +1,4 @@
-var config = require('./development');
+const config = require('./development');
 
 config.tokenExpiresIn = '2d';
 

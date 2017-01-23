@@ -1,8 +1,8 @@
-var Category = require('../models/Category');
-var helper = require('./helperController');
+const Category = require('../models/Category');
+const helper = require('./helperController');
 
-var selectFields = 'title description';
-var sortField = 'title';
+const selectFields = 'title description';
+const sortField = 'title';
 
 exports.list = function (req, res) {
     Category.find({creator: req.user._id})
@@ -39,7 +39,7 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var newCategory = new Category(req.body);
+    const newCategory = new Category(req.body);
     newCategory.creator = req.user._id;
 
     newCategory.save()

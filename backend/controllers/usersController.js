@@ -1,7 +1,7 @@
-var User = require('../models/User');
-var jsonWebToken = require('jsonwebtoken');
-var config = require('../config');
-var helper = require('./helperController');
+const User = require('../models/User');
+const jsonWebToken = require('jsonwebtoken');
+const config = require('../config');
+const helper = require('./helperController');
 
 
 function createToken(user) {
@@ -20,7 +20,7 @@ exports.signup = function (req, res) {
         return helper.errorResponse(res, 'Must provide username, name and password', 400);
     }
 
-    var newUser = new User({
+    const newUser = new User({
         username: req.body.username,
         name: req.body.name,
         password: req.body.password
@@ -28,7 +28,7 @@ exports.signup = function (req, res) {
 
     newUser.save()
         .then(function (createdUser) {
-            var token = createToken(createdUser);
+            const token = createToken(createdUser);
             return helper.successResponse(res, {token: token}, 201);
         })
         .catch(function () {
@@ -48,7 +48,7 @@ exports.login = function (req, res) {
             if (!user || !user.comparePasswords(req.body.password)) {
                 return helper.errorResponse(res, 'Invalid username or password', 401);
             }
-            var token = createToken(user);
+            const token = createToken(user);
             return helper.successResponse(res, {token: token});
         })
         .catch(function () {
@@ -96,7 +96,7 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var newUser = new User(req.body);
+    const newUser = new User(req.body);
 
     newUser.save()
         .then(function (createdUser) {
@@ -164,7 +164,7 @@ exports.updateMe = function (req, res) {
 
             user.save()
                 .then(function (updatedUser) {
-                    var token = createToken(updatedUser);
+                    const token = createToken(updatedUser);
                     return helper.successResponse(res, {token: token});
                 })
                 .catch(function (err) {

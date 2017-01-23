@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ValidationError = mongoose.Error.ValidationError;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ValidationError = mongoose.Error.ValidationError;
 
-var CategorySchema = new Schema({
+const CategorySchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -23,10 +23,9 @@ var CategorySchema = new Schema({
 CategorySchema.index({title: 1, creator: 1}, {unique: true});
 
 CategorySchema.pre('findOne', function (next) {
-    var id = this._conditions._id;
+    const id = this._conditions._id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
-        var error = new ValidationError();
-        return next(error);
+        return next(new ValidationError());
     }
     next();
 });

@@ -1,13 +1,13 @@
-var User = require('../models/User');
-var helper = require('./helperController');
+const User = require('../models/User');
+const helper = require('./helperController');
 
-var selectFields = 'name';
-var sortField = 'name';
+const selectFields = 'name';
+const sortField = 'name';
 
 exports.list = function (req, res) {
-    var page = parseInt(req.query.page),
-        size = parseInt(req.query.size),
-        skip = page > 0 ? ((page - 1) * size) : 0;
+    const page = parseInt(req.query.page);
+    const size = parseInt(req.query.size);
+    const skip = page > 0 ? ((page - 1) * size) : 0;
 
     User.find({})
         .select(selectFields)
