@@ -15,7 +15,7 @@ function createToken(user) {
         );
 }
 
-exports.signup = function (req, res) {
+exports.signup = (req, res) => {
     if (!(req.body.username || req.body.name || req.body.password)) {
         return helper.errorResponse(res, 'Must provide username, name and password', 400);
     }
@@ -27,7 +27,7 @@ exports.signup = function (req, res) {
     });
 
     newUser.save()
-        .then(function (createdUser) {
+        .then((createdUser) => {
             const token = createToken(createdUser);
             return helper.successResponse(res, {token: token}, 201);
         })
@@ -36,7 +36,7 @@ exports.signup = function (req, res) {
         });
 };
 
-exports.login = function (req, res) {
+exports.login = (req, res) => {
     if (!req.body.username || !req.body.password) {
         return helper.errorResponse(res, 'Must provide username and password', 401);
     }
@@ -44,7 +44,7 @@ exports.login = function (req, res) {
     User.findOne({username: req.body.username})
         .select('name username password role')
         .exec()
-        .then(function (user) {
+        .then((user) => {
             if (!user || !user.comparePasswords(req.body.password)) {
                 return helper.errorResponse(res, 'Invalid username or password', 401);
             }
@@ -56,17 +56,17 @@ exports.login = function (req, res) {
         });
 };
 
-exports.me = function (req, res) {
+exports.me = (req, res) => {
     return helper.successResponse(res, req.user || null);
 };
 
 
-exports.list = function (req, res) {
+exports.list = (req, res) => {
     User.find({})
         .select('name username role createdAt updatedAt')
         .sort('username')
         .exec()
-        .then(function (users) {
+        .then((users) => {
             if (users.length == 0) {
                 return helper.errorResponse(res, 'Users not found', 404);
             }
@@ -77,17 +77,17 @@ exports.list = function (req, res) {
         });
 };
 
-exports.read = function (req, res) {
+exports.read = (req, res) => {
     User.findOne({_id: req.params.id})
         .select('name username role createdAt updatedAt')
         .exec()
-        .then(function (user) {
+        .then((user) => {
             if (!user) {
                 return helper.errorResponse(res, 'User not found', 404);
             }
             return helper.successResponse(res, user);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
@@ -95,14 +95,14 @@ exports.read = function (req, res) {
         });
 };
 
-exports.create = function (req, res) {
+exports.create = (req, res) => {
     const newUser = new User(req.body);
 
     newUser.save()
-        .then(function (createdUser) {
+        .then((createdUser) => {
             return helper.successResponse(res, createdUser, 201);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Must provide username, name, password', 400);
             }
@@ -110,11 +110,11 @@ exports.create = function (req, res) {
         });
 };
 
-exports.update = function (req, res) {
+exports.update = (req, res) => {
     User.findOne({_id: req.params.id})
         .select('name username role')
         .exec()
-        .then(function (user) {
+        .then((user) => {
             if (!user) {
                 return helper.errorResponse(res, 'User not found', 404);
             }
@@ -128,17 +128,17 @@ exports.update = function (req, res) {
             }
 
             user.save()
-                .then(function (updatedUser) {
+                .then((updatedUser) => {
                     return helper.successResponse(res, updatedUser);
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     if (err.name == 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username, name and role', 400);
                     }
                     return helper.errorResponse(res);
                 });
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
@@ -146,11 +146,11 @@ exports.update = function (req, res) {
         });
 };
 
-exports.updateMe = function (req, res) {
+exports.updateMe = (req, res) => {
     User.findOne({_id: req.user._id})
         .select('name username role')
         .exec()
-        .then(function (user) {
+        .then((user) => {
             if (!user) {
                 return helper.errorResponse(res, 'User not found', 404);
             }
@@ -163,18 +163,18 @@ exports.updateMe = function (req, res) {
             }
 
             user.save()
-                .then(function (updatedUser) {
+                .then((updatedUser) => {
                     const token = createToken(updatedUser);
                     return helper.successResponse(res, {token: token});
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     if (err.name == 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username and name', 400);
                     }
                     return helper.errorResponse(res);
                 });
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
@@ -182,10 +182,10 @@ exports.updateMe = function (req, res) {
         });
 };
 
-exports.delete = function (req, res) {
+exports.delete = (req, res) => {
     User.findOne({_id: req.params.id})
         .exec()
-        .then(function (user) {
+        .then((user) => {
             if (!user) {
                 return helper.errorResponse(res, 'User not found', 404);
             }
@@ -194,7 +194,7 @@ exports.delete = function (req, res) {
         .then(function () {
             return helper.successResponse(res);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }

@@ -37,17 +37,17 @@ const UserSchema = new Schema({
     }, {timestamps: true}
 );
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', (next) => {
     const user = this;
 
     if (!user.isModified('password')) {
         return next();
     }
 
-    bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.genSalt(10, (err, salt) => {
         if (err) return next(err);
 
-        bcrypt.hash(user.password, salt, null, function (err, hash) {
+        bcrypt.hash(user.password, salt, null, (err, hash) => {
             if (err) return next(err);
 
             user.password = hash;
@@ -57,13 +57,13 @@ UserSchema.pre('save', function (next) {
 
 });
 
-UserSchema.pre('remove', function (next) {
+UserSchema.pre('remove', (next) => {
     Poll.remove({creator: this._id}).exec();
     Result.remove({creator: this._id}).exec();
     next();
 });
 
-UserSchema.methods.comparePasswords = function (password) {
+UserSchema.methods.comparePasswords = (password) => {
     return bcrypt.compareSync(password, this.password);
 };
 

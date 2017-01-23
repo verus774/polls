@@ -42,12 +42,12 @@ const PollSchema = new Schema({
 
 PollSchema.index({title: 1, creator: 1}, {unique: true});
 
-PollSchema.path('questions').validate(function(questions) {
+PollSchema.path('questions').validate((questions) => {
     return (questions && questions.length !== 0);
 
 }, 'Questions array needs to have at least one element');
 
-PollSchema.pre('findOne', function(next) {
+PollSchema.pre('findOne', (next) => {
     const id = this._conditions._id;
     if(id && !mongoose.Types.ObjectId.isValid(id)) {
         return next(new ValidationError());
@@ -55,7 +55,7 @@ PollSchema.pre('findOne', function(next) {
     next();
 });
 
-PollSchema.pre('remove', function (next) {
+PollSchema.pre('remove', (next) => {
     Result.remove({poll: this._id}).exec();
     next();
 });

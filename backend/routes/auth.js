@@ -1,6 +1,6 @@
 const users = require('../controllers/usersController');
 
-module.exports = function (express, passport) {
+module.exports = (express, passport) => {
     const api = express.Router();
 
     api.post('/signup', users.signup);

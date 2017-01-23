@@ -4,12 +4,12 @@ const helper = require('./helperController');
 const selectFields = 'title results createdAt';
 const sortField = '-createdAt';
 
-exports.list = function (req, res) {
+exports.list = (req, res) => {
     Result.find({creator: req.user._id})
         .select(selectFields)
         .sort(sortField)
         .exec()
-        .then(function (results) {
+        .then((results) => {
             if (results.length == 0) {
                 return helper.errorResponse(res, 'Results not found', 404);
             }
@@ -20,17 +20,17 @@ exports.list = function (req, res) {
         });
 };
 
-exports.read = function (req, res) {
+exports.read = (req, res) => {
     Result.findOne({creator: req.user._id, _id: req.params.id})
         .select(selectFields)
         .exec()
-        .then(function (result) {
+        .then((result) => {
             if (!result) {
                 return helper.errorResponse(res, 'Result not found', 404);
             }
             return helper.successResponse(res, result);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
@@ -38,15 +38,15 @@ exports.read = function (req, res) {
         });
 };
 
-exports.create = function (req, res) {
+exports.create = (req, res) => {
     const newResult = new Result(req.body);
     newResult.creator = req.user._id;
 
     newResult.save()
-        .then(function (createdResult) {
+        .then((createdResult) => {
             return helper.successResponse(res, createdResult, 201);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Must provide title and results array', 400);
             }
@@ -54,10 +54,10 @@ exports.create = function (req, res) {
         });
 };
 
-exports.delete = function (req, res) {
+exports.delete = (req, res) => {
     Result.findOne({creator: req.user._id, _id: req.params.id})
         .exec()
-        .then(function (result) {
+        .then((result) => {
             if (!result) {
                 return helper.errorResponse(res, 'Result not found', 404);
             }
@@ -66,7 +66,7 @@ exports.delete = function (req, res) {
         .then(function () {
             return helper.successResponse(res);
         })
-        .catch(function (err) {
+        .catch((err) => {
             if (err.name == 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
