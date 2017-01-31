@@ -10,18 +10,29 @@
   "private": true,
   "dependencies": {
     "angular": "^1.6.1",
-    "angular-ui-router": "^0.3.1",
     "bootstrap": "^3.3.7",
-    "angular-jwt": "^0.1.7",
     "angular-socket-io": "^0.7.0",
-    "socket.io-client": "^1.5.1",
-    "angular-filter": "^0.5.11",
     "angular-google-chart": "^0.1.0",
     "angular-loading-bar": "^0.9.0",
-    "angular-bootstrap": "^2.2.0",
-    "angular-ui-notification": "^0.3.5"
+    "angular-ui-notification": "^0.3.5",
+    "socket.io-client": "^1.7.2",
+    "angular-bootstrap": "^2.5.0",
+    "angular-ui-router": "^0.4.2",
+    "angular-jwt": "^0.1.9",
+    "angular-filter": "^0.5.14"
   },
   "resolutions": {
     "angular": "1.6.1"
+  },
+  "overrides": {
+    "socket.io-client": {
+      "main": "dist/socket.io.js"
+    },
+    "angular-bootstrap": {
+      "main": [
+        "./ui-bootstrap-tpls.js",
+        "./ui-bootstrap.js"
+      ]
+    }
   }
 }
