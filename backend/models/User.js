@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const Poll = require('./Poll');
 const Result = require('./Result');
 
@@ -37,33 +37,34 @@ const UserSchema = new Schema({
     }, {timestamps: true}
 );
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function (next) {
     const user = this;
 
     if (!user.isModified('password')) {
         return next();
     }
 
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) return next(err);
-
-        bcrypt.hash(user.password, salt, null, (err, hash) => {
-            if (err) return next(err);
-
-            user.password = hash;
-            next();
+    bcrypt.genSalt(10)
+        .then((salt) => {
+            bcrypt.hash(user.password, salt)
+                .then((hash) => {
+                    user.password = hash;
+                    return next();
+                });
+        })
+        .catch((err) => {
+            return next(err);
         });
-    });
 
 });
 
-UserSchema.pre('remove', (next) => {
+UserSchema.pre('remove', function (next) {
     Poll.remove({creator: this._id}).exec();
     Result.remove({creator: this._id}).exec();
     next();
 });
 
-UserSchema.methods.comparePasswords = (password) => {
+UserSchema.methods.comparePasswords = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
