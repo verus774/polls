@@ -47,9 +47,9 @@ PollSchema.path('questions').validate((questions) => {
 
 }, 'Questions array needs to have at least one element');
 
-PollSchema.pre('findOne', (next) => {
+PollSchema.pre('findOne', function (next) {
     const id = this._conditions._id;
-    if(id && !mongoose.Types.ObjectId.isValid(id)) {
+    if (id && !mongoose.Types.ObjectId.isValid(id)) {
         return next(new ValidationError());
     }
     next();
