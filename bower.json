@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "^1.6.1",
+    "angular": "^1.6.2",
     "bootstrap": "^3.3.7",
     "angular-socket-io": "^0.7.0",
     "angular-google-chart": "^0.1.0",
@@ -22,7 +22,7 @@
     "angular-filter": "^0.5.14"
   },
   "resolutions": {
-    "angular": "1.6.1"
+    "angular": "1.6.2"
   },
   "overrides": {
     "socket.io-client": {
@@ -30,8 +30,16 @@
     },
     "angular-bootstrap": {
       "main": [
-        "./ui-bootstrap-tpls.js",
-        "./ui-bootstrap.js"
+        "./ui-bootstrap.js",
+        "./ui-bootstrap-tpls.js"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
+        "dist/css/bootstrap-theme.css"
       ]
     }
   }
