@@ -18,6 +18,13 @@ function requireRole(role) {
 module.exports = (express, passport) => {
     const api = express.Router();
 
+    api.use('/', (req, res, next) => {
+        if ('OPTIONS' == req.method) {
+            res.sendStatus(204);
+        }
+        else next();
+    });
+
     api.route('/active-poll')
         .get(polls.readActive);
 
