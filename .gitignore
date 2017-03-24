@@ -2,4 +2,5 @@
 
 /node_modules/
 /npm-debug.log*
-/frontend/bower_components/
+/frontend/app/bower_components/
+/frontend/build/

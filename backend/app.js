@@ -28,7 +28,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./passport')(passport);
 
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../frontend/app')));
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
+// app.use('/bower_components', express.static(path.join(__dirname, '../frontend/app/bower_components')));
 
 app.use('/auth', auth);
 app.use('/api/v1', apiV1);

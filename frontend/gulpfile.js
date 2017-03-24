@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
 
-gulp.task('browserSync', function() {
+gulp.task('browserSync', () => {
     browserSync.init({
         proxy: 'localhost:80',
         ws: true,
@@ -9,4 +9,4 @@ gulp.task('browserSync', function() {
     });
 });
 
-gulp.watch('./**/*.*', []).on('change', browserSync.reload);
+gulp.watch('./app/**/*.*').on('change', browserSync.reload);
