@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('mainController', mainController);
 
-    mainController.$inject = ['crudService', 'roomsService', 'ioService'];
+    mainController.$inject = ['crudService', 'roomsService', 'ioService', 'startFromFilter'];
 
-    function mainController(crudService, roomsService, ioService) {
+    function mainController(crudService, roomsService, ioService, startFromFilter) {
         var vm = this;
 
         vm.currentPage = 1;

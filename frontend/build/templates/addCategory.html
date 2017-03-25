@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header text-center" ng-show="vm.category">
+            <h3>{{ vm.category._id ? 'Update' : 'Add' }} category</h3>
+        </div>
+
+        <h3>{{ vm.message }}</h3>
+
+        <form role="form" name="vm.addCategoryForm" ng-submit="vm.saveCategory(vm.category._id)" ng-show="vm.category"
+              novalidate>
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.addCategoryForm.title.$invalid && vm.addCategoryForm.title.$dirty }">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" class="form-control" ng-model="vm.category.title"
+                       required
+                       ng-maxlength="100">
+                <p ng-show="vm.addCategoryForm.title.$invalid && vm.addCategoryForm.title.$dirty" class="help-block">
+                    Required
+                    field</p>
+                <p ng-show="vm.addCategoryForm.title.$error.maxlength" class="help-block">Maximum 100 characters</p>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.addCategoryForm.description.$invalid && vm.addCategoryForm.description.$dirty }">
+                <label for="description">Description (optional)</label>
+                <input type="text" id="description" name="description" class="form-control"
+                       ng-model="vm.category.description"
+                       ng-maxlength="100">
+                <p ng-show="vm.addCategoryForm.description.$error.maxlength" class="help-block">Maximum 100
+                    characters</p>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" ng-disabled="vm.addCategoryForm.$invalid">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="vm.resetForm()"
+                        ng-hide="vm.addCategoryForm.$pristine">
+                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

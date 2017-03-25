@@ -41,7 +41,7 @@ ResultSchema.path('results').validate((results) => {
 
 }, 'Results array needs to have at least one element');
 
-ResultSchema.pre('findOne', (next) => {
+ResultSchema.pre('findOne', function (next) {
     const id = this._conditions._id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
         return next(new ValidationError());

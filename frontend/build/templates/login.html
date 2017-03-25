@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header text-center">
+            <h3>Login</h3>
+        </div>
+        <form role="form" name="vm.loginForm" ng-submit="vm.login()" autocomplete="off" novalidate>
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.loginForm.username.$invalid && !vm.loginForm.username.$pristine }">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"
+                       ng-model="vm.username"
+                       required
+                       ng-minlength="4"
+                       ng-pattern="/^[a-z0-9_-]*$/">
+
+                <p ng-show="vm.loginForm.username.$error.pattern" class="help-block">Only Latin characters, numbers, '-'
+                    and '_' symbols</p>
+                <p ng-show="vm.loginForm.username.$error.minlength" class="help-block">At least 4 characters</p>
+                <p ng-show="vm.loginForm.username.$error.maxlength" class="help-block">Maximum 10 characters</p>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error' : vm.loginForm.password.$invalid && !vm.loginForm.password.$pristine }">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"
+                       ng-model="vm.password" required>
+
+                <p ng-show="vm.loginForm.password.$invalid && !vm.loginForm.password.$pristine" class="help-block">
+                    Required
+                    field</p>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" ng-disabled="vm.loginForm.$invalid">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

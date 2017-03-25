@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('usersController', usersController);
 
-    usersController.$inject = ['crudService', 'modalService', 'Notification', '$window', '$state'];
+    usersController.$inject = ['crudService', 'modalService', 'Notification', '$window', '$state', 'startFromFilter'];
 
-    function usersController(crudService, modalService, Notification, $window, $state) {
+    function usersController(crudService, modalService, Notification, $window, $state, startFromFilter) {
         var vm = this;
 
         vm.currentPage = 1;

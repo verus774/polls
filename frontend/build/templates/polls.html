@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header text-center">
+            <h3>Polls</h3>
+        </div>
+        <h4>{{ vm.polls ? 'Total: '+ vm.polls.length : vm.message }}</h4>
+
+        <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
+        <form class="form-inline text-center" ng-show="vm.polls">
+            <div class="form-group">
+                <label for="category">Category: </label>
+                <select class="form-control" name="category" id="category" ng-model="vm.currCategory">
+                    <option ng-repeat="category in vm.categories | unique:'_id' | orderBy:'title'"
+                            value="{{category._id}}">{{category.title}}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" ng-show="vm.polls">
+    <div class="col-md-3">
+        <hr>
+        <h4 ng-show="!vm.activePoll">No active polls</h4>
+
+        <div ng-show="vm.activePoll">
+            <h4>Result</h4>
+            <button class="btn btn-primary" ng-click="vm.stopPoll(vm.activePoll._id)">Stop poll</button>
+            <button class="btn btn-success" ng-click="vm.saveResults()" ng-disabled="!vm.results">Save results</button>
+            <br><br>
+            <div ng-repeat="question in vm.activePoll.questions">
+                <div google-chart chart="vm.chart_{{ question._id }}" style="width:100%;"></div>
+            </div>
+            <button class="btn btn-primary" ng-click="vm.stopPoll(vm.activePoll._id)">Stop poll</button>
+            <button class="btn btn-success" ng-click="vm.saveResults()" ng-disabled="!vm.results">Save results</button>
+            <br><br>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="poll in vm.polls | filter:{$:vm.currCategory}:true | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize"
+                    ng-class="{'list-group-item-success': poll.active}">
+                    <td><a ui-sref="pollsDetail({ id: poll._id })">{{ poll.title }}</a></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-success" ng-click="vm.startPoll(poll._id)" title="Start"
+                                    ng-disabled="vm.activePoll">
+                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-primary" ng-click="vm.stopPoll(poll._id)" title="Stop"
+                                    ng-disabled="!poll.active">
+                                <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                            </button>
+                            <a class="btn btn-warning" ui-sref="editPoll({ id: poll._id })" title="Edit"
+                               ng-disabled="vm.activePoll">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                            <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)" title="Remove"
+                                    ng-disabled="vm.activePoll">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ul uib-pagination
+            boundary-links="true"
+            total-items="vm.polls.length"
+            ng-model="vm.currentPage"
+            items-per-page="vm.pageSize"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;">
+        </ul>
+    </div>
+</div>

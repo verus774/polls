@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header text-center" ng-show="vm.result">
+            <h3>{{ vm.result.title }} ({{ vm.result.createdAt | date:"dd.MM.yyyy 'at' HH:mm" }})</h3>
+        </div>
+
+        <button type="button" class="btn btn-warning" back-button>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+        </button>
+        <br><br>
+
+        <h4>{{ vm.message }}</h4>
+
+        <div google-chart chart="vm.chart" style="width:100%;"></div>
+
+        <div ng-repeat="(key, value) in vm.result.results | groupBy: 'questionId'">
+            <div google-chart chart="vm.chart_{{ key }}" style="width:100%;"></div>
+        </div>
+
+    </div>
+</div>
