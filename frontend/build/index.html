@@ -29,17 +29,17 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
-                <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">Signup</a></li>
-                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="categories">Categories</a>
+                <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="login">{{'LOGIN' | translate}}</a></li>
+                <li ui-sref-active="active" ng-show="!vm.authService.isLoggedIn()"><a ui-sref="signup">{{'SIGNUP' | translate}}</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="categories">{{'CATEGORIES' | translate}}</a>
                 </li>
-                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="polls">Polls</a></li>
-                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">Results</a></li>
-                <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">Users</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="polls">{{'POLLS' | translate}}</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">{{'RESULTS' | translate}}</a></li>
+                <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">{{'USERS' | translate}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
-                <li ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
-                <li><a href="" ng-click="vm.logout()">Logout [{{ vm.authService.getUser().username }}]</a></li>
+                <li ui-sref-active="active"><a ui-sref="profile">{{'PROFILE' | translate}}</a></li>
+                <li><a href="" ng-click="vm.logout()">{{'LOGOUT' | translate}} [{{ vm.authService.getUser().username }}]</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

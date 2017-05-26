@@ -10,7 +10,7 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addUserForm.username.$invalid && !vm.addUserForm.username.$pristine}">
-                <label for="username">Username</label>
+                <label for="username">{{'USERNAME' | translate}}</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"
                        ng-model="vm.user.username"
                        required
@@ -27,7 +27,7 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addUserForm.name.$invalid && !vm.addUserForm.name.$pristine }">
-                <label for="name">Name</label>
+                <label for="name">{{'NAME' | translate}}</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Enter name"
                        ng-model="vm.user.name"
                        required
@@ -40,7 +40,7 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addUserForm.password.$invalid && !vm.addUserForm.password.$pristine }">
-                <label for="password">Password</label>
+                <label for="password">{{'PASSWORD' | translate}}</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"
                        ng-model="vm.user.password"
                        required
@@ -58,7 +58,7 @@
 
             <div class="checkbox">
                 <label><input type="checkbox" ng-model="vm.user.role" ng-true-value="'{{vm.USER_ROLES.admin}}'"
-                              ng-false-value="">Admin</label>
+                              ng-false-value="">{{'ADMIN' | translate}}</label>
             </div>
 
             <div class="text-center">

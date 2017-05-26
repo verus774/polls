@@ -15,12 +15,14 @@ const paths = {
         js: srcDir + '/js/**/*.*',
         css: srcDir + '/css/**/*.*',
         templates: srcDir + '/templates/**/*.*',
+        languages: srcDir + '/languages/**/*.*',
         fonts: srcDir + '/bower_components/bootstrap/fonts/**/*.*'
     },
     dest: {
         js: buildDir + '/js',
         css: buildDir + '/css',
         templates: buildDir + '/templates',
+        languages: buildDir + '/languages',
         fonts: buildDir + '/fonts'
     }
 };
@@ -28,6 +30,11 @@ const paths = {
 gulp.task('templates', () => {
     return gulp.src(paths.src.templates)
         .pipe(gulp.dest(paths.dest.templates))
+});
+
+gulp.task('languages', () => {
+    return gulp.src(paths.src.languages)
+        .pipe(gulp.dest(paths.dest.languages))
 });
 
 gulp.task('fonts', () => {
@@ -41,7 +48,7 @@ gulp.task('clean', () => {
 });
 
 gulp.task('build', ['clean'], () => {
-    gulp.start('templates', 'fonts');
+    gulp.start('languages', 'templates', 'fonts');
     return gulp.src(srcDir + '/index.html')
         .pipe(useref())
         .pipe(gulpif('*.js', uglify({mangle: false})))

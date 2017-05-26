@@ -6,12 +6,21 @@ angular.module('pollsApp', [
     'googlechart',
     'angular-loading-bar',
     'ui.bootstrap',
-    'ui-notification'
+    'ui-notification',
+    'pascalprecht.translate'
 ]);
 
 angular.module('pollsApp').config(function ($httpProvider, cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
     $httpProvider.interceptors.push('interceptorService');
+});
+
+angular.module('pollsApp').config(function($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'languages/locale-',
+        suffix: '.json'
+    });
+    $translateProvider.preferredLanguage('ru_RU');
 });
 
 angular.module('pollsApp').run(function ($rootScope, authService, $state) {

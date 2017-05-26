@@ -1,14 +1,16 @@
 <div class="row">
     <div class="col-md-12">
         <div class="page-header text-center">
-            <h3>Polls</h3>
+            <h3>{{'POLLS' | translate}}</h3>
         </div>
         <h4>{{ vm.polls ? 'Total: '+ vm.polls.length : vm.message }}</h4>
 
-        <a ui-sref="addPoll" class="btn btn-success pull-right">Add poll</a>
+        <a ui-sref="addPoll" class="btn btn-success pull-right">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
+        </a>
         <form class="form-inline text-center" ng-show="vm.polls">
             <div class="form-group">
-                <label for="category">Category: </label>
+                <label for="category">{{'CATEGORY' | translate}}: </label>
                 <select class="form-control" name="category" id="category" ng-model="vm.currCategory">
                     <option ng-repeat="category in vm.categories | unique:'_id' | orderBy:'title'"
                             value="{{category._id}}">{{category.title}}
@@ -38,13 +40,12 @@
         </div>
     </div>
     <div class="col-md-9">
-
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Action</th>
+                    <th>{{'TITLE' | translate}}</th>
+                    <th>{{'ACTION' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,19 +54,19 @@
                     <td><a ui-sref="pollsDetail({ id: poll._id })">{{ poll.title }}</a></td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-success" ng-click="vm.startPoll(poll._id)" title="Start"
+                            <button class="btn btn-success" ng-click="vm.startPoll(poll._id)"
                                     ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                             </button>
-                            <button class="btn btn-primary" ng-click="vm.stopPoll(poll._id)" title="Stop"
+                            <button class="btn btn-primary" ng-click="vm.stopPoll(poll._id)"
                                     ng-disabled="!poll.active">
                                 <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
                             </button>
-                            <a class="btn btn-warning" ui-sref="editPoll({ id: poll._id })" title="Edit"
+                            <a class="btn btn-warning" ui-sref="editPoll({ id: poll._id })"
                                ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                             </a>
-                            <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)" title="Remove"
+                            <button class="btn btn-danger" ng-click="vm.removePoll(poll._id)"
                                     ng-disabled="vm.activePoll">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>

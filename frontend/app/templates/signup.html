@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <div class="page-header text-center">
-            <h3>Signup</h3>
+            <h3>{{'SIGNUP' | translate}}</h3>
         </div>
         <form role="form" name="signupForm" ng-submit="vm.signup()" autocomplete="off" novalidate>
 
             <div class="form-group"
                  ng-class="{ 'has-error' : signupForm.username.$invalid && !signupForm.username.$pristine}">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"
+                <label for="username">{{'USERNAME' | translate}}</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="{{'ENTER_USERNAME' | translate}}"
                        ng-model="vm.username"
                        required
                        ng-minlength="4"
@@ -22,8 +22,8 @@
             </div>
 
             <div class="form-group" ng-class="{ 'has-error' : signupForm.name.$invalid && !signupForm.name.$pristine }">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Enter name"
+                <label for="name">{{'NAME' | translate}}</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="{{'ENTER_NAME' | translate}}"
                        ng-model="vm.name"
                        required
                        ng-minlength="4"
@@ -35,8 +35,8 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error' : signupForm.password.$invalid && !signupForm.password.$pristine }">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"
+                <label for="password">{{'PASSWORD' | translate}}</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="{{'ENTER_PASSWORD' | translate}}"
                        ng-model="vm.password"
                        required
                        ng-minlength="3"
@@ -50,7 +50,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" ng-disabled="signupForm.$invalid">Signup</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="signupForm.$invalid">{{'SIGNUP' | translate}}</button>
             </div>
 
             <div class="form-group has-error" ng-show="vm.signupFail">

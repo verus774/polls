@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="page-header text-center">
-            <h3>Results</h3>
+            <h3>{{'RESULTS' | translate}}</h3>
         </div>
         <h4>{{ vm.results ? 'Total: '+ vm.results.length : vm.message }}</h4>
         <div ng-show="vm.results">
@@ -9,9 +9,9 @@
                 <table class="table table-hover" ng-show="vm.results">
                     <thead>
                     <tr>
-                        <th>Poll</th>
-                        <th>Date</th>
-                        <th>Action</th>
+                        <th>{{'TITLE' | translate}}</th>
+                        <th>{{'DATE' | translate}}</th>
+                        <th>{{'ACTION' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -19,7 +19,7 @@
                         <td><a ui-sref="resultsDetail({ id: result._id })">{{ result.title }}</a></td>
                         <td>{{ result.createdAt | date:"dd.MM.yyyy 'at' HH:mm" }}</td>
                         <td>
-                            <button class="btn btn-danger" ng-click="vm.removeResult(result._id)">Remove</button>
+                            <button class="btn btn-danger" ng-click="vm.removeResult(result._id)">{{'REMOVE' | translate}}</button>
                         </td>
                     </tr>
                     </tbody>
