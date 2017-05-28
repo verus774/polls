@@ -22,7 +22,7 @@ const CategorySchema = new Schema({
 
 CategorySchema.index({title: 1, creator: 1}, {unique: true});
 
-CategorySchema.pre('findOne', (next) => {
+CategorySchema.pre('findOne', function (next) {
     const id = this._conditions._id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
         return next(new ValidationError());
