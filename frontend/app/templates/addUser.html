@@ -63,11 +63,11 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-success" ng-disabled="vm.vm.addUserForm.$invalid">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;{{'SAVE' | translate}}
                 </button>
                 <button type="button" class="btn btn-warning" ng-click="vm.resetForm()"
                         ng-hide="vm.addUserForm.$pristine">
-                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
+                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;{{'RESET' | translate}}
                 </button>
             </div>
         </form>

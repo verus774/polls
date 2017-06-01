@@ -27,5 +27,18 @@
   "EDIT": "Edit",
   "REMOVE": "Remove",
   "BACK": "Back",
+  "SAVE": "Save",
+  "SAVE_RESULTS": "Save results",
+  "STOP": "Stop",
+  "ADD_QUESTION": "Add question",
+  "REMOVE_QUESTION": "Remove question",
+  "RESET": "Reset",
+  "SUBMIT": "Submit",
+  "ROOM": "Room",
+  "LEAVE_ROOM": "Leave room",
+  "NO_ACTIVE_POLLS": "No active polls",
+  "QUESTION": "Question",
+  "CHOICE": "Choice",
+  "DESCRIPTION": "Description",
   "TITLE": "Title"
 }

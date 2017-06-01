@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-md-8">
         <div class="page-header">
-            <h3>Room: [ {{ vm.currentRoom.name }} ]</h3>
+            <h3>{{'ROOM' | translate}}: [ {{ vm.currentRoom.name }} ]</h3>
         </div>
 
         <button type="button" class="btn btn-warning" ng-click="vm.leaveRoom()">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Leave room
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{'LEAVE_ROOM' | translate}}
         </button>
 
         <h3>{{ vm.message }}</h3>
@@ -35,7 +35,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success" ng-disabled="answerForm.$invalid">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;{{'SUBMIT' | translate}}
                 </button>
 
             </form>

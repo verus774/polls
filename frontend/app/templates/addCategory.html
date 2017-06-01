@@ -10,7 +10,7 @@
               novalidate>
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addCategoryForm.title.$invalid && vm.addCategoryForm.title.$dirty }">
-                <label for="title">Title</label>
+                <label for="title">{{'TITLE' | translate}}</label>
                 <input type="text" id="title" name="title" class="form-control" ng-model="vm.category.title"
                        required
                        ng-maxlength="100">
@@ -22,7 +22,7 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error' : vm.addCategoryForm.description.$invalid && vm.addCategoryForm.description.$dirty }">
-                <label for="description">Description (optional)</label>
+                <label for="description">{{'DESCRIPTION' | translate}}</label>
                 <input type="text" id="description" name="description" class="form-control"
                        ng-model="vm.category.description"
                        ng-maxlength="100">
@@ -32,11 +32,11 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-success" ng-disabled="vm.addCategoryForm.$invalid">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;Save
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;{{'SAVE' | translate}}
                 </button>
                 <button type="button" class="btn btn-warning" ng-click="vm.resetForm()"
                         ng-hide="vm.addCategoryForm.$pristine">
-                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
+                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;{{'RESET' | translate}}
                 </button>
             </div>
 

@@ -51,7 +51,7 @@
 
             <button type="submit" class="btn btn-success"
                     ng-disabled="vm.profileForm.$invalid || vm.profileForm.$pristine">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{'SAVE' | translate}}
             </button>
             <button type="button" class="btn btn-warning" ng-hide="vm.profileForm.$pristine" ng-click="vm.resetForm()">
                 <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
