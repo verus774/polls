@@ -5,11 +5,11 @@
         .module('pollsApp')
         .controller('addPollController', addPollController);
 
-    addPollController.$inject = ['pollsService', '$stateParams', '$window', '$state', 'Notification', 'crudService'];
+    addPollController.$inject = ['pollsService', '$stateParams', '$window', '$state', 'Notification', 'crudService', '$filter'];
 
-    function addPollController(pollsService, $stateParams, $window, $state, Notification, crudService) {
+    function addPollController(pollsService, $stateParams, $window, $state, Notification, crudService, $filter) {
         var vm = this;
-
+        var $translate = $filter('translate');
         vm.poll = pollsService.getEmpty();
 
         var loadPoll = function (id) {
@@ -22,9 +22,9 @@
                     vm.poll = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No such poll';
+                        vm.message = $translate('NO_SUCH_POLL');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
@@ -49,22 +49,22 @@
                 if (id) {
                     crudService.update('polls', vm.poll)
                         .then(function () {
-                            Notification.success('Poll updated');
+                            Notification.success($translate('POLL_UPDATED'));
                             $state.go('polls');
                         })
                         .catch(function () {
                             $window.scrollTo(0, 0);
-                            Notification.error('Fail');
+                            Notification.error($translate('ERROR'));
                         });
                 } else {
                     crudService.add('polls', vm.poll)
                         .then(function () {
-                            Notification.success('Poll added');
+                            Notification.success($translate('POLL_ADDED'));
                             $state.go('polls');
                         })
                         .catch(function () {
                             $window.scrollTo(0, 0);
-                            Notification.error('Fail');
+                            Notification.error($translate('ERROR'));
                         });
                 }
             }

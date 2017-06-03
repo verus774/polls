@@ -13,20 +13,20 @@
 
         <div ng-show="vm.poll">
             <p ng-show="vm.poll.description">
-                <strong>Description</strong>: {{ vm.poll.description }}
+                <strong>{{'DESCRIPTION' | translate}}</strong>: {{ vm.poll.description }}
                 <br>
             </p>
 
             <p>
-                <strong>Created</strong>: {{ vm.poll.createdAt | date:"dd.MM.yyyy 'at' HH:mm" }}
+                <strong>{{'CREATED' | translate}}</strong>: {{ vm.poll.createdAt | date:"dd.MM.yyyy '-' HH:mm" }}
                 <br>
-                <strong>Updated</strong>: {{ vm.poll.updatedAt | date:"dd.MM.yyyy 'at' HH:mm" }}
+                <strong>{{'UPDATED' | translate}}</strong>: {{ vm.poll.updatedAt | date:"dd.MM.yyyy '-' HH:mm" }}
             </p>
 
-            <h4 class="text-center">Questions</h4>
+            <h4 class="text-center">{{'QUESTIONS' | translate}}</h4>
 
             <div ng-repeat="question in vm.poll.questions">
-                <p><strong>Question #{{$index + 1}}</strong>: {{ question.text }}</p>
+                <p><strong>{{'QUESTION' | translate}} #{{$index + 1}}</strong>: {{ question.text }}</p>
 
                 <ul>
                     <li ng-repeat="choice in question.choices  track by $index">

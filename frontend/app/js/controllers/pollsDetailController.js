@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('pollsDetailController', pollsDetailController);
 
-    pollsDetailController.$inject = ['crudService', '$stateParams'];
+    pollsDetailController.$inject = ['crudService', '$stateParams', '$filter'];
 
-    function pollsDetailController(crudService, $stateParams) {
+    function pollsDetailController(crudService, $stateParams, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         crudService.get('polls', $stateParams.id)
             .then(function (poll) {
@@ -18,9 +19,9 @@
                 vm.poll = null;
 
                 if (res.status === 404) {
-                    vm.message = 'No such poll';
+                    vm.message = $translate('NO_SUCH_POLL');
                 } else {
-                    vm.message = 'Error';
+                    vm.message = $translate('ERROR');
                 }
             });
 

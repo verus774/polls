@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('categoriesController', categoriesController);
 
-    categoriesController.$inject = ['crudService', 'modalService', 'Notification', '$window', 'startFromFilter'];
+    categoriesController.$inject = ['crudService', 'modalService', 'Notification', '$window', 'startFromFilter', '$filter'];
 
-    function categoriesController(crudService, modalService, Notification, $window, startFromFilter) {
+    function categoriesController(crudService, modalService, Notification, $window, startFromFilter, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.currentPage = 1;
         vm.pageSize = 10;
@@ -22,29 +23,29 @@
                     vm.categories = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No categories';
+                        vm.message = $translate('NO_CATEGORIES');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
 
         vm.removeCategory = function (id) {
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete',
-                headerText: 'Delete category?',
-                bodyText: 'Are you sure you want to delete this category?'
+                closeButtonText: $translate('DELETE_CATEGORY_MODAL_CLOSE_BUTTON_TEXT'),
+                actionButtonText: $translate('DELETE_CATEGORY_MODAL_ACTION_BUTTON_TEXT'),
+                headerText: $translate('DELETE_CATEGORY_MODAL_HEADER_TEXT'),
+                bodyText: $translate('DELETE_CATEGORY_MODAL_BODY_TEXT')
             };
 
             modalService.show(modalOptions).then(function () {
                 crudService.remove('categories', id)
                     .then(function () {
-                        Notification.success('Category deleted');
+                        Notification.success($translate('CATEGORY_DELETED'));
                         loadCategories();
                     })
                     .catch(function () {
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
                 $window.scrollTo(0, 0);
             });

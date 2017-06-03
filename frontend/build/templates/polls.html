@@ -3,7 +3,7 @@
         <div class="page-header text-center">
             <h3>{{'POLLS' | translate}}</h3>
         </div>
-        <h4>{{ vm.polls ? 'Total: '+ vm.polls.length : vm.message }}</h4>
+        <h4>{{ vm.polls ? ('TOTAL' | translate) + ': ' + vm.polls.length : vm.message }}</h4>
 
         <a ui-sref="addPoll" class="btn btn-success pull-right">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
@@ -24,7 +24,7 @@
 <div class="row" ng-show="vm.polls">
     <div class="col-md-3">
         <hr>
-        <h4 ng-show="!vm.activePoll">{{'NO_ACTIVE_POLLS' | translate}}</h4>
+        <h4 ng-show="!vm.activePoll">{{'NO_ACTIVE_POLL' | translate}}</h4>
 
         <div ng-show="vm.activePoll">
             <button class="btn btn-primary" ng-click="vm.stopPoll(vm.activePoll._id)">{{'STOP' | translate}}</button>

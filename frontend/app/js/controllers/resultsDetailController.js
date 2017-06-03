@@ -9,6 +9,7 @@
 
     function resultsDetailController(crudService, $stateParams, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         var chartPrefix = 'chart_';
 
@@ -22,9 +23,9 @@
                     vm.result = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No such result';
+                        vm.message = $translate('NO_SUCH_RESULT');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
@@ -43,7 +44,7 @@
                 };
 
                 angular.forEach(vm.result.results, function (res) {
-                    if (res.questionId == key) {
+                    if (res.questionId === key) {
                         vm[chart].options = {
                             title: res.questionText,
                             legend: {position: 'left'}

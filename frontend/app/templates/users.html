@@ -7,7 +7,7 @@
         <a ui-sref="addUser" class="btn btn-success pull-right">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
         </a>
-        <h4>{{ vm.users ? 'Total: '+ vm.users.length : vm.message }}</h4>
+        <h4>{{ vm.users ? ('TOTAL' | translate) + ': ' + vm.users.length : vm.message }}</h4>
 
         <div ng-show="vm.users">
             <div class="table-responsive">

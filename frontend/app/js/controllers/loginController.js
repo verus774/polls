@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('loginController', loginController);
 
-    loginController.$inject = ['$state', 'authService', 'Notification'];
+    loginController.$inject = ['$state', 'authService', 'Notification', '$filter'];
 
-    function loginController($state, authService, Notification) {
+    function loginController($state, authService, Notification, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.login = function () {
             authService.login(vm.username, vm.password)
@@ -16,7 +17,7 @@
                     $state.go('polls');
                 })
                 .catch(function () {
-                    Notification.error('Authorization fail');
+                    Notification.error($translate('AUTHORIZATION_FAIL'));
                     $state.reload();
                 });
         };

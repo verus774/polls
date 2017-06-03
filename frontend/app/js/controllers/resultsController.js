@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('resultsController', resultsController);
 
-    resultsController.$inject = ['crudService', 'modalService', 'Notification', '$window', 'startFromFilter'];
+    resultsController.$inject = ['crudService', 'modalService', 'Notification', '$window', 'startFromFilter', '$filter'];
 
-    function resultsController(crudService, modalService, Notification, $window, startFromFilter) {
+    function resultsController(crudService, modalService, Notification, $window, startFromFilter, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.currentPage = 1;
         vm.pageSize = 10;
@@ -22,29 +23,29 @@
                     vm.results = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No results';
+                        vm.message = $translate('NO_RESULTS');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
 
         vm.removeResult = function (id) {
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete',
-                headerText: 'Delete result?',
-                bodyText: 'Are you sure you want to delete this result?'
+                closeButtonText: $translate('DELETE_RESULT_MODAL_CLOSE_BUTTON_TEXT'),
+                actionButtonText: $translate('DELETE_RESULT_MODAL_ACTION_BUTTON_TEXT'),
+                headerText: $translate('DELETE_RESULT_MODAL_HEADER_TEXT'),
+                bodyText: $translate('DELETE_RESULT_MODAL_BODY_TEXT')
             };
 
             modalService.show(modalOptions).then(function () {
                 crudService.remove('results', id)
                     .then(function () {
-                        Notification.success('Result deleted');
+                        Notification.success($translate('RESULT_DELETED'));
                         loadResults();
                     })
                     .catch(function () {
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
                 $window.scrollTo(0, 0);
             });

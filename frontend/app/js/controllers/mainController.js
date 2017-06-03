@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('mainController', mainController);
 
-    mainController.$inject = ['crudService', 'roomsService', 'ioService', 'startFromFilter'];
+    mainController.$inject = ['crudService', 'roomsService', 'ioService', 'startFromFilter', '$filter'];
 
-    function mainController(crudService, roomsService, ioService, startFromFilter) {
+    function mainController(crudService, roomsService, ioService, startFromFilter, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.currentPage = 1;
         vm.pageSize = 10;
@@ -22,9 +23,9 @@
                     vm.rooms = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No rooms';
+                        vm.message = $translate('NO_ROOMS');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };

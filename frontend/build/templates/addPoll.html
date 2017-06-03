@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <div class="page-header text-center" ng-show="vm.poll">
-            <h3>{{ vm.poll._id ? 'Update' : 'Add' }} poll</h3>
+            <h3>{{ vm.poll._id ? ('UPDATE_POLL' | translate) : ('ADD_POLL' | translate) }}</h3>
         </div>
 
         <h3>{{ vm.message }}</h3>

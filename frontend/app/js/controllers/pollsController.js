@@ -9,6 +9,7 @@
 
     function pollsController(storageService, authService, crudService, ioService, $filter, chartsService, $window, modalService, Notification, startFromFilter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.currentPage = 1;
         vm.pageSize = 10;
@@ -37,9 +38,9 @@
                     vm.polls = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No polls';
+                        vm.message = $translate('NO_POLLS');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         }
@@ -102,20 +103,20 @@
 
         vm.removePoll = function (id) {
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete',
-                headerText: 'Delete poll?',
-                bodyText: 'Are you sure you want to delete this poll and the related results?'
+                closeButtonText: $translate('DELETE_POLL_MODAL_CLOSE_BUTTON_TEXT'),
+                actionButtonText: $translate('DELETE_POLL_MODAL_ACTION_BUTTON_TEXT'),
+                headerText: $translate('DELETE_POLL_MODAL_HEADER_TEXT'),
+                bodyText: $translate('DELETE_POLL_MODAL_BODY_TEXT')
             };
 
             modalService.show(modalOptions).then(function () {
                 crudService.remove('polls', id)
                     .then(function () {
-                        Notification.success('Poll deleted');
+                        Notification.success($translate('POLL_DELETED'));
                         loadPolls();
                     })
                     .catch(function () {
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
                 $window.scrollTo(0, 0);
             });
@@ -137,10 +138,10 @@
 
         vm.saveResults = function () {
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Save result',
-                headerText: 'Save result?',
-                bodyText: 'Are you sure you want to stop poll and save result?'
+                closeButtonText: $translate('SAVE_RESULT_MODAL_CLOSE_BUTTON_TEXT'),
+                actionButtonText: $translate('SAVE_RESULT_MODAL_ACTION_BUTTON_TEXT'),
+                headerText: $translate('SAVE_RESULT_MODAL_HEADER_TEXT'),
+                bodyText: $translate('SAVE_RESULT_MODAL_BODY_TEXT')
             };
 
             var result = {
@@ -153,10 +154,10 @@
                 crudService.add('results', result)
                     .then(function () {
                         vm.stopPoll(vm.activePoll._id);
-                        Notification.success('Result added');
+                        Notification.success($translate('RESULT_ADDED'));
                     })
                     .catch(function () {
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
                 $window.scrollTo(0, 0);
             });
@@ -180,7 +181,7 @@
             }
 
             angular.forEach(vm.polls, function (poll) {
-                if (vm.activePoll._id == poll._id) {
+                if (vm.activePoll._id === poll._id) {
                     poll.active = true;
                 }
             });
@@ -189,15 +190,15 @@
 
         ioService.on('stopPoll', function (data) {
             angular.forEach(vm.polls, function (poll) {
-                if (data._id == poll._id) {
+                if (data._id === poll._id) {
                     poll.active = false;
                 }
             });
             vm.activePoll = null;
         });
 
-        ioService.on('error', function (data) {
-            Notification.error('Error: ' + data.message);
+        ioService.on('error', function () {
+            Notification.error($translate('ERROR'));
         });
 
     }

@@ -5,11 +5,11 @@
         .module('pollsApp')
         .controller('addCategoryController', addCategoryController);
 
-    addCategoryController.$inject = ['crudService', '$stateParams', '$window', '$state', 'Notification'];
+    addCategoryController.$inject = ['crudService', '$stateParams', '$window', '$state', 'Notification', '$filter'];
 
-    function addCategoryController(crudService, $stateParams, $window, $state, Notification) {
+    function addCategoryController(crudService, $stateParams, $window, $state, Notification, $filter) {
         var vm = this;
-
+        var $translate = $filter('translate');
         vm.category = {};
 
         var loadCategory = function (id) {
@@ -22,9 +22,9 @@
                     vm.category = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No such category';
+                        vm.message = $translate('NO_SUCH_CATEGORY');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
@@ -34,22 +34,22 @@
                 if (id) {
                     crudService.update('categories', vm.category)
                         .then(function () {
-                            Notification.success('Category updated');
+                            Notification.success($translate('CATEGORY_UPDATED'));
                             $state.go('categories');
                         })
                         .catch(function () {
                             $window.scrollTo(0, 0);
-                            Notification.error('Fail');
+                            Notification.error($translate('ERROR'));
                         });
                 } else {
                     crudService.add('categories', vm.category)
                         .then(function () {
-                            Notification.success('Category added');
+                            Notification.success($translate('CATEGORY_ADDED'));
                             $state.go('categories');
                         })
                         .catch(function () {
                             $window.scrollTo(0, 0);
-                            Notification.error('Fail');
+                            Notification.error($translate('ERROR'));
                         });
                 }
             }

@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('addUserController', addUserController);
 
-    addUserController.$inject = ['crudService', '$state', '$window', 'USER_ROLES', '$stateParams', 'Notification'];
+    addUserController.$inject = ['crudService', '$state', '$window', 'USER_ROLES', '$stateParams', 'Notification', '$filter'];
 
-    function addUserController(crudService, $state, $window, USER_ROLES, $stateParams, Notification) {
+    function addUserController(crudService, $state, $window, USER_ROLES, $stateParams, Notification, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.user = {};
         vm.USER_ROLES = USER_ROLES;
@@ -23,9 +24,9 @@
                     vm.user = null;
 
                     if (res.status === 404) {
-                        vm.message = 'No such user';
+                        vm.message = $translate('NO_SUCH_USER');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
@@ -34,22 +35,22 @@
             if (id) {
                 crudService.update('users', vm.user)
                     .then(function () {
-                        Notification.success('User updated');
+                        Notification.success($translate('USER_UPDATED'));
                         $state.go('users');
                     })
                     .catch(function () {
                         $window.scrollTo(0, 0);
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
             } else {
                 crudService.add('users', vm.user)
                     .then(function () {
-                        Notification.success('User added');
+                        Notification.success($translate('USER_ADDED'));
                         $state.go('users');
                     })
                     .catch(function () {
                         $window.scrollTo(0, 0);
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
             }
 

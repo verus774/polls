@@ -5,10 +5,11 @@
         .module('pollsApp')
         .controller('usersController', usersController);
 
-    usersController.$inject = ['crudService', 'modalService', 'Notification', '$window', '$state', 'startFromFilter'];
+    usersController.$inject = ['crudService', 'modalService', 'Notification', '$window', '$state', 'startFromFilter', '$filter'];
 
-    function usersController(crudService, modalService, Notification, $window, $state, startFromFilter) {
+    function usersController(crudService, modalService, Notification, $window, $state, startFromFilter, $filter) {
         var vm = this;
+        var $translate = $filter('translate');
 
         vm.currentPage = 1;
         vm.pageSize = 10;
@@ -24,27 +25,27 @@
                     if (res.status === 403) {
                         $state.go('polls');
                     } else {
-                        vm.message = 'Error';
+                        vm.message = $translate('ERROR');
                     }
                 });
         };
 
         vm.removeUser = function (id) {
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete',
-                headerText: 'Delete user?',
-                bodyText: 'Are you sure you want to delete this user and the related objects?'
+                closeButtonText: $translate('DELETE_USER_MODAL_CLOSE_BUTTON_TEXT'),
+                actionButtonText: $translate('DELETE_USER_MODAL_ACTION_BUTTON_TEXT'),
+                headerText: $translate('DELETE_USER_MODAL_HEADER_TEXT'),
+                bodyText: $translate('DELETE_USER_MODAL_BODY_TEXT')
             };
 
             modalService.show(modalOptions).then(function () {
                 crudService.remove('users', id)
                     .then(function () {
-                        Notification.success('User deleted');
+                        Notification.error($translate('USER_DELETED'));
                         loadUsers();
                     })
                     .catch(function () {
-                        Notification.error('Fail');
+                        Notification.error($translate('ERROR'));
                     });
                 $window.scrollTo(0, 0);
             });

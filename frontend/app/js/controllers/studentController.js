@@ -2,10 +2,11 @@ angular
     .module('pollsApp')
     .controller('studentController', studentController);
 
-studentController.$inject = ['ioService', 'crudService', '$state', 'roomsService'];
+studentController.$inject = ['ioService', 'crudService', '$state', 'roomsService', '$filter'];
 
-function studentController(ioService, crudService, $state, roomsService) {
+function studentController(ioService, crudService, $state, roomsService, $filter) {
     var vm = this;
+    var $translate = $filter('translate');
 
     vm.currentRoom = roomsService.getCurrentRoom();
 
@@ -18,9 +19,9 @@ function studentController(ioService, crudService, $state, roomsService) {
                 vm.activePoll = null;
 
                 if (res.status === 404) {
-                    vm.message = 'No active poll';
+                    vm.message = $translate('NO_ACTIVE_POLL');
                 } else {
-                    vm.message = 'Error';
+                    vm.message = $translate('ERROR');
                 }
             });
     };
@@ -46,7 +47,7 @@ function studentController(ioService, crudService, $state, roomsService) {
 
         answers = null;
         vm.activePoll = null;
-        vm.message = 'Answers submitted';
+        vm.message = $translate('ANSWERS_SUBMITTED');
     };
 
     vm.leaveRoom = function () {

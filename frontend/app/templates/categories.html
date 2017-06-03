@@ -7,7 +7,7 @@
         <a ui-sref="addCategory" class="btn btn-success pull-right">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
         </a>
-        <h4>{{ vm.categories ? 'Total: '+ vm.categories.length : vm.message }}</h4>
+        <h4>{{ vm.categories ? ('TOTAL' | translate) + ': ' + vm.categories.length : vm.message }}</h4>
 
         <div ng-show="vm.categories">
             <div class="table-responsive">
