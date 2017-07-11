@@ -25,10 +25,10 @@
     "express": "^4.15.2",
     "helmet": "^3.5.0",
     "jsonwebtoken": "^7.3.0",
-    "mongoose": "^4.9.1",
+    "mongoose": "^4.11.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
-    "socket.io": "^2.0.2"
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
     "browser-sync": "^2.18.8",
@@ -41,7 +41,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-useref": "^3.1.2",
     "gulp-util": "^3.0.8",
-    "jshint": "^2.9.4",
+    "jshint": "^2.9.5",
     "main-bower-files": "^2.13.1"
   }
 }

@@ -13,7 +13,7 @@ const cors = require('cors');
 require('./io').attach(server);
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbUrl)
+mongoose.connect(config.dbUrl, {useMongoClient: true})
     .then(() => {
         console.log('Connected to the database');
     })
