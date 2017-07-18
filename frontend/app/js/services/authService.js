@@ -83,7 +83,7 @@
         var updateMe = function (user) {
             var deferred = $q.defer();
 
-            $http.put(config.authEndpoint + '/me', user)
+            $http.put(config.apiEndpoint + '/me', user)
                 .then(function (response) {
                     var token = response.data.data.token;
 

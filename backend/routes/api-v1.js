@@ -63,6 +63,11 @@ module.exports = (express, passport) => {
         .delete(requireRole('admin'), users.delete)
         .put(requireRole('admin'), users.update);
 
+    api.use('/me', passport.authenticate('jwt', {session: false}));
+    api.route('/me')
+        .get(users.me)
+        .put(users.updateMe);
+
     api.route('/rooms')
         .get(rooms.list);
 
