@@ -7,10 +7,6 @@ const ResultSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'Poll',
         required: true
     },
-    title: {
-        type: String,
-        required: true
-    },
     results: [{
         questionText: {
             type: String,
