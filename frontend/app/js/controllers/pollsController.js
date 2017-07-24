@@ -146,7 +146,6 @@
 
             var result = {
                 poll: vm.activePoll._id,
-                title: vm.activePoll.title,
                 results: vm.results
             };
 
