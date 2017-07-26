@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node backend/app.js",
-    "postinstall": "cd frontend && bower install"
+    "postinstall": "cd frontend && bower install && gulp build"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
+    "chokidar": "^1.7.0",
     "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.1.1",
     "gulp-clean": "^0.3.2",
     "gulp-csso": "^3.0.0",
     "gulp-if": "^2.0.2",
