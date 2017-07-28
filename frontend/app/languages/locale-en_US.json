@@ -1,4 +1,8 @@
 {
+  "LANGUAGE": "Language",
+  "LANGUAGE_EN": "English",
+  "LANGUAGE_RU": "Russian",
+
   "POLL": "Poll",
   "POLLS": "Polls",
 

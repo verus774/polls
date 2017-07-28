@@ -51,6 +51,17 @@
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
                 <li ui-sref-active="active"><a ui-sref="profile">{{'PROFILE' | translate}}</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        {{'LANGUAGE' | translate}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu lang-select" role="menu">
+                        <li><a href="" ng-class="{'list-group-item-success': vm.selectedLanguage==='en_US'}" ng-click="vm.changeLanguage('en_US')">{{'LANGUAGE_EN' | translate}}</a></li>
+                        <li><a href="" ng-class="{'list-group-item-success': vm.selectedLanguage==='ru_RU'}" ng-click="vm.changeLanguage('ru_RU')">{{'LANGUAGE_RU' | translate}}</a></li>
+                    </ul>
+                </li>
+
                 <li><a href="" ng-click="vm.logout()">{{'LOGOUT' | translate}} [{{ vm.authService.getUser().username }}]</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -73,9 +84,13 @@
 <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
 <script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
 <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+<script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
 
@@ -91,6 +106,7 @@
 <script src="js/services/crudService.js"></script>
 <script src="js/services/chartsService.js"></script>
 <script src="js/services/authService.js"></script>
+<script src="js/directives/backButtonDirective.js"></script>
 <script src="js/filters/startFromFilter.js"></script>
 <script src="js/controllers/usersController.js"></script>
 <script src="js/controllers/studentController.js"></script>
@@ -107,7 +123,6 @@
 <script src="js/controllers/addUserController.js"></script>
 <script src="js/controllers/addPollController.js"></script>
 <script src="js/controllers/addCategoryController.js"></script>
-<script src="js/directives/backButtonDirective.js"></script>
 <script src="js/routes.js"></script>
 <script src="js/constants.js"></script>
 <!-- endinject -->

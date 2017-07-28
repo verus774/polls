@@ -7,6 +7,7 @@ angular.module('pollsApp', [
     'angular-loading-bar',
     'ui.bootstrap',
     'ui-notification',
+    'ngCookies',
     'pascalprecht.translate'
 ]);
 
@@ -21,6 +22,9 @@ angular.module('pollsApp').config(function($translateProvider) {
         suffix: '.json'
     });
     $translateProvider.preferredLanguage('ru_RU');
+    $translateProvider.useLocalStorage();
+    $translateProvider.useMissingTranslationHandlerLog();
+    $translateProvider.useSanitizeValueStrategy(null);
 });
 
 angular.module('pollsApp').run(function ($rootScope, authService, $state) {

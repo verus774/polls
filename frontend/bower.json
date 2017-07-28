@@ -20,7 +20,9 @@
     "angular-ui-router": "^1.0.3",
     "angular-jwt": "^0.1.9",
     "angular-filter": "^0.5.14",
-    "angular-translate-loader-static-files": "^2.15.1"
+    "angular-translate-loader-static-files": "^2.15.1",
+    "angular-translate-storage-local": "^2.15.2",
+    "angular-translate-handler-log": "^2.15.2"
   },
   "resolutions": {
     "angular": "1.6.2"
