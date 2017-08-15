@@ -70,6 +70,8 @@ module.exports = (express, passport) => {
 
     api.route('/rooms')
         .get(rooms.list);
+    api.route('/rooms/:id')
+        .get(rooms.read);
 
     return api;
 };
