@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ValidationError = mongoose.Error.ValidationError;
+const mongoosePaginate = require('mongoose-paginate');
 const Result = require('./Result');
 
 const PollSchema = new Schema({
@@ -59,5 +60,7 @@ PollSchema.pre('remove', (next) => {
     Result.remove({poll: this._id}).exec();
     next();
 });
+
+PollSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Poll', PollSchema);

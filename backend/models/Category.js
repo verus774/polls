@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ValidationError = mongoose.Error.ValidationError;
+const mongoosePaginate = require('mongoose-paginate');
 
 const CategorySchema = new Schema({
     title: {
@@ -29,5 +30,7 @@ CategorySchema.pre('findOne', function (next) {
     }
     next();
 });
+
+CategorySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Category', CategorySchema);

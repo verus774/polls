@@ -29,11 +29,9 @@ exports.signup = (req, res) => {
     newUser.save()
         .then((createdUser) => {
             const token = createToken(createdUser);
-            return helper.successResponse(res, {token: token}, 201);
+            return helper.successResponse(res, {token: token}, null, 201);
         })
-        .catch(function () {
-            return helper.errorResponse(res);
-        });
+        .catch(_ => helper.errorResponse(res));
 };
 
 exports.login = (req, res) => {
@@ -51,9 +49,7 @@ exports.login = (req, res) => {
             const token = createToken(user);
             return helper.successResponse(res, {token: token});
         })
-        .catch(function () {
-            return helper.errorResponse(res);
-        });
+        .catch(_ => helper.errorResponse(res));
 };
 
 exports.me = (req, res) => {
@@ -62,19 +58,21 @@ exports.me = (req, res) => {
 
 
 exports.list = (req, res) => {
-    User.find({})
-        .select('name username role createdAt updatedAt')
-        .sort('username')
-        .exec()
-        .then((users) => {
-            if (users.length == 0) {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 50;
+
+    const select = 'name username role createdAt updatedAt';
+    const sort = 'username';
+
+    User.paginate({}, {select, page, limit, sort})
+        .then(response => {
+            let {docs, total, limit, page, pages} = response;
+            if (docs.length === 0) {
                 return helper.errorResponse(res, 'Users not found', 404);
             }
-            return helper.successResponse(res, users);
+            return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
-        .catch(function () {
-            return helper.errorResponse(res);
-        });
+        .catch(_ => helper.errorResponse(res));
 };
 
 exports.read = (req, res) => {
@@ -88,7 +86,7 @@ exports.read = (req, res) => {
             return helper.successResponse(res, user);
         })
         .catch((err) => {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
             return helper.errorResponse(res);
@@ -100,10 +98,10 @@ exports.create = (req, res) => {
 
     newUser.save()
         .then((createdUser) => {
-            return helper.successResponse(res, createdUser, 201);
+            return helper.successResponse(res, createdUser, null, 201);
         })
         .catch((err) => {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Must provide username, name, password', 400);
             }
             return helper.errorResponse(res);
@@ -132,14 +130,14 @@ exports.update = (req, res) => {
                     return helper.successResponse(res, updatedUser);
                 })
                 .catch((err) => {
-                    if (err.name == 'ValidationError') {
+                    if (err.name === 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username, name and role', 400);
                     }
                     return helper.errorResponse(res);
                 });
         })
         .catch((err) => {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
             return helper.errorResponse(res);
@@ -168,14 +166,14 @@ exports.updateMe = (req, res) => {
                     return helper.successResponse(res, {token: token});
                 })
                 .catch((err) => {
-                    if (err.name == 'ValidationError') {
+                    if (err.name === 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username and name', 400);
                     }
                     return helper.errorResponse(res);
                 });
         })
         .catch((err) => {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
             return helper.errorResponse(res);
@@ -191,11 +189,9 @@ exports.delete = (req, res) => {
             }
             return user.remove();
         })
-        .then(function () {
-            return helper.successResponse(res);
-        })
+        .then(_ => helper.successResponse(res))
         .catch((err) => {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);
             }
             return helper.errorResponse(res);

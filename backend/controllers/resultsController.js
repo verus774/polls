@@ -1,29 +1,27 @@
 const Result = require('../models/Result');
 const helper = require('./helperController');
 
-const selectFields = 'poll results createdAt';
-const sortField = '-createdAt';
+const select = 'poll results createdAt';
+const sort = '-createdAt';
 
 exports.list = (req, res) => {
-    Result.find({creator: req.user._id})
-        .select(selectFields)
-        .populate('poll', 'title')
-        .sort(sortField)
-        .exec()
-        .then((results) => {
-            if (results.length === 0) {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 50;
+
+    Result.paginate({creator: req.user._id}, {select, page, limit, sort, populate: {path: 'poll', select: 'title'}})
+        .then(response => {
+            let {docs, total, limit, page, pages} = response;
+            if (docs.length === 0) {
                 return helper.errorResponse(res, 'Results not found', 404);
             }
-            return helper.successResponse(res, results);
+            return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
-        .catch(function () {
-            return helper.errorResponse(res);
-        });
+        .catch(_ => helper.errorResponse(res));
 };
 
 exports.read = (req, res) => {
     Result.findOne({creator: req.user._id, _id: req.params.id})
-        .select(selectFields)
+        .select(select)
         .populate('poll', 'title')
         .exec()
         .then((result) => {
@@ -46,7 +44,7 @@ exports.create = (req, res) => {
 
     newResult.save()
         .then((createdResult) => {
-            return helper.successResponse(res, createdResult, 201);
+            return helper.successResponse(res, createdResult, null, 201);
         })
         .catch((err) => {
             if (err.name === 'ValidationError') {
@@ -65,9 +63,7 @@ exports.delete = (req, res) => {
             }
             return result.remove();
         })
-        .then(function () {
-            return helper.successResponse(res);
-        })
+        .then(_ => helper.successResponse(res))
         .catch((err) => {
             if (err.name === 'ValidationError') {
                 return helper.errorResponse(res, 'Invalid id parameter', 400);

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const mongoosePaginate = require('mongoose-paginate');
 const Poll = require('./Poll');
 const Result = require('./Result');
 
@@ -67,5 +68,7 @@ UserSchema.pre('remove', function (next) {
 UserSchema.methods.comparePasswords = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
+
+UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', UserSchema);

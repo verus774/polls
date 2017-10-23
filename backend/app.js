@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-require('dotenv').config();
+require('dotenv').config({path: __dirname + '/.env'});
 const config = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,6 +11,7 @@ const path = require('path');
 const server = require('http').Server(app);
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoosePaginate = require('mongoose-paginate');
 require('./io').attach(server);
 
 mongoose.Promise = global.Promise;
@@ -21,6 +22,13 @@ mongoose.connect(config.dbUrl, {useMongoClient: true})
     .catch((err) => {
         console.error(err);
     });
+
+mongoosePaginate.paginate.options = {
+    page: 1,
+    limit: 2,
+    lean: true,
+    leanWithId: false
+};
 
 app.use(helmet());
 app.use(cors());

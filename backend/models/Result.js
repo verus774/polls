@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ValidationError = mongoose.Error.ValidationError;
+const mongoosePaginate = require('mongoose-paginate');
 
 const ResultSchema = new Schema({
     poll: {
@@ -44,5 +45,7 @@ ResultSchema.pre('findOne', function (next) {
     }
     next();
 });
+
+ResultSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Result', ResultSchema);

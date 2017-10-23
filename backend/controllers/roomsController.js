@@ -1,34 +1,29 @@
 const User = require('../models/User');
 const helper = require('./helperController');
 
-const selectFields = 'name';
-const sortField = 'name';
+const select = 'name';
+const sort = 'name';
 
 exports.list = (req, res) => {
-    const page = parseInt(req.query.page);
-    const size = parseInt(req.query.size);
-    const skip = page > 0 ? ((page - 1) * size) : 0;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 50;
 
-    User.find({})
-        .select(selectFields)
-        .skip(skip)
-        .limit(size)
-        .sort(sortField)
-        .exec()
-        .then((users) => {
-            if (users.length === 0) {
+    User.paginate({}, {select, page, limit, sort})
+        .then(response => {
+            let {docs, total, limit, page, pages} = response;
+
+            if (docs.length === 0) {
                 return helper.errorResponse(res, 'Rooms not found', 404);
             }
-            return helper.successResponse(res, users);
+
+            return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
-        .catch(function () {
-            return helper.errorResponse(res);
-        });
+        .catch(_ => helper.errorResponse(res));
 };
 
 exports.read = (req, res) => {
     User.findOne({_id: req.params.id})
-        .select(selectFields)
+        .select(select)
         .exec()
         .then((room) => {
             if (!room) {
