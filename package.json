@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node backend/app.js",
+    "dev": "nodemon backend/app.js",
     "postinstall": "cd frontend && bower install && gulp build"
   },
   "repository": {

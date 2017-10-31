@@ -11,9 +11,6 @@ exports.list = (req, res) => {
     Result.paginate({creator: req.user._id}, {select, page, limit, sort, populate: {path: 'poll', select: 'title'}})
         .then(response => {
             let {docs, total, limit, page, pages} = response;
-            if (docs.length === 0) {
-                return helper.errorResponse(res, 'Results not found', 404);
-            }
             return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
         .catch(_ => helper.errorResponse(res));

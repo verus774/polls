@@ -11,9 +11,6 @@ exports.list = (req, res) => {
     Category.paginate({creator: req.user._id}, {select, page, limit, sort})
         .then(response => {
             let {docs, total, limit, page, pages} = response;
-            if (docs.length === 0) {
-                return helper.errorResponse(res, 'Categories not found', 404);
-            }
             return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
         .catch(_ => helper.errorResponse(res));
