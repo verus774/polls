@@ -8,12 +8,21 @@ exports.list = (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 50;
 
-    Poll.paginate({creator: req.user._id}, {select, page, limit, sort, populate: {path: 'category', select: 'title'}})
+    const query = {};
+    if (req.user._id) query.creator = req.user._id;
+    if (req.query.category) query.category = req.query.category;
+
+    Poll.paginate(query, {select, page, limit, sort, populate: {path: 'category', select: 'title'}})
         .then(response => {
             let {docs, total, limit, page, pages} = response;
             return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
         })
-        .catch(_ => helper.errorResponse(res));
+        .catch((err) => {
+            if (err.name === 'CastError' && err.kind === 'ObjectId') {
+                return helper.errorResponse(res, 'Invalid id parameter', 400);
+            }
+            return helper.errorResponse(res);
+        });
 };
 
 exports.read = (req, res) => {
