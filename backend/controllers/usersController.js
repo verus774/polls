@@ -2,59 +2,7 @@ const User = require('../models/User');
 const jsonWebToken = require('jsonwebtoken');
 const config = require('../config');
 const helper = require('./helperController');
-
-
-function createToken(user) {
-    return 'JWT ' + jsonWebToken.sign({
-                _id: user._id,
-                name: user.name,
-                username: user.username,
-                role: user.role
-            }, config.secretKey,
-            {expiresIn: config.tokenExpiresIn}
-        );
-}
-
-exports.signup = (req, res) => {
-    if (!(req.body.username || req.body.name || req.body.password)) {
-        return helper.errorResponse(res, 'Must provide username, name and password', 400);
-    }
-
-    const newUser = new User({
-        username: req.body.username,
-        name: req.body.name,
-        password: req.body.password
-    });
-
-    newUser.save()
-        .then((createdUser) => {
-            const token = createToken(createdUser);
-            return helper.successResponse(res, {token: token}, null, 201);
-        })
-        .catch(_ => helper.errorResponse(res));
-};
-
-exports.login = (req, res) => {
-    if (!req.body.username || !req.body.password) {
-        return helper.errorResponse(res, 'Must provide username and password', 401);
-    }
-
-    User.findOne({username: req.body.username})
-        .select('name username password role')
-        .exec()
-        .then((user) => {
-            if (!user || !user.comparePasswords(req.body.password)) {
-                return helper.errorResponse(res, 'Invalid username or password', 401);
-            }
-            const token = createToken(user);
-            return helper.successResponse(res, {token: token});
-        })
-        .catch(_ => helper.errorResponse(res));
-};
-
-exports.me = (req, res) => {
-    return helper.successResponse(res, req.user || null);
-};
+const createToken = require('./authController').createToken;
 
 
 exports.list = (req, res) => {
@@ -129,42 +77,6 @@ exports.update = (req, res) => {
                 .catch((err) => {
                     if (err.name === 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username, name and role', 400);
-                    }
-                    return helper.errorResponse(res);
-                });
-        })
-        .catch((err) => {
-            if (err.name === 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
-            }
-            return helper.errorResponse(res);
-        });
-};
-
-exports.updateMe = (req, res) => {
-    User.findOne({_id: req.user._id})
-        .select('name username role')
-        .exec()
-        .then((user) => {
-            if (!user) {
-                return helper.errorResponse(res, 'User not found', 404);
-            }
-
-            user.username = req.body.username;
-            user.name = req.body.name;
-
-            if (req.body.password) {
-                user.password = req.body.password;
-            }
-
-            user.save()
-                .then((updatedUser) => {
-                    const token = createToken(updatedUser);
-                    return helper.successResponse(res, {token: token});
-                })
-                .catch((err) => {
-                    if (err.name === 'ValidationError') {
-                        return helper.errorResponse(res, 'Must provide username and name', 400);
                     }
                     return helper.errorResponse(res);
                 });

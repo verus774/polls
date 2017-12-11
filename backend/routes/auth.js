@@ -1,10 +1,8 @@
-const users = require('../controllers/usersController');
+const express = require('express');
+const auth = require('../controllers/authController');
+const router = express.Router();
 
-module.exports = (express, passport) => {
-    const api = express.Router();
+router.post('/signup', auth.signup);
+router.post('/login', auth.login);
 
-    api.post('/signup', users.signup);
-    api.post('/login', users.login);
-
-    return api;
-};
+module.exports = router;
