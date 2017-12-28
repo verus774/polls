@@ -30,7 +30,12 @@ exports.signup = (req, res) => {
             const token = this.createToken(createdUser);
             return helper.successResponse(res, {token: token}, null, 201);
         })
-        .catch(_ => helper.errorResponse(res));
+        .catch(err => {
+            if (err.name === 'MongoError' && err.code === 11000) {
+                return helper.errorResponse(res, 'username exists', 409);
+            }
+            return helper.errorResponse(res);
+        });
 };
 
 exports.login = (req, res) => {
