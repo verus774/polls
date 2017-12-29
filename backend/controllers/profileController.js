@@ -24,10 +24,8 @@ exports.updateMe = (req, res) => {
             }
 
             user.save()
-                .then((updatedUser) => {
-                    const token = createToken(updatedUser);
-                    return helper.successResponse(res, {token: token});
-                })
+                .then(updatedUser => createToken(updatedUser))
+                .then((token) => helper.successResponse(res, {token}))
                 .catch((err) => {
                     if (err.name === 'ValidationError') {
                         return helper.errorResponse(res, 'Must provide username and name', 400);

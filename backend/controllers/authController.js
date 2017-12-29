@@ -4,14 +4,23 @@ const config = require('../config');
 const helper = require('./helperController');
 
 exports.createToken = (user) => {
-    return 'JWT ' + jsonWebToken.sign({
+    return new Promise((resolve, reject) => {
+        jsonWebToken.sign({
                 _id: user._id,
                 name: user.name,
                 username: user.username,
                 role: user.role
-            }, config.secretKey,
-            {expiresIn: config.tokenExpiresIn}
+            },
+            config.secretKey,
+            {expiresIn: config.tokenExpiresIn},
+            (err, token) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve('JWT ' + token);
+            }
         );
+    });
 };
 
 exports.signup = (req, res) => {
@@ -26,13 +35,11 @@ exports.signup = (req, res) => {
     });
 
     newUser.save()
-        .then((createdUser) => {
-            const token = this.createToken(createdUser);
-            return helper.successResponse(res, {token: token}, null, 201);
-        })
+        .then((createdUser) => this.createToken(createdUser))
+        .then((token) => helper.successResponse(res, {token}, null, 201))
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
-                return helper.errorResponse(res, 'username exists', 409);
+                return helper.errorResponse(res, 'Username exists', 409);
             }
             return helper.errorResponse(res);
         });
@@ -50,8 +57,8 @@ exports.login = (req, res) => {
             if (!user || !user.comparePasswords(req.body.password)) {
                 return helper.errorResponse(res, 'Invalid username or password', 401);
             }
-            const token = this.createToken(user);
-            return helper.successResponse(res, {token: token});
+            return this.createToken(user);
         })
-        .catch(_ => helper.errorResponse(res));
+        .then((token) => helper.successResponse(res, {token}))
+        .catch(() => helper.errorResponse(res));
 };
