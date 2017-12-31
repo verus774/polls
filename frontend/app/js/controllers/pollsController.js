@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('pollsController', pollsController);
 
-    pollsController.$inject = ['storageService', 'authService', 'crudService', 'ioService', 'roomsService', '$filter', 'chartsService', '$window', 'modalService', 'Notification', 'startFromFilter'];
+    pollsController.$inject = ['storageService', 'authService', 'crudService', 'ioService', '$state', 'roomsService', '$filter', 'chartsService', '$window', 'modalService', 'Notification', 'startFromFilter'];
 
-    function pollsController(storageService, authService, crudService, ioService, roomsService, $filter, chartsService, $window, modalService, Notification, startFromFilter) {
+    function pollsController(storageService, authService, crudService, ioService, $state, roomsService, $filter, chartsService, $window, modalService, Notification, startFromFilter) {
         var vm = this;
         var $translate = $filter('translate');
 

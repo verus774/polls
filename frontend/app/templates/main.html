@@ -18,7 +18,7 @@
             <tr ng-repeat="room in vm.rooms | startFrom:(vm.currentPage - 1) * vm.pageSize | limitTo: vm.pageSize">
                 <td>{{ room.name }}</td>
                 <td>
-                    <a href="" class="btn btn-success" ng-click="vm.joinRoom(room._id, room.name)">{{'ENTER' | translate}}</a>
+                    <a ui-sref="roomsDetail({ id: room._id })" class="btn btn-success">{{'ENTER' | translate}}</a>
                 </td>
             </tr>
             </tbody>

@@ -5,23 +5,18 @@
         .module('pollsApp')
         .factory('roomsService', roomsService);
 
-    roomsService.$inject = ['storageService'];
+    roomsService.$inject = ['storageService', 'authService', '$state'];
 
-    function roomsService(storageService) {
-        var setCurrentRoom = function (room) {
-            storageService.set('currentRoom', JSON.stringify(room));
-        };
-
+    function roomsService(storageService, authService, $state) {
         var getCurrentRoom = function () {
-            return JSON.parse(storageService.get('currentRoom'));
+            return authService.getUser();
         };
 
         var getCurrentRoomUrl = function () {
-            return window.location.origin + '/#!/rooms/' + getCurrentRoom()._id;
+            return $state.href('roomsDetail', {id: getCurrentRoom()._id}, {absolute: true})
         };
 
         return {
-            setCurrentRoom: setCurrentRoom,
             getCurrentRoom: getCurrentRoom,
             getCurrentRoomUrl: getCurrentRoomUrl
         };

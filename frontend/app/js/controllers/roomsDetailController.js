@@ -1,14 +1,17 @@
 angular
     .module('pollsApp')
-    .controller('studentController', studentController);
+    .controller('roomsDetailController', roomsDetailController);
 
-studentController.$inject = ['ioService', 'crudService', '$state', 'roomsService', '$filter'];
+roomsDetailController.$inject = ['ioService', 'crudService', '$state', '$stateParams', 'roomsService', '$filter'];
 
-function studentController(ioService, crudService, $state, roomsService, $filter) {
+function roomsDetailController(ioService, crudService, $state, $stateParams, roomsService, $filter) {
     var vm = this;
     var $translate = $filter('translate');
 
-    vm.currentRoom = roomsService.getCurrentRoom();
+    vm.currentRoom = {};
+    vm.currentRoom._id = $stateParams.id;
+
+    ioService.emit('joinRoom', vm.currentRoom._id);
 
     var loadActivePoll = function () {
         crudService.getAll('active-poll', {room: vm.currentRoom._id})

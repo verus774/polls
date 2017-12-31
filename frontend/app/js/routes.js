@@ -133,10 +133,10 @@
             data: {restricted: true}
         });
 
-        $stateProvider.state('student', {
+        $stateProvider.state('roomsDetail', {
             url: '/rooms/:id',
-            templateUrl: '../templates/student.html',
-            controller: 'studentController',
+            templateUrl: '../templates/pollsDetail.html',
+            controller: 'roomsDetailController',
             controllerAs: 'vm'
         });
 
