@@ -17,7 +17,7 @@
         };
 
         var getCurrentRoomUrl = function () {
-            return window.location.origin + '/rooms/' + getCurrentRoom()._id;
+            return window.location.origin + '/#!/rooms/' + getCurrentRoom()._id;
         };
 
         return {
