@@ -135,7 +135,7 @@
 
         $stateProvider.state('roomsDetail', {
             url: '/rooms/:id',
-            templateUrl: '../templates/pollsDetail.html',
+            templateUrl: '../templates/roomsDetail.html',
             controller: 'roomsDetailController',
             controllerAs: 'vm'
         });
