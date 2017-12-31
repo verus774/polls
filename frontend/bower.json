@@ -22,7 +22,8 @@
     "angular-filter": "^0.5.14",
     "angular-translate-loader-static-files": "^2.15.1",
     "angular-translate-storage-local": "^2.15.2",
-    "angular-translate-handler-log": "^2.15.2"
+    "angular-translate-handler-log": "^2.15.2",
+    "angular-qrcode": "^7.2.0"
   },
   "resolutions": {
     "angular": "1.6.2"

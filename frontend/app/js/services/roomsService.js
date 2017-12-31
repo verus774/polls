@@ -16,9 +16,14 @@
             return JSON.parse(storageService.get('currentRoom'));
         };
 
+        var getCurrentRoomUrl = function () {
+            return window.location.origin + '/rooms/' + getCurrentRoom()._id;
+        };
+
         return {
             setCurrentRoom: setCurrentRoom,
-            getCurrentRoom: getCurrentRoom
+            getCurrentRoom: getCurrentRoom,
+            getCurrentRoomUrl: getCurrentRoomUrl
         };
     }
 

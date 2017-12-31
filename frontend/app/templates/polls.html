@@ -3,6 +3,11 @@
         <div class="page-header text-center">
             <h3>{{'POLLS' | translate}}</h3>
         </div>
+        <button class="btn btn-info" ng-click="vm.showQR = !vm.showQR">QR</button>
+        <div>
+            <br>
+            <qrcode data="{{vm.currentRoomUrl}}" size="300" ng-show="vm.showQR"></qrcode>
+        </div>
         <h4>{{ vm.polls ? ('TOTAL' | translate) + ': ' + vm.polls.length : vm.message }}</h4>
 
         <a ui-sref="addPoll" class="btn btn-success pull-right">

@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('mainController', mainController);
 
-    mainController.$inject = ['crudService', 'roomsService', 'ioService', 'startFromFilter', '$filter'];
+    mainController.$inject = ['crudService', 'roomsService', 'ioService', '$state', 'startFromFilter', '$filter'];
 
-    function mainController(crudService, roomsService, ioService, startFromFilter, $filter) {
+    function mainController(crudService, roomsService, ioService, $state, startFromFilter, $filter) {
         var vm = this;
         var $translate = $filter('translate');
 
@@ -33,6 +33,7 @@
         vm.joinRoom = function (id, name) {
             ioService.emit('joinRoom', id);
             roomsService.setCurrentRoom({_id: id, name: name});
+            $state.go('student', {id: id});
         };
 
         loadRooms();

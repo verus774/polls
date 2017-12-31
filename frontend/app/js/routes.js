@@ -134,7 +134,7 @@
         });
 
         $stateProvider.state('student', {
-            url: '/student',
+            url: '/rooms/:id',
             templateUrl: '../templates/student.html',
             controller: 'studentController',
             controllerAs: 'vm'

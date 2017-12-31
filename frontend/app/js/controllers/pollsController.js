@@ -5,9 +5,9 @@
         .module('pollsApp')
         .controller('pollsController', pollsController);
 
-    pollsController.$inject = ['storageService', 'authService', 'crudService', 'ioService', '$filter', 'chartsService', '$window', 'modalService', 'Notification', 'startFromFilter'];
+    pollsController.$inject = ['storageService', 'authService', 'crudService', 'ioService', 'roomsService', '$filter', 'chartsService', '$window', 'modalService', 'Notification', 'startFromFilter'];
 
-    function pollsController(storageService, authService, crudService, ioService, $filter, chartsService, $window, modalService, Notification, startFromFilter) {
+    function pollsController(storageService, authService, crudService, ioService, roomsService, $filter, chartsService, $window, modalService, Notification, startFromFilter) {
         var vm = this;
         var $translate = $filter('translate');
 
@@ -17,6 +17,9 @@
         vm.answers = [];
         vm.categories = [];
         var chartPrefix = 'chart_';
+
+        vm.currentRoomUrl = roomsService.getCurrentRoomUrl();
+        vm.showQR = false;
 
         ioService.emit('joinRoom', authService.getUser()._id);
 

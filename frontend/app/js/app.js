@@ -8,7 +8,8 @@ angular.module('pollsApp', [
     'ui.bootstrap',
     'ui-notification',
     'ngCookies',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'monospaced.qrcode'
 ]);
 
 angular.module('pollsApp').config(function ($httpProvider, cfpLoadingBarProvider) {

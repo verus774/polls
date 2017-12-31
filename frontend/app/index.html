@@ -49,8 +49,8 @@
                 <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="results">{{'RESULTS' | translate}}</a></li>
                 <li ui-sref-active="active" ng-show="vm.authService.isAdmin()"><a ui-sref="users">{{'USERS' | translate}}</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right" ng-show="vm.authService.isLoggedIn()">
-                <li ui-sref-active="active"><a ui-sref="profile">{{'PROFILE' | translate}}</a></li>
+            <ul class="nav navbar-nav navbar-right">
+                <li ui-sref-active="active" ng-show="vm.authService.isLoggedIn()"><a ui-sref="profile">{{'PROFILE' | translate}}</a></li>
 
                 <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -62,7 +62,7 @@
                     </ul>
                 </li>
 
-                <li><a href="" ng-click="vm.logout()">{{'LOGOUT' | translate}} [{{ vm.authService.getUser().username }}]</a></li>
+                <li><a href="" ng-click="vm.logout()" ng-show="vm.authService.isLoggedIn()">{{'LOGOUT' | translate}} [{{ vm.authService.getUser().username }}]</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -86,10 +86,13 @@
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+<script src="bower_components/qrcode-generator/js/qrcode.js"></script>
+<script src="bower_components/qrcode-generator/js/qrcode_UTF8.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
 <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+<script src="bower_components/angular-qrcode/angular-qrcode.js"></script>
 <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
