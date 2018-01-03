@@ -8,10 +8,21 @@ function roomsDetailController(ioService, crudService, $state, $stateParams, roo
     var vm = this;
     var $translate = $filter('translate');
 
-    vm.currentRoom = {};
-    vm.currentRoom._id = $stateParams.id;
+    crudService.get('rooms', $stateParams.id)
+        .then(function (currentRoom) {
+            vm.currentRoom = currentRoom;
+            ioService.emit('joinRoom', vm.currentRoom._id);
+            loadActivePoll();
+        })
+        .catch(function (res) {
+            vm.currentRoom = null;
 
-    ioService.emit('joinRoom', vm.currentRoom._id);
+            if (res.status === 404) {
+                vm.message = $translate('NO_SUCH_ROOM');
+            } else {
+                vm.message = $translate('ERROR');
+            }
+        });
 
     var loadActivePoll = function () {
         crudService.getAll('active-poll', {room: vm.currentRoom._id})
@@ -54,9 +65,10 @@ function roomsDetailController(ioService, crudService, $state, $stateParams, roo
     };
 
     vm.leaveRoom = function () {
-        ioService.emit('leaveRoom', vm.currentRoom._id);
+        if (vm.currentRoom) {
+            ioService.emit('leaveRoom', vm.currentRoom._id);
+        }
         $state.go('main');
     };
 
-    loadActivePoll();
 }

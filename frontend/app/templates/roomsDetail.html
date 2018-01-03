@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8">
-        <div class="page-header">
-            <h3>{{'ROOM' | translate}}: [ {{ vm.currentRoom._id }} ]</h3>
+        <div class="page-header" ng-show="!vm.message">
+            <h3>{{'ROOM' | translate}}: [ {{ vm.currentRoom.name }} ]</h3>
         </div>
 
         <button type="button" class="btn btn-warning" ng-click="vm.leaveRoom()">
