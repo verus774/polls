@@ -3,16 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const users = require('../../controllers/usersController');
 const helper = require('../../controllers/helperController');
-
-function requireRole(role) {
-    return (req, res, next) => {
-        if (req.user.role === role)
-            next();
-        else {
-            return helper.errorResponse(res, 'Forbidden', 403);
-        }
-    }
-}
+const requireRole = require('../../middleware/requireRole');
 
 router.use('/', passport.authenticate('jwt', {session: false}));
 
