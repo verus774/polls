@@ -3,6 +3,7 @@ REST API application with SPA.
 
 Rename the `.env.test` to `.env` 
 
+## Usage
 For dev mode fill the env var:
 
 ```

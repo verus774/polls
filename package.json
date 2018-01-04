@@ -2,10 +2,10 @@
   "name": "polls",
   "version": "1.0.0",
   "description": "Polls application",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/app.js",
-    "dev": "nodemon backend/app.js",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
     "postinstall": "cd frontend && bower install && gulp build"
   },
   "repository": {

@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-require('dotenv').config({path: __dirname + '/.env'});
 const config = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,7 +11,6 @@ const server = require('http').Server(app);
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoosePaginate = require('mongoose-paginate');
-require('./io').attach(server);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, {useMongoClient: true})
@@ -44,10 +42,4 @@ app.use(express.static(path.join(__dirname, config.serveStatic)));
 app.use('/auth', auth);
 app.use('/api/v1', apiV1);
 
-server.listen(config.port, (err) => {
-    if (err) {
-        console.error(err);
-    } else {
-        console.log('Listening on port ' + config.port);
-    }
-});
+module.exports = app;
