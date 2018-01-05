@@ -5,7 +5,7 @@ const jsonWebToken = require('jsonwebtoken');
 const config = require('./config');
 
 function getUserByToken(token, callback) {
-    jsonWebToken.verify(token.substr(4), config.secretKey, (err, decoded) => {
+    jsonWebToken.verify(token.substr(4), config.accessTokenSecretKey, (err, decoded) => {
         User.findOne({_id: decoded._id})
             .exec()
             .then((user) => {
