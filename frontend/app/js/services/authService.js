@@ -17,7 +17,7 @@
 
             $http.post(config.authEndpoint + '/login', user)
                 .then(function (response) {
-                    var token = response.data.data.token;
+                    var token = response.data.data.accessToken;
 
                     if (token) {
                         storageService.set('access_token', token);
@@ -55,7 +55,7 @@
 
             $http.post(config.authEndpoint + '/signup', user)
                 .then(function (response) {
-                    var token = response.data.data.token;
+                    var token = response.data.data.accessToken;
 
                     if (token) {
                         storageService.set('access_token', token);
@@ -85,7 +85,7 @@
 
             $http.put(config.apiEndpoint + '/me', user)
                 .then(function (response) {
-                    var token = response.data.data.token;
+                    var token = response.data.data.accessToken;
 
                     if (token) {
                         storageService.set('access_token', token);

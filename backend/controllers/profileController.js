@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const helper = require('./helperController');
-const createToken = require('./authController').createToken;
+const createAccessToken = require('./authController').createAccessToken;
 
 
 exports.me = (req, res) => {
@@ -24,7 +24,7 @@ exports.updateMe = (req, res) => {
             }
 
             user.save()
-                .then(updatedUser => createToken(updatedUser))
+                .then(updatedUser => createAccessToken(updatedUser))
                 .then((token) => helper.successResponse(res, {token}))
                 .catch((err) => {
                     if (err.name === 'ValidationError') {

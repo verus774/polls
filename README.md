@@ -7,12 +7,13 @@ Rename the `.env.test` to `.env`
 For dev mode fill the env var:
 
 ```
-DB_URL_DEV=
+DB_URL_DEV
 ```
 
 For production mode fill the env vars:
 
 ```
-DB_URL=
-SECRET_KEY=
+DB_URL
+ACCESS_TOKEN_SECRET_KEY
+REFRESH_TOKEN_SECRET_KEY
 ```

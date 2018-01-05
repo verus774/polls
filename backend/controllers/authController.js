@@ -3,7 +3,7 @@ const jsonWebToken = require('jsonwebtoken');
 const config = require('../config');
 const helper = require('./helperController');
 
-exports.createToken = (user) => {
+exports.createAccessToken = (user) => {
     return new Promise((resolve, reject) => {
         jsonWebToken.sign({
                 _id: user._id,
@@ -11,13 +11,30 @@ exports.createToken = (user) => {
                 username: user.username,
                 role: user.role
             },
-            config.secretKey,
-            {expiresIn: config.tokenExpiresIn},
+            config.accessTokenSecretKey,
+            {expiresIn: config.accessTokenExpiresIn},
             (err, token) => {
                 if (err) {
                     return reject(err);
                 }
                 resolve('JWT ' + token);
+            }
+        );
+    });
+};
+
+exports.createRefreshToken = (user) => {
+    return new Promise((resolve, reject) => {
+        jsonWebToken.sign({_id: user._id},
+            config.refreshTokenSecretKey,
+            {expiresIn: config.refreshTokenExpiresIn},
+            (err, token) => {
+                if (err) {
+                    return reject(err);
+                }
+                User.findOneAndUpdate({_id: user._id}, {$set: {token}})
+                    .exec()
+                    .then(() => resolve('JWT ' + token));
             }
         );
     });
@@ -35,8 +52,11 @@ exports.signup = (req, res) => {
     });
 
     newUser.save()
-        .then((createdUser) => this.createToken(createdUser))
-        .then((token) => helper.successResponse(res, {token}, null, 201))
+        .then((createdUser) => Promise.all([
+            this.createAccessToken(createdUser),
+            this.createRefreshToken(createdUser)
+        ]))
+        .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}, null, 201))
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
                 return helper.errorResponse(res, 'Username exists', 409);
@@ -57,8 +77,12 @@ exports.login = (req, res) => {
             if (!user || !user.comparePasswords(req.body.password)) {
                 return helper.errorResponse(res, 'Invalid username or password', 401);
             }
-            return this.createToken(user);
+            return user;
         })
-        .then((token) => helper.successResponse(res, {token}))
+        .then((user) => Promise.all([
+            this.createAccessToken(user),
+            this.createRefreshToken(user)
+        ]))
+        .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}))
         .catch(() => helper.errorResponse(res));
 };

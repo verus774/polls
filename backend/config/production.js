@@ -1,7 +1,9 @@
 module.exports = {
     port: process.env.PORT || 80,
     dbUrl: process.env.DB_URL,
-    secretKey: process.env.SECRET_KEY,
-    tokenExpiresIn: '2d',
+    accessTokenSecretKey: process.env.ACCESS_TOKEN_SECRET_KEY,
+    refreshTokenSecretKey: process.env.REFRESH_TOKEN_SECRET_KEY,
+    accessTokenExpiresIn: '2d',
+    refreshTokenExpiresIn: '60d',
     serveStatic: '../frontend/build'
 };

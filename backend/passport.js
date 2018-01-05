@@ -6,7 +6,7 @@ const config = require('./config');
 module.exports = (passport) => {
     const opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('JWT');
-    opts.secretOrKey = config.secretKey;
+    opts.secretOrKey = config.accessTokenSecretKey;
 
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
         User.findOne({_id: jwt_payload._id})
