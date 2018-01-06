@@ -86,3 +86,33 @@ exports.login = (req, res) => {
         .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}))
         .catch(() => helper.errorResponse(res));
 };
+
+exports.refreshToken = (req, res) => {
+    const token = req.body.refreshToken;
+
+    if (!token) {
+        return helper.errorResponse(res);
+    }
+
+    jsonWebToken.verify(token, config.refreshTokenSecretKey, (err, decoded) => {
+        if (err) {
+            return helper.errorResponse(res);
+        }
+
+        User.findById(decoded._id)
+            .select('name username role token')
+            .exec()
+            .then((user) => {
+                if (!user || (token !== user.token)) {
+                    return helper.errorResponse(res);
+                }
+                return user;
+            })
+            .then((user) => Promise.all([
+                this.createAccessToken(user),
+                this.createRefreshToken(user)
+            ]))
+            .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}))
+            .catch(() => helper.errorResponse(res));
+    });
+};
