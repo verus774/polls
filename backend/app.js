@@ -1,25 +1,15 @@
 const express = require('express');
 const app = express();
 const config = require('./config');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const auth = require('./routes/auth');
 const apiV1 = require('./routes/api-v1');
 const path = require('path');
-const server = require('http').Server(app);
 const helmet = require('helmet');
 const cors = require('cors');
+require('./db');
 const mongoosePaginate = require('mongoose-paginate');
-
-mongoose.Promise = global.Promise;
-mongoose.connect(config.dbUrl, {useMongoClient: true})
-    .then(() => {
-        console.log('Connected to the database');
-    })
-    .catch((err) => {
-        console.error(err);
-    });
 
 mongoosePaginate.paginate.options = {
     page: 1,
