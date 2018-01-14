@@ -9,17 +9,10 @@ module.exports = (passport) => {
     opts.secretOrKey = config.accessTokenSecretKey;
 
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-        User.findOne({_id: jwt_payload._id})
-            .select('name username role')
-            .exec((err, user) => {
-                if (err) {
-                    return done(err, false);
-                }
-                if (user) {
-                    done(null, user);
-                } else {
-                    done(null, false);
-                }
-            });
+        const expirationDate = new Date(jwt_payload.exp * 1000);
+        if (expirationDate < new Date()) {
+            return done(null, false);
+        }
+        done(null, jwt_payload);
     }));
 };
