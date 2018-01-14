@@ -88,7 +88,7 @@ exports.login = (req, res) => {
 };
 
 exports.refreshToken = (req, res) => {
-    const token = req.body.refreshToken;
+    const token = req.body.refreshToken.substr(4);
 
     if (!token) {
         return helper.errorResponse(res);
