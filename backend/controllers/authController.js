@@ -40,7 +40,7 @@ exports.createRefreshToken = (user) => {
     });
 };
 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
     if (!(req.body.username || req.body.name || req.body.password)) {
         return helper.errorResponse(res, 'Must provide username, name and password', 400);
     }
@@ -51,40 +51,42 @@ exports.signup = (req, res) => {
         password: req.body.password
     });
 
-    newUser.save()
-        .then((createdUser) => Promise.all([
+    try {
+        const createdUser = await newUser.save();
+        const result = await Promise.all([
             this.createAccessToken(createdUser),
             this.createRefreshToken(createdUser)
-        ]))
-        .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}, null, 201))
-        .catch(err => {
-            if (err.name === 'MongoError' && err.code === 11000) {
-                return helper.errorResponse(res, 'Username exists', 409);
-            }
-            return helper.errorResponse(res);
-        });
+        ]);
+
+        return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}, null, 201);
+    } catch (err) {
+        if (err.name === 'MongoError' && err.code === 11000) {
+            return helper.errorResponse(res, 'Username exists', 409);
+        }
+        return helper.errorResponse(res);
+    }
 };
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
     if (!req.body.username || !req.body.password) {
         return helper.errorResponse(res, 'Must provide username and password', 401);
     }
 
-    User.findOne({username: req.body.username})
-        .select('name username password role')
-        .exec()
-        .then((user) => {
-            if (!user || !user.comparePasswords(req.body.password)) {
-                return helper.errorResponse(res, 'Invalid username or password', 401);
-            }
-            return user;
-        })
-        .then((user) => Promise.all([
+    try {
+        const user = await User.findOne({username: req.body.username}).select('name username password role').exec();
+        if (!user || !user.comparePasswords(req.body.password)) {
+            return helper.errorResponse(res, 'Invalid username or password', 401);
+        }
+
+        const result = await Promise.all([
             this.createAccessToken(user),
             this.createRefreshToken(user)
-        ]))
-        .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}))
-        .catch(() => helper.errorResponse(res));
+        ]);
+
+        return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]})
+    } catch (err) {
+       return helper.errorResponse(res);
+    }
 };
 
 exports.refreshToken = (req, res) => {
@@ -94,25 +96,26 @@ exports.refreshToken = (req, res) => {
         return helper.errorResponse(res);
     }
 
-    jsonWebToken.verify(token, config.refreshTokenSecretKey, (err, decoded) => {
+    jsonWebToken.verify(token, config.refreshTokenSecretKey, async (err, decoded) => {
         if (err) {
             return helper.errorResponse(res);
         }
 
-        User.findById(decoded._id)
-            .select('name username role token')
-            .exec()
-            .then((user) => {
-                if (!user || (token !== user.token)) {
-                    return helper.errorResponse(res);
-                }
-                return user;
-            })
-            .then((user) => Promise.all([
+        try {
+            const user = await User.findById(decoded._id).select('name username role token').exec();
+            if (!user || (token !== user.token)) {
+                return helper.errorResponse(res);
+            }
+
+            const result = await Promise.all([
                 this.createAccessToken(user),
                 this.createRefreshToken(user)
-            ]))
-            .then((result) => helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}))
-            .catch(() => helper.errorResponse(res));
+            ]);
+
+            return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]});
+        } catch (err) {
+            return helper.errorResponse(res);
+        }
+
     });
 };

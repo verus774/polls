@@ -5,104 +5,96 @@ const helper = require('./helperController');
 const createToken = require('./authController').createToken;
 
 
-exports.list = (req, res) => {
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 50;
+exports.list = async (req, res) => {
+    const pageDefault = parseInt(req.query.page, 10) || 1;
+    const limitDefault = parseInt(req.query.limit, 10) || 50;
 
     const select = 'name username role createdAt updatedAt';
     const sort = 'username';
 
-    User.paginate({}, {select, page, limit, sort})
-        .then(response => {
-            let {docs, total, limit, page, pages} = response;
-            return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
-        })
-        .catch(_ => helper.errorResponse(res));
+    try {
+        const response = await  User.paginate({}, {select, sort, page: pageDefault, limit: limitDefault});
+        const {docs, total, limit, page, pages} = response;
+        return helper.successResponse(res, docs, {paging: {total, limit, page, pages}});
+    } catch (err) {
+        return helper.errorResponse(res);
+    }
 };
 
-exports.read = (req, res) => {
-    User.findOne({_id: req.params.id})
-        .select('name username role createdAt updatedAt')
-        .exec()
-        .then((user) => {
-            if (!user) {
-                return helper.errorResponse(res, 'User not found', 404);
-            }
-            return helper.successResponse(res, user);
-        })
-        .catch((err) => {
-            if (err.name === 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
-            }
-            return helper.errorResponse(res);
-        });
+exports.read = async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id}).select('name username role createdAt updatedAt').exec()
+        if (!user) {
+            return helper.errorResponse(res, 'User not found', 404);
+        }
+        return helper.successResponse(res, user);
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return helper.errorResponse(res, 'Invalid id parameter', 400);
+        }
+        return helper.errorResponse(res);
+    }
 };
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     const newUser = new User(req.body);
 
-    newUser.save()
-        .then((createdUser) => {
-            return helper.successResponse(res, createdUser, null, 201);
-        })
-        .catch((err) => {
-            if (err.name === 'ValidationError') {
-                return helper.errorResponse(res, 'Must provide username, name, password', 400);
-            }
-            return helper.errorResponse(res);
-        });
+    try {
+        const createdUser = await newUser.save();
+        return helper.successResponse(res, createdUser, null, 201);
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return helper.errorResponse(res, 'Must provide username, name, password', 400);
+        }
+        return helper.errorResponse(res);
+    }
 };
 
-exports.update = (req, res) => {
-    User.findOne({_id: req.params.id})
-        .select('name username role')
-        .exec()
-        .then((user) => {
-            if (!user) {
-                return helper.errorResponse(res, 'User not found', 404);
-            }
+exports.update = async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id}).select('name username role').exec();
+        if (!user) {
+            return helper.errorResponse(res, 'User not found', 404);
+        }
 
-            user.username = req.body.username;
-            user.name = req.body.name;
-            user.role = req.body.role;
+        user.username = req.body.username;
+        user.name = req.body.name;
+        user.role = req.body.role;
 
-            if (req.body.password) {
-                user.password = req.body.password;
-            }
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
 
-            user.save()
-                .then((updatedUser) => {
-                    return helper.successResponse(res, updatedUser);
-                })
-                .catch((err) => {
-                    if (err.name === 'ValidationError') {
-                        return helper.errorResponse(res, 'Must provide username, name and role', 400);
-                    }
-                    return helper.errorResponse(res);
-                });
-        })
-        .catch((err) => {
+        try {
+            const updatedUser = await user.save();
+            return helper.successResponse(res, updatedUser);
+        } catch (err) {
             if (err.name === 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
+                return helper.errorResponse(res, 'Must provide username, name and role', 400);
             }
             return helper.errorResponse(res);
-        });
+        }
+
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return helper.errorResponse(res, 'Invalid id parameter', 400);
+        }
+        return helper.errorResponse(res);
+    }
 };
 
-exports.delete = (req, res) => {
-    User.findOne({_id: req.params.id})
-        .exec()
-        .then((user) => {
-            if (!user) {
-                return helper.errorResponse(res, 'User not found', 404);
-            }
-            return user.remove();
-        })
-        .then(_ => helper.successResponse(res))
-        .catch((err) => {
-            if (err.name === 'ValidationError') {
-                return helper.errorResponse(res, 'Invalid id parameter', 400);
-            }
-            return helper.errorResponse(res);
-        });
+exports.delete = async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id}).exec();
+        if (!user) {
+            return helper.errorResponse(res, 'User not found', 404);
+        }
+        await user.remove();
+        return helper.successResponse(res);
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return helper.errorResponse(res, 'Invalid id parameter', 400);
+        }
+        return helper.errorResponse(res);
+    }
 };
