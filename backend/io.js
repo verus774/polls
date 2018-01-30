@@ -4,48 +4,48 @@ const User = require('./models/User');
 const jsonWebToken = require('jsonwebtoken');
 const config = require('./config');
 
-function getUserByToken(token, callback) {
-    jsonWebToken.verify(token.substr(4), config.accessTokenSecretKey, (err, decoded) => {
-        User.findOne({_id: decoded._id})
-            .exec()
-            .then((user) => {
-                return callback(null, user);
-            });
-    });
-}
+const selectedFields = 'title questions creator';
 
 io.on('connection', (socket) => {
     socket.on('startPoll', (data) => {
-        getUserByToken(data.access_token, (err, user) => {
-            Poll.findOneAndUpdate({_id: data.id, creator: user._id}, {$set: {active: true}}, {new: true})
-                .select('title questions creator')
-                .exec()
-                .then((poll) => {
+        jsonWebToken.verify(data.access_token.substr(4), config.accessTokenSecretKey, async (err, user) => {
+            if (!err) {
+                try {
+                    const poll = await Poll.findOneAndUpdate({
+                        _id: data.id,
+                        creator: user._id
+                    }, {$set: {active: true}}, {new: true})
+                        .select(selectedFields)
+                        .exec();
                     if (!poll) {
                         return io.in(user._id).emit('error', {message: 'poll not found'});
                     }
                     return io.in(user._id).emit('startPoll', poll);
-                })
-                .catch(() => {
+                } catch (err) {
                     return io.in(user._id).emit('error', {message: 'server error'});
-                });
+                }
+            }
         });
     });
 
     socket.on('stopPoll', (data) => {
-        getUserByToken(data.access_token, (err, user) => {
-            Poll.findOneAndUpdate({_id: data.id, creator: user._id}, {$set: {active: false}}, {new: true})
-                .select('title questions creator')
-                .exec()
-                .then((poll) => {
+        jsonWebToken.verify(data.access_token.substr(4), config.accessTokenSecretKey, async (err, user) => {
+            if (!err) {
+                try {
+                    const poll = await Poll.findOneAndUpdate({
+                        _id: data.id,
+                        creator: user._id
+                    }, {$set: {active: false}}, {new: true})
+                        .select(selectedFields)
+                        .exec();
                     if (!poll) {
                         return io.in(user._id).emit('error', {message: 'poll not found'});
                     }
                     return io.in(user._id).emit('stopPoll', poll);
-                })
-                .catch(() => {
+                } catch (err) {
                     return io.in(user._id).emit('error', {message: 'server error'});
-                });
+                }
+            }
         });
     });
 

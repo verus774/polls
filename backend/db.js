@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('./config');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(config.dbUrl, {useMongoClient: true})
+mongoose.connect(config.dbUrl)
     .then(() => {
         console.log('Connected to the database');
     })
