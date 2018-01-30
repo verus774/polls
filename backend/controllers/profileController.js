@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const helper = require('./helperController');
-const createAccessToken = require('./authController').createAccessToken;
 
 
 exports.me = (req, res) => {
@@ -22,8 +21,9 @@ exports.updateMe = async (req, res) => {
 
     try {
         const updatedUser = await user.save();
-        const token = await createAccessToken(updatedUser);
-        return helper.successResponse(res, {token});
+        const accessToken = await updatedUser.createAccessToken();
+        const refreshToken = await updatedUser.createRefreshToken();
+        return helper.successResponse(res, {accessToken, refreshToken});
     } catch (err) {
         if (err.name === 'ValidationError') {
             return helper.errorResponse(res, 'Must provide username and name', 400);

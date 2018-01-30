@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const jsonWebToken = require('jsonwebtoken');
+const config = require('../config');
 const mongoosePaginate = require('mongoose-paginate');
 const Poll = require('./Poll');
 const Result = require('./Result');
@@ -70,6 +72,44 @@ UserSchema.pre('remove', function (next) {
 
 UserSchema.methods.comparePasswords = function (password) {
     return bcrypt.compareSync(password, this.password);
+};
+
+UserSchema.methods.createAccessToken = function () {
+    return new Promise((resolve, reject) => {
+        jsonWebToken.sign({
+                _id: this._id,
+                name: this.name,
+                username: this.username,
+                role: this.role
+            },
+            config.accessTokenSecretKey,
+            {expiresIn: config.accessTokenExpiresIn},
+            (err, token) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve('JWT ' + token);
+            }
+        );
+    });
+};
+
+UserSchema.methods.createRefreshToken = function () {
+    return new Promise((resolve, reject) => {
+        jsonWebToken.sign({_id: this._id},
+            config.refreshTokenSecretKey,
+            {expiresIn: config.refreshTokenExpiresIn},
+            (err, token) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.token = token;
+                this.model('User').findOneAndUpdate({_id: this._id}, {$set: {token}})
+                    .exec()
+                    .then(() => resolve('JWT ' + token));
+            }
+        );
+    });
 };
 
 UserSchema.plugin(mongoosePaginate);

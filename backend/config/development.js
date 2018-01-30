@@ -3,7 +3,7 @@ module.exports = {
     dbUrl: process.env.DB_URL_DEV,
     accessTokenSecretKey: 'mySecretKey',
     refreshTokenSecretKey: 'mySecretKey2',
-    accessTokenExpiresIn: '30s',
+    accessTokenExpiresIn: '30d',
     refreshTokenExpiresIn: '30d',
     serveStatic: '../frontend/app'
 };

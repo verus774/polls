@@ -3,42 +3,6 @@ const jsonWebToken = require('jsonwebtoken');
 const config = require('../config');
 const helper = require('./helperController');
 
-exports.createAccessToken = (user) => {
-    return new Promise((resolve, reject) => {
-        jsonWebToken.sign({
-                _id: user._id,
-                name: user.name,
-                username: user.username,
-                role: user.role
-            },
-            config.accessTokenSecretKey,
-            {expiresIn: config.accessTokenExpiresIn},
-            (err, token) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve('JWT ' + token);
-            }
-        );
-    });
-};
-
-exports.createRefreshToken = (user) => {
-    return new Promise((resolve, reject) => {
-        jsonWebToken.sign({_id: user._id},
-            config.refreshTokenSecretKey,
-            {expiresIn: config.refreshTokenExpiresIn},
-            (err, token) => {
-                if (err) {
-                    return reject(err);
-                }
-                User.findOneAndUpdate({_id: user._id}, {$set: {token}})
-                    .exec()
-                    .then(() => resolve('JWT ' + token));
-            }
-        );
-    });
-};
 
 exports.signup = async (req, res) => {
     if (!(req.body.username || req.body.name || req.body.password)) {
@@ -54,8 +18,8 @@ exports.signup = async (req, res) => {
     try {
         const createdUser = await newUser.save();
         const result = await Promise.all([
-            this.createAccessToken(createdUser),
-            this.createRefreshToken(createdUser)
+            createdUser.createAccessToken(),
+            createdUser.createRefreshToken()
         ]);
 
         return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]}, null, 201);
@@ -79,8 +43,8 @@ exports.login = async (req, res) => {
         }
 
         const result = await Promise.all([
-            this.createAccessToken(user),
-            this.createRefreshToken(user)
+            user.createAccessToken(),
+            user.createRefreshToken()
         ]);
 
         return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]})
@@ -108,8 +72,8 @@ exports.refreshToken = (req, res) => {
             }
 
             const result = await Promise.all([
-                this.createAccessToken(user),
-                this.createRefreshToken(user)
+                user.createAccessToken(),
+                user.createRefreshToken()
             ]);
 
             return helper.successResponse(res, {accessToken: result[0], refreshToken: result[1]});
