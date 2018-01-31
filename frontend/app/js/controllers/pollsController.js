@@ -199,8 +199,9 @@
             vm.activePoll = null;
         });
 
-        ioService.on('error', function () {
+        ioService.on('appError', function () {
             Notification.error($translate('ERROR'));
+            console.error(data.message);
         });
 
     }

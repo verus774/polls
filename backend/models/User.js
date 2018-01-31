@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
-const jsonWebToken = require('jsonwebtoken');
+const {promisify} = require('util');
+const {sign} = require('jsonwebtoken');
+const signToken = promisify(sign);
 const config = require('../config');
 const mongoosePaginate = require('mongoose-paginate');
 const Poll = require('./Poll');
@@ -75,41 +77,23 @@ UserSchema.methods.comparePasswords = function (password) {
 };
 
 UserSchema.methods.createAccessToken = function () {
-    return new Promise((resolve, reject) => {
-        jsonWebToken.sign({
-                _id: this._id,
-                name: this.name,
-                username: this.username,
-                role: this.role
-            },
-            config.accessTokenSecretKey,
-            {expiresIn: config.accessTokenExpiresIn},
-            (err, token) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve('JWT ' + token);
-            }
-        );
-    });
+    const payload = {
+        _id: this._id,
+        name: this.name,
+        username: this.username,
+        role: this.role
+    };
+    return signToken(payload, config.accessTokenSecretKey, {expiresIn: config.accessTokenExpiresIn})
+        .then(token => 'JWT ' + token);
 };
 
 UserSchema.methods.createRefreshToken = function () {
-    return new Promise((resolve, reject) => {
-        jsonWebToken.sign({_id: this._id},
-            config.refreshTokenSecretKey,
-            {expiresIn: config.refreshTokenExpiresIn},
-            (err, token) => {
-                if (err) {
-                    return reject(err);
-                }
-                this.token = token;
-                this.model('User').findOneAndUpdate({_id: this._id}, {$set: {token}})
-                    .exec()
-                    .then(() => resolve('JWT ' + token));
-            }
-        );
-    });
+    const payload = {_id: this._id};
+    return signToken(payload, config.refreshTokenSecretKey, {expiresIn: config.refreshTokenExpiresIn})
+        .then(token => {
+            return this.model('User').findOneAndUpdate({_id: this._id}, {$set: {token}}).exec()
+                .then(() => 'JWT ' + token);
+        });
 };
 
 UserSchema.plugin(mongoosePaginate);
