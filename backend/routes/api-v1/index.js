@@ -1,6 +1,7 @@
 const express = require('express');
 const polls = require('../../controllers/pollsController');
 const roomRoutes = require('./rooms');
+const telegramRoutes = require('./telegram');
 const pollRoutes = require('./polls');
 const categoryRoutes = require('./categories');
 const resultRoutes = require('./results');
@@ -22,6 +23,7 @@ router.use('/categories', categoryRoutes);
 router.use('/polls', pollRoutes);
 router.use('/results', resultRoutes);
 router.use('/rooms', roomRoutes);
+router.use('/telegram', telegramRoutes);
 router.use('/users', userRoutes);
 router.use('/me', profileRoutes);
 
